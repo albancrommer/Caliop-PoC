@@ -6,8 +6,8 @@
 angular.module('caliop.component.dashboard', [
     'ui.router',
 
-    'caliop.service.account',
-    'caliop.directive.sample',
+    'caliop.service.entity',
+    // 'caliop.directive.sample',
 
     'ngAnimate'
 ])
@@ -21,7 +21,7 @@ angular.module('caliop.component.dashboard', [
     $stateProvider
         .state('dashboard', {
             url: '/dashboard',
-            templateUrl: 'components/dashboard/dashboard.tpl.html',
+            templateUrl: 'component/dashboard/dashboard.tpl.html',
             controller: 'DashboardCtrl',
             data: {
                 pageTitle: 'Dashboard'
@@ -29,7 +29,7 @@ angular.module('caliop.component.dashboard', [
         });
             // .state('dashboard.panel', {
             //     url: '/panel',
-            //     templateUrl: 'components/dashboard/panel.tpl.html',
+            //     templateUrl: 'component/dashboard/panel.tpl.html',
             //     controller: 'DashboardPanelCtrl',
             //     data: {
             //         pageTitle: 'Here your panel.'
@@ -40,10 +40,14 @@ angular.module('caliop.component.dashboard', [
 /**
  * And of course we define a controller for our route.
  */
-.controller('DashboardCtrl', ['$scope',
-    function DashboardCtrl($scope) {
+.controller('DashboardCtrl', ['$scope', 'message',
+    function DashboardCtrl($scope, MessageSrv) {
 
-    $scope.helloword = 'Hi dude';
+    MessageSrv.getList().then(function(messages) {
+        $scope.messages = messages;
+    });
+
+
 }])
 
 ;

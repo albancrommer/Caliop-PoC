@@ -5,13 +5,13 @@ angular.module('caliop', [
     /* Declared modules */
     'caliop.service',
     'caliop.component.header',
-    // 'caliop.component.dashboard',
+    'caliop.component.dashboard',
 
     'ui.router'
 ])
 
 .config(function myAppConfig($urlRouterProvider) {
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/dashboard');
 })
 
 .run(['config', function run(configSrv) {
@@ -33,6 +33,7 @@ angular.module('caliop', [
     // If we need to use any other service in configuring Restangular, then we should configure
     // it in the run() method, otherwise we’ll keep it in the config() method.
     // (http://www.ng-newsletter.com/posts/restangular.html)
-    var baseUrl = configSrv.get('useMocks') ? '/api/mock' : '/api';
+    var useMocks = configSrv.get('useMocks') || 1;
+    var baseUrl = useMocks ? '/api/mock' : '/api';
     restangularPvdr.setBaseUrl(baseUrl);
 }]);
