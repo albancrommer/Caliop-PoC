@@ -30,6 +30,7 @@ $ bower install
 
 # Build the app
 $ grunt build
+```
 
 ## Installation of the Pyramid app
 
@@ -49,3 +50,4 @@ $ pserve development.ini
 
 # Start a modern browser and go to http://localhost:6543
 # Enjoy.
+```
