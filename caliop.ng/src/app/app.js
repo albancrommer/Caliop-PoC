@@ -2,10 +2,12 @@ angular.module('caliop', [
     'templates-app',
     'templates-common',
 
-    /* Declared modules */
-    'caliop.service',
+    'caliop.service.config',
+
+    /* components */
     'caliop.component.header',
     'caliop.component.dashboard',
+    'caliop.component.account',
 
     'ui.router'
 ])

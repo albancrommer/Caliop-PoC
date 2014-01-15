@@ -1,12 +1,10 @@
 /**
- * Dashboard component.
+ * Account component.
  */
-angular.module('caliop.component.dashboard', [
+angular.module('caliop.component.account', [
     'ui.router',
 
-    'caliop.service.entity.message',
-
-    'ngAnimate'
+    'caliop.service.account'
 ])
 
 /**
@@ -16,12 +14,12 @@ angular.module('caliop.component.dashboard', [
  */
 .config(function config($stateProvider) {
     $stateProvider
-        .state('dashboard', {
-            url: '/dashboard',
-            templateUrl: 'component/dashboard/dashboard.tpl.html',
-            controller: 'DashboardCtrl',
+        .state('account', {
+            url: '/account',
+            templateUrl: 'component/account/account.tpl.html',
+            controller: 'AccountCtrl',
             data: {
-                pageTitle: 'Dashboard'
+                pageTitle: 'Your account'
             }
         });
             // .state('dashboard.panel', {
@@ -37,13 +35,10 @@ angular.module('caliop.component.dashboard', [
 /**
  * And of course we define a controller for our route.
  */
-.controller('DashboardCtrl', ['$scope', 'message',
-    function DashboardCtrl($scope, MessageSrv) {
+.controller('AccountCtrl', ['$scope', 'auth',
+    function AccountCtrl($scope, authSrv) {
 
-    MessageSrv.getList().then(function(messages) {
-        $scope.messages = messages;
-    });
-
+    // $scope.contact = authSrv.getContact();
 }])
 
 ;

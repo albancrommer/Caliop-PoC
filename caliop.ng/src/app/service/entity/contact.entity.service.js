@@ -2,15 +2,15 @@
 
 "use strict";
 
-angular.module('caliop.service.entity.message', [
+angular.module('caliop.service.entity.contact', [
     'restangular',
     'caliop.service.helpers'
 ])
 
-.factory('message', ['Restangular', 'string',
+.factory('contact', ['Restangular', 'string',
     function (Restangular, stringSrv) {
 
-    var Message = function Message(obj) {
+    var Contact = function Contact(obj) {
         var self = this;
 
         angular.extend(self, obj);
@@ -27,15 +27,15 @@ angular.module('caliop.service.entity.message', [
         });
     };
 
-    // Message.prototype.getTitle = function() {
-    //     return this.title;
-    // };
+    Contact.prototype.fullname = function() {
+        return [this.firstName, this.lastName].join(' ');
+    };
 
-    Restangular.addElementTransformer('messages', false, function(obj) {
-        return new Message(obj);
+    Restangular.addElementTransformer('contact', false, function(obj) {
+        return new Contact(obj);
     });
 
-    return Restangular.all('messages');
+    return Restangular.one('contact', 'info');
 
 }]);
 

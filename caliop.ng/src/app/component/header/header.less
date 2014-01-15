@@ -1,25 +1,41 @@
 #header {
     width: 100%;
-    padding: 10px;
-    .box-sizing();
-    text-align: right;
-    .gradient(#6CB1EE, #4F85B2, #BCE6FF);
-    .drop-shadow(@x-axis: 0px, @y-axis: 2px, @blur: 10px, @alpha: 0.5);
+    .gradient(white, #eee);
+    border-bottom: 1px solid #aaa;
 
-    > h1 {
-        position: absolute;
-        top: 8px;
-        left: 8px;
-        text-align: left;
-        font-weight: bold;
-        font-size: 1.2em;
-    }
-
-    > div {
+    h1 {
+        padding: 10px;
+        .box-sizing();
         .inlineblock();
+        font-weight: bold;
+        font-size: 1.3em;
 
-        &.fullname {
-            font-weight: bold;
+        a {
+            text-decoration: none;
         }
     }
+
+    p.baseline {
+        position: absolute;
+        top: 4px;
+        padding: 10px;
+        .box-sizing();
+        .inlineblock();
+        color: #888;
+        font-size: 0.8em;
+    }
+
+    div.right-box {
+        position: absolute;
+        top: 11px;
+        right: 10px;
+    }
+
+    // > div {
+    //     .inlineblock();
+
+    //     &.fullname {
+    //         font-weight: bold;
+    //     }
+    // }
 }

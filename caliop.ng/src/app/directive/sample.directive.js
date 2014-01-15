@@ -4,7 +4,7 @@
 
 // sample
 angular.module('caliop.directive.sample', [
-    'caliop.service.account'
+    // 'caliop.service.entity.contact'
 ]);
 
 }());

@@ -8,10 +8,19 @@ angular.module('caliop.component.header', [
 /**
  * And of course we define a controller for our route.
  */
-.controller('HeaderCtrl', ['$scope',
-    function HeaderCtrl($scope) {
+.controller('HeaderCtrl', ['$rootScope', '$scope', 'auth',
+    function HeaderCtrl($rootScope, $scope, authSrv) {
 
-    // $scope.contact = contactSrv;
+    // retrieve the contact asynchronously
+    authSrv.getContact();
+
+    // once retrieved, update the rootScope with the auth contact
+    $scope.$watch(function() {
+        return authSrv.contact;
+    }, function(contact) {
+        $rootScope.contact = contact;
+    });
+
 }])
 
 ;
