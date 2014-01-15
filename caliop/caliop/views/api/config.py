@@ -13,6 +13,6 @@ def includeme(config):
     config.add_route('messages', '/api/mock/messages')
     config.add_view('caliop.views.api.Messages', route_name='messages', renderer='json')
 
-    # config.add_route('vm_info', '/mock/hosting/info/471')
-    # config.add_view('mustela.web.views.mock.VmInfo', route_name='vm_info', renderer='json')
+    config.add_route('contact.info', '/api/mock/contact/info')
+    config.add_view('caliop.views.api.ContactInfo', route_name='contact.info', renderer='json')
 

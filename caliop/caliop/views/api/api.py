@@ -17,3 +17,7 @@ class Api(object):
 
 class Messages(Api):
     filename = 'messages.json'
+
+
+class ContactInfo(Api):
+    filename = 'contact.json'
