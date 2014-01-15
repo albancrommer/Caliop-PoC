@@ -15,10 +15,10 @@ def includeme(config):
 
     rootpath = os.path.dirname(os.path.realpath(__file__))
 
-    # configure templates dir
-    template_path = os.path.join(rootpath, 'templates')
+    # configure templates dir (angular build dir)
+    template_path = os.path.join(rootpath, '../../caliop.ng/build')
     config.add_jinja2_search_path(template_path)
 
-    # configure static dir
+    # configure static dir on the same dir (angular build dir)
     static_path = os.path.join(rootpath, 'static')
-    config.add_static_view('/static', static_path)
+    config.add_static_view('/static', template_path)
