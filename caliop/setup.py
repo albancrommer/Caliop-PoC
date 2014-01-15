@@ -10,11 +10,13 @@ requires = [
     'pyramid',
     'pyramid_debugtoolbar',
     'waitress',
+    'pyramid_jinja2',
+    'simplejson'
     ]
 
 setup(name='caliop',
-      version='0.0',
-      description='caliop',
+      version='0.0.1',
+      description='A poc for the Caliop project.',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
         "Programming Language :: Python",
