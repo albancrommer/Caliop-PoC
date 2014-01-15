@@ -3,19 +3,45 @@ Caliop-Poc
 
 > A sample pre-alpha interface for Caliop.
 
-## Installation
+## Architecture
+
+The Caliop PoC consists of two projects:
+  - a Pyramid app
+  - an Angular app.
+
+The Pyramid app provides a REST API and serves the Angular app.
+
+## Prepare your environment
 
 ```shell
-# create a virtualenv
-$ virtualenv2 ~/.virtualenvs/caliop
-
-# activate it
-$ source ~/.virtualenvs/caliop/bin/activate
-
 # Get the code
+$ cd ~/workspace
 $ git clone https://github.com/Gandi/Caliop-PoC.git
+```
+
+## Installation of the Angular app
+
+```shell
+$ cd ~/workspace/Caliop-PoC/caliop.ng
 
 # Install dependancies
+$ npm install
+$ bower install
+
+# Build the app
+$ grunt build
+
+## Installation of the Pyramid app
+
+```shell
+# Create a virtualenv
+$ virtualenv2 ~/.virtualenvs/caliop
+
+# Activate it
+$ source ~/.virtualenvs/caliop/bin/activate
+
+# Install dependancies
+$ cd ~/workspace/Caliop-PoC/caliop
 $ python setup.py develop
 
 # Start the app
