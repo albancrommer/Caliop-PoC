@@ -48,3 +48,10 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+# Angular app
+caliop.ng/*.sw*
+caliop.ng/*~
+caliop.ng/build/
+caliop.ng/bin/
+caliop.ng/node_modules/
+caliop.ng/vendor/

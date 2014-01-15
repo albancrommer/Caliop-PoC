@@ -1,0 +1,23 @@
+/**
+ * This is the main application stylesheet. It should include or import all
+ * stylesheets used throughout the application as this is the only stylesheet in
+ * the Grunt configuration that is automatically processed.
+ */
+
+
+@import 'reset.less';
+@import 'fonts.less';
+@import 'variables.less';
+@import 'mixins.less';
+
+/* http://lesselements.com */
+@import 'elements/elements.less';
+
+/* Cross components styles */
+@import 'common.less';
+
+/* Components styles */
+@import '../app/components/header/header.less';
+@import '../app/components/footer/footer.less';
+@import '../app/components/dashboard/dashboard.less';
+

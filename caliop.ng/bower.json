@@ -1,0 +1,13 @@
+{
+  "name": "ng-boilerplate",
+  "version": "0.3.1",
+  "devDependencies": {
+    "angular": "",
+    "restangular": "",
+    "angular-mocks": "",
+    "angular-ui-router": "",
+    "angular-ui-utils": "",
+    "angular-animate": "",
+    "moment": ""
+  }
+}

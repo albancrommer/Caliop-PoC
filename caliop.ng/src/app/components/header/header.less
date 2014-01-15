@@ -1,0 +1,29 @@
+#header {
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    .box-sizing();
+    text-align: right;
+    .gradient(#6CB1EE, #4F85B2, #BCE6FF);
+    .drop-shadow(@x-axis: 0px, @y-axis: 2px, @blur: 10px, @alpha: 0.5);
+
+    > h1 {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        text-align: left;
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+
+    > div {
+        .inlineblock();
+
+        &.fullname {
+            font-weight: bold;
+        }
+    }
+}
