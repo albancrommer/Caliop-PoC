@@ -1,5 +1,4 @@
 import os
-import json
 
 from pyramid import threadlocal
 from pyramid.response import Response
@@ -16,5 +15,5 @@ class Api(object):
         return Response(open(jsonfile).read())
 
 
-class Message(Api):
-    filename = 'message.json'
+class Messages(Api):
+    filename = 'messages.json'

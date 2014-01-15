@@ -1,4 +1,4 @@
 from .config import includeme  # used by pyramid
 
 
-from .api import Message
+from .api import Messages
