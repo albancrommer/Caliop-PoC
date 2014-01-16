@@ -1,5 +1,6 @@
 <div id="main-container">
     <section id="search-form">
+        <!-- Form search -->
         <form class="form-search">
             <div class="input-group">
                 <input type="text" class="form-control search-query" placeholder="Search a message, a contact, a device, a file, a group, an event, a tag...">
@@ -18,7 +19,30 @@
     </section>
 
     <section id="inbox">
-        {{ messages }}
+        <tabset>
+            <!-- Messages tab -->
+            <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disabled="tab.disabled">
+                <div class="tab-content messages">
+                    <ul>
+                        <li ng-repeat="message in tab.content">
+                            {{message.title}}
+                            {{message.body}}
+                        </li>
+                    </ul>
+                </div>
+            </tab>
+
+            <!-- Add a tab -->
+            <tab select="addTab()">
+                <tab-heading>
+                    <i class="glyphicon glyphicon-plus"></i>
+                </tab-heading>
+
+                <div class="tab-content">
+                    I've got an HTML heading, and a select callback. Pretty cool!
+                </div>
+            </tab>
+        </tabset>
     </section>
 </div>
 

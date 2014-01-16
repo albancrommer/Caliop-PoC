@@ -42,9 +42,16 @@ angular.module('caliop.component.dashboard', [
     function DashboardCtrl($scope, MessageSrv) {
 
     MessageSrv.getList().then(function(messages) {
-        $scope.messages = messages;
-    });
+        $scope.tabs = [
+            { title: "Messages", content: messages, active: true }
+        ];
 
+        $scope.addTab = function() {
+            setTimeout(function() {
+                alert("TODO");
+            });
+        };
+    });
 }])
 
 ;
