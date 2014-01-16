@@ -8,6 +8,8 @@
     "angular-ui-router": "",
     "angular-ui-utils": "",
     "angular-animate": "",
-    "moment": ""
+    "moment": "",
+    "bootstrap': "",
+    "angular-bootstrap": ""
   }
 }

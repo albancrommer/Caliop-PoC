@@ -78,7 +78,10 @@ module.exports = {
       'vendor/restangular/src/restangular.js',
 
       'vendor/moment/min/moment.min.js',
-      'vendor/moment/min/lang.min.js'
+      'vendor/moment/min/lang.min.js',
+
+      'vendor/angular-bootstrap/ui-bootstrap.min.js',
+      'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js'
     ],
     css: [
     ],
