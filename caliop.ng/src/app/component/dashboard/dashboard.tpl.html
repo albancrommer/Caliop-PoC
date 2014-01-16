@@ -1,9 +1,20 @@
 <div id="main-container">
     <section id="search-form">
-        <div class="input-group input-group-lg">
-            <span class="input-group-addon">@</span>
-            <input type="text" class="form-control" placeholder="Username">
-        </div>
+        <form class="form-search">
+            <div class="input-group">
+                <input type="text" class="form-control search-query" placeholder="Search a message, a contact, a device, a file, a group, an event, a tag...">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span></button>
+                    <ul class="dropdown-menu pull-right">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                    </ul>
+                </div>
+            </div>
+        </form>
     </section>
 
     <section id="inbox">
