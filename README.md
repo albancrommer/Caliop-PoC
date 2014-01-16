@@ -1,4 +1,4 @@
-Caliop-Poc
+Caliop-PoC
 ==========
 
 > A sample pre-alpha interface for Caliop.
