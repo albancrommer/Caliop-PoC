@@ -14,11 +14,12 @@ angular.module('caliop.component.header', [
     // retrieve the contact asynchronously
     authSrv.getContact();
 
+    // @TOFIX Use $q instead of rootScope ?
     // once retrieved, update the rootScope with the auth contact
     $scope.$watch(function() {
         return authSrv.contact;
     }, function(contact) {
-        $rootScope.contact = contact;
+        $rootScope.authContact = contact;
     });
 
 }])

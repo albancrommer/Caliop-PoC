@@ -3,6 +3,16 @@
     <p class="baseline">Be safe.</h1>
 
     <div class="right-box">
-        <a ui-sref="account">{{contact.fullname()}}</a>
+        <div class="btn-group">
+            <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                {{authContact.fullname()}} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a ui-sref="account">Edit</a></li>
+                <li><a ui-sref="prefs">Prefs</a></li>
+                <li class="divider"></li>
+                <li><a ui-sref="logout">Logout</a></li>
+            </ul>
+        </div>
     </div>
 </header>

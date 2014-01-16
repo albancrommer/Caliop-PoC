@@ -5,13 +5,23 @@
  */
 
 
-@import 'reset.less';
+// @import 'reset.less';
+
+/* First include Bootstrap */
+@import 'bootstrap/bootstrap.min.less';
+@import 'bootstrap/bootstrap-theme.min.less';
+
+/* Init */
 @import 'fonts.less';
 @import 'variables.less';
-@import 'mixins.less';
 
-/* http://lesselements.com */
+/**
+ * Some useless mixins.
+ * http://lesselements.com
+ */
 @import 'elements/elements.less';
+/* custom mixins */
+@import 'mixins.less';
 
 /* Cross components styles */
 @import 'layout.less';

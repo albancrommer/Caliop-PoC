@@ -6,6 +6,7 @@ angular.module('caliop.component.dashboard', [
 
     'caliop.service.entity.message',
 
+    'ui.bootstrap',
     'ngAnimate'
 ])
 

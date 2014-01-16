@@ -1,41 +1,34 @@
+@headerHeight: 40px;
+
 #header {
     width: 100%;
+    height: @headerHeight;
     .gradient(white, #eee);
     border-bottom: 1px solid #aaa;
 
     h1 {
-        padding: 10px;
+        margin: 0;
+        padding: 0 10px;
+        height: @headerHeight;
+        line-height: @headerHeight;
         .box-sizing();
         .inlineblock();
         font-weight: bold;
         font-size: 1.3em;
-
-        a {
-            text-decoration: none;
-        }
     }
 
     p.baseline {
-        position: absolute;
-        top: 4px;
-        padding: 10px;
-        .box-sizing();
+        height: @headerHeight;
+        line-height: @headerHeight;
         .inlineblock();
         color: #888;
-        font-size: 0.8em;
+        font-size: 0.9em;
     }
 
     div.right-box {
-        position: absolute;
-        top: 11px;
-        right: 10px;
+        float: right;
+        margin: 0 10px 0 0;
+        height: @headerHeight;
+        line-height: @headerHeight;
     }
-
-    // > div {
-    //     .inlineblock();
-
-    //     &.fullname {
-    //         font-weight: bold;
-    //     }
-    // }
 }
