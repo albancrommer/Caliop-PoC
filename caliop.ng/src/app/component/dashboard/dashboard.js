@@ -24,15 +24,23 @@ angular.module('caliop.component.dashboard', [
             data: {
                 pageTitle: 'Dashboard'
             }
-        });
-            // .state('dashboard.panel', {
-            //     url: '/panel',
-            //     templateUrl: 'component/dashboard/panel.tpl.html',
-            //     controller: 'DashboardPanelCtrl',
-            //     data: {
-            //         pageTitle: 'Here your panel.'
-            //     }
-            // });
+        })
+            .state('dashboard.messages', {
+                url: '/messages',
+                templateUrl: 'component/dashboard/messages.tpl.html',
+                controller: 'MessagesCtrl',
+                data: {
+                    pageTitle: 'Here your messages'
+                }
+            })
+            .state('dashboard.writeMessage', {
+                url: '/messages',
+                templateUrl: 'component/dashboard/write-message.tpl.html',
+                controller: 'MessagesCtrl',
+                data: {
+                    pageTitle: 'Write a new message'
+                }
+            });
 })
 
 /**
@@ -41,18 +49,36 @@ angular.module('caliop.component.dashboard', [
 .controller('DashboardCtrl', ['$scope', 'message',
     function DashboardCtrl($scope, MessageSrv) {
 
+    $scope.tabs = [];
+
+    var addNewTab = function() {
+        var id = $scope.tabs.length + 1;
+        $scope.tabs.push({
+            id: id,
+            title: "Workspace " + id,
+            content: "Workspace " + id,
+            active: true
+        });
+    };
+
     MessageSrv.getList().then(function(messages) {
         $scope.tabs = [
-            { title: "Messages", content: messages, active: true }
+            { id: 1, title: 'Messages', content: messages, active: true }
         ];
 
         $scope.addTab = function() {
-            setTimeout(function() {
-                alert("TODO");
-            });
+            addNewTab();
         };
     });
 }])
 
-;
+/**
+ * And of course we define a controller for our route.
+ */
+.controller('MessagesCtrl', ['$scope',
+    function DashboardCtrl($scope) {
 
+    console.log('MessagesCtrl');
+
+
+}]);
