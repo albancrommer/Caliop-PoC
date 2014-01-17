@@ -30,6 +30,21 @@ angular.module('caliop.service.account', [
         }
     };
 
+}]).factory ('login', ['Restangular', 'string', 'contact',
+    function (Restangular, stringSrv, contactSrv) {
+    console.log('message1');
+    return {
+        trylogin: function (credentials, scope) {
+            var baseAccounts = contactSrv.post('login', credentials).then(
+                function (success) {
+                    scope.loginitreturn = success.firstName + ' successfully loggued, wait redirect';
+                }, function (error) {
+                    scope.loginitreturn = error;
+                }
+            );
+        }
+    };
+
 }]);
 
 }());

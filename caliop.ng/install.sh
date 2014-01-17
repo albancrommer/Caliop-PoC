@@ -1,0 +1,1 @@
+cd ~/workspace/Caliop-PoC/caliop.ng/ && sudo npm install && bower install && grunt build && grunt watch

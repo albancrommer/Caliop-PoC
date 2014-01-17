@@ -35,7 +35,7 @@ angular.module('caliop.service.entity.contact', [
         return new Contact(obj);
     });
 
-    return Restangular.one('contact', 'info');
+    return Restangular.one('contact');
 
 }]);
 

@@ -9,7 +9,7 @@ angular.module('caliop', [
     'caliop.component.footer',
     'caliop.component.account',
     'caliop.component.dashboard',
-
+    'caliop.component.login',
     'ui.router'
 ])
 
