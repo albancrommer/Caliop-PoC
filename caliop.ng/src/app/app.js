@@ -1,7 +1,9 @@
 angular.module('caliop', [
+    /* grunt builds stuff */
     'templates-app',
     'templates-common',
 
+    /* services */
     'caliop.service.config',
 
     /* components */
@@ -10,6 +12,8 @@ angular.module('caliop', [
     'caliop.component.account',
     'caliop.component.dashboard',
     'caliop.component.login',
+
+    /* utils */
     'ui.router'
 ])
 
