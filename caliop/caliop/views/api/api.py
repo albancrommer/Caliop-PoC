@@ -1,6 +1,5 @@
 import os
 
-from pyramid import threadlocal
 from pyramid.response import Response
 
 
