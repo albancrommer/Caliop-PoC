@@ -18,7 +18,7 @@ angular.module('caliop', [
 ])
 
 .config(function myAppConfig($urlRouterProvider, $stateProvider) {
-    $urlRouterProvider.otherwise('/dashboard');
+    $urlRouterProvider.otherwise('/login');
 
     $stateProvider
         .state('app', {

@@ -6,25 +6,24 @@ angular.module('caliop.component.login', [
     'caliop.service.account'
 ])
 
-/**
- * Each section or module of the site can also have its own routes. AngularJS
- * will handle ensuring they are all available at run-time, but splitting it
- * this way makes each module more "self-contained".
- */
 .config(function config($stateProvider) {
     $stateProvider
-        .state('login', {
-            url: '/account/login',
-            templateUrl: 'component/login/login.tpl.html',
-            controller: 'LoginCtrl',
-            data: {
-                pageTitle: 'login'
+        .state('app.login', {
+            url: 'login',
+            views: {
+                'layout@': {
+                    templateUrl: 'component/common/fullpage.tpl.html'
+                },
+                'main@app.login': {
+                    templateUrl: 'component/login/login.tpl.html',
+                    controller: 'LoginCtrl'
+                }
             }
         });
 })
 
 /**
- * And of course we define a controller for our route.
+ * LoginCtrl
  */
 .controller('LoginCtrl', ['$scope', 'login',
     function LoginCtrl($scope, authSrv) {
