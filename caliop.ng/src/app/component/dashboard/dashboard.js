@@ -13,17 +13,15 @@ angular.module('caliop.component.dashboard', [
     'ngAnimate'
 ])
 
-/**
- * Each section or module of the site can also have its own routes. AngularJS
- * will handle ensuring they are all available at run-time, but splitting it
- * this way makes each module more "self-contained".
- */
 .config(function config($stateProvider) {
     $stateProvider
         .state('app.dashboard', {
             url: 'dashboard',
             views: {
-                'main@': {
+                'layout@': {
+                    templateUrl: 'component/common/2columns.tpl.html'
+                },
+                'main@app.dashboard': {
                     templateUrl: 'component/dashboard/dashboard.tpl.html',
                     controller: 'DashboardCtrl'
                 },
@@ -36,7 +34,7 @@ angular.module('caliop.component.dashboard', [
 })
 
 /**
- * And of course we define a controller for our route.
+ * DashboardCtrl
  */
 .controller('DashboardCtrl', ['$scope', 'message',
     function DashboardCtrl($scope, MessageSrv) {
@@ -65,12 +63,10 @@ angular.module('caliop.component.dashboard', [
 }])
 
 /**
- * And of course we define a controller for our route.
+ * MessagesCtrl
  */
 .controller('MessagesCtrl', ['$scope',
     function DashboardCtrl($scope) {
 
-    console.log('MessagesCtrl');
-
-
+    // console.log('MessagesCtrl');
 }]);

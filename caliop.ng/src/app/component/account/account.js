@@ -7,30 +7,36 @@ angular.module('caliop.component.account', [
     'caliop.service.account'
 ])
 
-/**
- * Each section or module of the site can also have its own routes. AngularJS
- * will handle ensuring they are all available at run-time, but splitting it
- * this way makes each module more "self-contained".
- */
 .config(function config($stateProvider) {
     $stateProvider
         .state('app.account', {
             url: 'account',
             views: {
-                'main@': {
+                'layout@': {
+                    templateUrl: 'component/common/fullpage.tpl.html'
+                },
+                'main@app.account': {
                     templateUrl: 'component/account/account.tpl.html',
                     controller: 'AccountCtrl'
                 }
-                // 'panel@': {
-                //     templateUrl: 'component/panel/panel.tpl.html',
-                //     controller: 'PanelCtrl'
-                // }
+            }
+        })
+        .state('app.preferences', {
+            url: 'preferences',
+            views: {
+                'layout@': {
+                    templateUrl: 'component/common/fullpage.tpl.html'
+                },
+                'main@app.preferences': {
+                    templateUrl: 'component/account/preferences.tpl.html',
+                    controller: 'PreferencesCtrl'
+                }
             }
         });
 })
 
 /**
- * And of course we define a controller for our route.
+ * AccountCtrl
  */
 .controller('AccountCtrl', ['$scope', 'auth',
     function AccountCtrl($scope, authSrv) {
@@ -38,5 +44,11 @@ angular.module('caliop.component.account', [
     // $scope.contact = authSrv.getContact();
 }])
 
-;
+/**
+ * PreferencesCtrl
+ */
+.controller('PreferencesCtrl', ['$scope', 'auth',
+    function PreferencesCtrl($scope, authSrv) {
 
+    // console.log('PreferencesCtrl');
+}]);

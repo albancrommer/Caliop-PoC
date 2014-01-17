@@ -24,11 +24,8 @@ angular.module('caliop', [
                     templateUrl: 'component/header/header.tpl.html',
                     controller: 'HeaderCtrl'
                 },
-                'main': {
-                    template: 'main'
-                },
-                'panel': {
-                    template: 'panel'
+                'layout': {
+                    templateUrl: 'component/common/fullpage.tpl.html'
                 },
                 'footer': {
                     templateUrl: 'component/footer/footer.tpl.html',

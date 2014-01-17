@@ -1,13 +1,10 @@
 /**
- * Header...
+ * Header component.
  */
 angular.module('caliop.component.header', [
     'caliop.service.account'
 ])
 
-/**
- * And of course we define a controller for our route.
- */
 .controller('HeaderCtrl', ['$rootScope', '$scope', 'auth',
     function HeaderCtrl($rootScope, $scope, authSrv) {
 
@@ -21,8 +18,4 @@ angular.module('caliop.component.header', [
     }, function(contact) {
         $rootScope.authContact = contact;
     });
-
-}])
-
-;
-
+}]);

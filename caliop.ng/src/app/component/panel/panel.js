@@ -1,5 +1,5 @@
 /**
- * Panel...
+ * Panel components.
  */
 angular.module('caliop.component.panel', [
 ])
@@ -8,7 +8,4 @@ angular.module('caliop.component.panel', [
     function PanelCtrl() {
 
     // console.log('PanelCtrl');
-}])
-
-;
-
+}]);
