@@ -48,7 +48,6 @@ angular.module('caliop', [
     // update the title of the page according to the ui-router pageTitle data
     $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
         if (toState.data && toState.data.pageTitle) {
-            console.log(toState.data);
             $rootScope.pageTitle = toState.data.pageTitle + ' | Caliop' ;
         }
     });
