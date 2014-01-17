@@ -1,4 +1,4 @@
-describe( 'AppCtrl', function() {
+describe( 'DashboardCtrl', function() {
     describe( 'isCurrentUrl', function() {
         var AppCtrl, $location, $scope;
 
@@ -7,7 +7,7 @@ describe( 'AppCtrl', function() {
         beforeEach( inject( function( $controller, _$location_, $rootScope ) {
             $location = _$location_;
             $scope = $rootScope.$new();
-            AppCtrl = $controller( 'AppCtrl', { $location: $location, $scope: $scope });
+            AppCtrl = $controller( 'DashboardCtrl', { $location: $location, $scope: $scope });
         }));
 
         it( 'should pass a dummy test', inject( function() {

@@ -2,9 +2,12 @@
  * Dashboard component.
  */
 angular.module('caliop.component.dashboard', [
+    'templates-app',
     'ui.router',
 
     'caliop.service.entity.message',
+
+    'caliop.component.panel',
 
     'ui.bootstrap',
     'ngAnimate'
@@ -17,30 +20,19 @@ angular.module('caliop.component.dashboard', [
  */
 .config(function config($stateProvider) {
     $stateProvider
-        .state('dashboard', {
-            url: '/dashboard',
-            templateUrl: 'component/dashboard/dashboard.tpl.html',
-            controller: 'DashboardCtrl',
-            data: {
-                pageTitle: 'Dashboard'
+        .state('app.dashboard', {
+            url: 'dashboard',
+            views: {
+                'main@': {
+                    templateUrl: 'component/dashboard/dashboard.tpl.html',
+                    controller: 'DashboardCtrl'
+                },
+                'panel@': {
+                    templateUrl: 'component/panel/panel.tpl.html',
+                    controller: 'PanelCtrl'
+                }
             }
-        })
-            .state('dashboard.messages', {
-                url: '/messages',
-                templateUrl: 'component/dashboard/messages.tpl.html',
-                controller: 'MessagesCtrl',
-                data: {
-                    pageTitle: 'Here your messages'
-                }
-            })
-            .state('dashboard.writeMessage', {
-                url: '/messages',
-                templateUrl: 'component/dashboard/write-message.tpl.html',
-                controller: 'MessagesCtrl',
-                data: {
-                    pageTitle: 'Write a new message'
-                }
-            });
+        });
 })
 
 /**

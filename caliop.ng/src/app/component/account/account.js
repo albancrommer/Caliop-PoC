@@ -14,22 +14,19 @@ angular.module('caliop.component.account', [
  */
 .config(function config($stateProvider) {
     $stateProvider
-        .state('account', {
-            url: '/account',
-            templateUrl: 'component/account/account.tpl.html',
-            controller: 'AccountCtrl',
-            data: {
-                pageTitle: 'Your account'
+        .state('app.account', {
+            url: 'account',
+            views: {
+                'main@': {
+                    templateUrl: 'component/account/account.tpl.html',
+                    controller: 'AccountCtrl'
+                }
+                // 'panel@': {
+                //     templateUrl: 'component/panel/panel.tpl.html',
+                //     controller: 'PanelCtrl'
+                // }
             }
         });
-            // .state('dashboard.panel', {
-            //     url: '/panel',
-            //     templateUrl: 'component/dashboard/panel.tpl.html',
-            //     controller: 'DashboardPanelCtrl',
-            //     data: {
-            //         pageTitle: 'Here your panel.'
-            //     }
-            // });
 })
 
 /**

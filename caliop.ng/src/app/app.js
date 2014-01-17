@@ -6,35 +6,53 @@ angular.module('caliop', [
 
     /* components */
     'caliop.component.header',
-    'caliop.component.dashboard',
+    'caliop.component.footer',
     'caliop.component.account',
+    'caliop.component.dashboard',
 
     'ui.router'
 ])
 
-.config(function myAppConfig($urlRouterProvider) {
+.config(function myAppConfig($urlRouterProvider, $stateProvider) {
     $urlRouterProvider.otherwise('/dashboard');
+
+    $stateProvider
+        .state('app', {
+            url: '/',
+            views: {
+                'header': {
+                    templateUrl: 'component/header/header.tpl.html',
+                    controller: 'HeaderCtrl'
+                },
+                'main': {
+                    template: 'main'
+                },
+                'panel': {
+                    template: 'panel'
+                },
+                'footer': {
+                    templateUrl: 'component/footer/footer.tpl.html',
+                    controller: 'FooterCtrl'
+                }
+            }
+        });
 })
 
-.run(['config', function run(configSrv) {
+.run(['$rootScope', 'config', 'Restangular',
+    function run($rootScope, configSrv, restangularPvdr) {
+
     // set optional config from the querystring
     configSrv.configure();
-}])
-
-.controller('AppCtrl', ['$scope', 'config', 'Restangular',
-    function AppCtrl($scope, configSrv, restangularPvdr) {
 
     // update the title of the page according to the ui-router pageTitle data
-    $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-        if (angular.isDefined(toState.data.pageTitle)) {
-            $scope.pageTitle = toState.data.pageTitle + ' | Caliop' ;
+    $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+        if (toState.data && toState.data.pageTitle) {
+            console.log(toState.data);
+            $rootScope.pageTitle = toState.data.pageTitle + ' | Caliop' ;
         }
     });
 
-    // A good rule of thumb to determine where we should configure our Restangular instances:
-    // If we need to use any other service in configuring Restangular, then we should configure
-    // it in the run() method, otherwise we’ll keep it in the config() method.
-    // (http://www.ng-newsletter.com/posts/restangular.html)
+    // use mocks or not
     var useMocks = configSrv.get('useMocks') || 1;
     var baseUrl = useMocks ? '/api/mock' : '/api';
     restangularPvdr.setBaseUrl(baseUrl);

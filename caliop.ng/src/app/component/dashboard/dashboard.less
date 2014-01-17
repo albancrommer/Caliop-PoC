@@ -1,25 +1,29 @@
 /**
  * Search form
  */
-form.form-search {
-    position: relative;
+section#search-form {
+    margin-bottom: 15px;
 
-    &.form-search:before {
-        content:'';
-        display: block;
-        width: 14px;
-        height: 14px;
-        background-image: url(http://getbootstrap.com/2.3.2/assets/img/glyphicons-halflings.png);
-        background-position: -48px 0;
-        position: absolute;
-        top: 10px;
-        left: 8px;
-        opacity: .5;
-        z-index: 1000;
-    }
+    form.form-search {
+        position: relative;
 
-    input.search-query {
-        padding-left: 26px !important;
+        &.form-search:before {
+            content:'';
+            display: block;
+            width: 14px;
+            height: 14px;
+            background-image: url(http://getbootstrap.com/2.3.2/assets/img/glyphicons-halflings.png);
+            background-position: -48px 0;
+            position: absolute;
+            top: 10px;
+            left: 8px;
+            opacity: .5;
+            z-index: 1000;
+        }
+
+        input.search-query {
+            padding-left: 26px !important;
+        }
     }
 }
 
@@ -33,4 +37,3 @@ div.tab-content {
     &.messages {
     }
 }
-

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="caliop" ng-controller="AppCtrl">
+<html ng-app="caliop">
     <head>
         <title ng-bind="pageTitle"></title>
 
@@ -26,11 +26,14 @@
         <script type="text/javascript" src="<%= file %>"></script><% }); %>
     </head>
     <body>
-        <div ng-include="'component/header/header.tpl.html'"></div>
+        <div ui-view="header"></div>
 
-        <div id="main" ui-view></div>
+        <div id="main">
+            <div id="main-container" ui-view="main"></div>
+            <div id="panel" ui-view="panel"></div>
+        </div>
 
-        <div ng-include="'component/footer/footer.tpl.html'"></div>
+        <div ui-view="footer"></div>
     </body>
 
     <!--<script src="http://localhost:35729/livereload.js"></script>-->
