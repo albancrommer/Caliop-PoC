@@ -24,18 +24,20 @@ angular.module('caliop.service.account', [
         retrieveContact: function(contact) {
             var that = this;
 
-            contactSrv.get().then(function(contact) {
+            contactSrv.one('contact', 'info').get().then(function(contact) {
                 that.contact = contact;
             });
         }
     };
+}])
 
-}]).factory ('login', ['Restangular', 'string', 'contact',
+.factory ('login', ['Restangular', 'string', 'contact',
     function (Restangular, stringSrv, contactSrv) {
-    console.log('message1');
+
     return {
+        // @TOFIX the factory DONT MUST manipulate the scope!
         trylogin: function (credentials, scope) {
-            var baseAccounts = contactSrv.post('login', credentials).then(
+            var baseAccounts = contactSrv.one('contact').post('login', credentials).then(
                 function (success) {
                     scope.loginitreturn = success.firstName + ' successfully loggued, wait redirect';
                 }, function (error) {
