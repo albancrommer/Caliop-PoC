@@ -1,5 +1,5 @@
 {
-  "name": "ng-boilerplate",
+  "name": "caliop",
   "version": "0.3.1",
   "devDependencies": {
     "angular": "",
@@ -9,7 +9,7 @@
     "angular-ui-utils": "",
     "angular-animate": "",
     "moment": "",
-    "bootstrap': "",
+    "bootstrap": "",
     "angular-bootstrap": ""
   }
 }
