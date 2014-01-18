@@ -1,4 +1,4 @@
 from .config import includeme  # used by pyramid
 
 
-from .api import Messages, ContactInfo
+from .api import Messages, ContactLogin, ContactInfo

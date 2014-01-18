@@ -1,16 +1,22 @@
 <aside>
-    <form class="form-inline" role="form" ng-submit="onSubmit(user)" novalidate>
+    <form class="form-inline" role="form" ng-submit="login()" novalidate>
         <div class="form-group">
             <label class="sr-only" for="login">Email address</label>
-            <input type="text" class="form-control" id="login" name="login" ng-model="user.login" placeholder="login">
+            <input type="text" class="form-control" id="login" name="login" ng-model="credentials.login" placeholder="login">
         </div>
         <div class="form-group">
             <label class="sr-only" for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password" ng-model="user.password" placeholder="Password">
+            <input type="password" class="form-control" id="password" name="password" ng-model="credentials.password" placeholder="Password">
         </div>
         <div class="checkbox">
         </div>
         <button type="submit" class="btn btn-default">Sign in</button>
     </form>
+
+    {{user}}
 </aside>
-{{loginitreturn}}
+
+<div class="errors">
+    {{messages.error}}
+</div>
+

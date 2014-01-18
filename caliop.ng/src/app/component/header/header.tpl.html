@@ -2,7 +2,7 @@
     <h1><a ui-sref="app.dashboard">Caliop</a></h1>
     <p class="baseline">Be safe.</h1>
 
-    <div class="right-box">
+    <div class="right-box" ng-if="authContact">
         <div class="btn-group">
             <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
                 {{authContact.fullname()}} <span class="caret"></span>
@@ -11,7 +11,7 @@
                 <li><a ui-sref="app.account">Edit</a></li>
                 <li><a ui-sref="app.preferences">Preferences</a></li>
                 <li class="divider"></li>
-                <li><a ui-sref="logout">Logout</a></li>
+                <li><a ui-sref="app.logout">Logout</a></li>
             </ul>
         </div>
     </div>

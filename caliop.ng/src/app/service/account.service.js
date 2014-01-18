@@ -12,6 +12,16 @@ angular.module('caliop.service.account', [
     return {
         contact: undefined,
 
+        login: function(credentials) {
+            return contactSrv.one('contact').post('login', credentials, {}, {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            });
+        },
+
+        logout: function() {
+            this.contact = undefined;
+        },
+
         getContact: function() {
             if (!this.contact) {
                 this.retrieveContact();
@@ -29,24 +39,6 @@ angular.module('caliop.service.account', [
             });
         }
     };
-}])
-
-.factory ('login', ['Restangular', 'string', 'contact',
-    function (Restangular, stringSrv, contactSrv) {
-
-    return {
-        // @TOFIX the factory DONT MUST manipulate the scope!
-        trylogin: function (credentials, scope) {
-            var baseAccounts = contactSrv.one('contact').post('login', credentials).then(
-                function (success) {
-                    scope.loginitreturn = success.firstName + ' successfully loggued, wait redirect';
-                }, function (error) {
-                    scope.loginitreturn = error;
-                }
-            );
-        }
-    };
-
 }]);
 
 }());
