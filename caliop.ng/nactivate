@@ -1,0 +1,26 @@
+#!/bin/sh
+
+ENV=`readlink -f .`
+ENV=`basename $ENV`
+NODE_BIN=`readlink -f ./node_modules/.bin/`
+
+NG_OLD_PATH="$PATH"
+NG_OLD_PS1="$PS1"
+
+PATH="$NODE_BIN:$PATH"
+PS1="<$ENV>$PS1"
+
+ndeactivate () {
+
+  PATH="$NG_OLD_PATH"
+  PS1="$NG_OLD_PS1"
+  export PATH
+  export PS1
+  unset NG_OLD_PATH
+  unset NG_OLD_PS1
+}
+
+export NG_OLD_PATH
+export NG_OLD_PS1
+export PATH
+export PS1

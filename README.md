@@ -25,6 +25,12 @@ $ git clone https://github.com/Gandi/Caliop-PoC.git
 $ cd ~/workspace/Caliop-PoC/caliop.ng
 
 # Install dependancies
+
+# This is not mandatory, if you have installed grunt-cli karma bower globally
+# inspired by python virtual env to add node_modules bin in path
+# use ndeactivate for deactivate it
+$ source nactictivate
+
 $ npm install
 $ bower install
 
