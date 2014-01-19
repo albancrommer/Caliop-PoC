@@ -14,6 +14,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "bower": "",
     "grunt": "",
     "grunt-cli": "",
     "grunt-recess": "",
@@ -25,7 +26,7 @@
     "grunt-contrib-uglify": "",
     "grunt-karma": "~0.6.2",
     "grunt-ngmin": "",
-    "grunt-htmljs": "",
+    "grunt-html2js": "",
     "grunt-contrib-coffee": "",
     "grunt-coffeelint": "",
     "grunt-conventional-changelog": "",
