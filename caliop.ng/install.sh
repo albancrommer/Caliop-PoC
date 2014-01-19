@@ -1,1 +1,6 @@
-npm install && bower install && grunt build && grunt watch
+#!/bin/sh
+
+npm install && \
+bower install && \
+grunt build && \
+grunt watch
