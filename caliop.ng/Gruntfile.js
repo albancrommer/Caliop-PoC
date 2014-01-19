@@ -367,7 +367,8 @@ module.exports = function ( grunt ) {
         background: true
       },
       continuous: {
-        singleRun: true
+        singleRun: true,
+        browsers: ['Chrome']
       }
     },
 
