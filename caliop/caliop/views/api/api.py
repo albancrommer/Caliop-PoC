@@ -1,3 +1,6 @@
+from __future__ import absolute_import, unicode_literals
+
+
 import os
 import json
 
@@ -13,7 +16,10 @@ class Api(object):
         return os.path.join(rootpath, 'json', self.filename)
 
     def __call__(self):
-        return Response(open(self.get_json()).read())
+        with open(self.get_json()) as jsonfile:
+            response = Response(jsonfile.read())
+
+        return response
 
 
 class Messages(Api):
@@ -24,18 +30,20 @@ class ContactLogin(Api):
     filename = 'contact.json'
 
     def __call__(self):
-        params = self.request.POST.mixed().keys()[0]    # wtf ?
-        credentials = json.loads(params)
+        credentials = self.request.json
 
         class BadCredentials(Exception):
             pass
 
         try:
-            if (credentials[u'login'] == 'c' and credentials[u'password'] == 'c'):
-                return Response(open(self.get_json()).read())
+            if (credentials['login'] == 'c' and credentials['password'] == 'c'):
+                with open(self.get_json()) as jsonfile:
+                    response = Response(jsonfile.read())
+
+                return response
             else:
                 raise BadCredentials
-        except (AttributeError, BadCredentials):
+        except (KeyError, BadCredentials):
             return Response('BadCredentials', status='403 Forbidden')
 
 
