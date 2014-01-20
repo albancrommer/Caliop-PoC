@@ -1,14 +1,25 @@
-<div class="row" ng-repeat="message in messages">
-    <span class="col-xs-1">
-        {{message.author}}
+<div class="row container" ng-repeat="message in messages">
+    <!--{{message}}-->
+    <span class="col-xs-1 ">
+        {{message.date_created}}
     </span>
-    <!--<span class="col-xs-1">
-        <img src="" alt="avatar" class="img-circle">
-    </span>-->
     <span class="col-xs-1">
-        {{message.title}}
+        <!-- <img src="{{message.avatar}}" alt="avatar" class="img-circle"> -->
+        <img src="/static/assets/image/avatar.png" alt="avatar" class="img-circle">
     </span>
-    <span class="col-xs-9">
-        {{message.body}}
+    <span class="col-xs-7">
+        <div>
+            <span class="">{{message.author}}<span>
+            <span class="label label-default">Perso</span>
+            <span class="label label-default">Boulot</span>
+        </div>
+        <div>
+            <strong>{{message.title}}</strong>
+            <span class="text-muted">{{message.body}}<span>
+        </div>
+    </span>
+    <span class="col-xs-2">
+        <img src="/static/assets/image/seclevel.png" alt="" class="">
+        <input type="checkbox">
     </span>
 </div>
