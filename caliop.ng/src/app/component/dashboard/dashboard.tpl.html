@@ -20,23 +20,12 @@
 <section id="inbox">
     <tabset>
         <!-- Messages tab -->
-        <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disabled="tab.disabled">
-            <div class="tab-content" ui-view>
-            	<div class="row" ng-repeat="message in tab.content">
-            		<span class="col-xs-1">
-            			{{message.author}}
-            		</span>
-            		<span class="col-xs-1">
-            			<img src="" alt="avatar" class="img-circle">
-            		</span>
-            		<span class="col-xs-1">
-            			{{message.title}}
-            		</span>
-            		<span class="col-xs-9">
-            			{{message.body}}
-            		</span>
-            	</div>
-            </div>
+        <tab
+            select="loadContent(tab)"
+            ng-repeat="tab in tabs"
+            heading="{{tab.title}}"
+            active="tab.active"
+            disabled="tab.disabled">
         </tab>
 
         <!-- Write a message tab -->
@@ -44,8 +33,6 @@
             <tab-heading>
                 <i class="glyphicon glyphicon-pencil"></i>
             </tab-heading>
-
-            <!--<div class="tab-content" ui-view="dashboard.writeMessage">-->
         </tab>
 
         <!-- Add a tab -->
@@ -55,4 +42,6 @@
             </tab-heading>
         </tab>
     </tabset>
+
+    <div class="debug" ui-view="tabContent"></div>
 </section>

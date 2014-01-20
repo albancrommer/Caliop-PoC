@@ -36,12 +36,26 @@ angular.module('caliop.component.dashboard', [
 /**
  * DashboardCtrl
  */
-.controller('DashboardCtrl', ['$scope', 'message',
-    function DashboardCtrl($scope, MessageSrv) {
+.controller('DashboardCtrl', ['$scope', '$state', 'message',
+    function DashboardCtrl($scope, $state, MessageSrv) {
 
-    $scope.tabs = [];
+    $scope.tabs = [{
+            id: 1,
+            title: 'Messages 1',
+            state: 'app.dashboard.messages',
+            active: true
+        }, {
+            id: 2,
+            title: 'Messages 2',
+            state: 'app.dashboard.writeMessage',
+            active: false
+        }];
 
-    var addNewTab = function() {
+    $scope.loadContent = function(tab) {
+        $state.go(tab.state);
+    };
+
+    $scope.addTab = function() {
         var id = $scope.tabs.length + 1;
         $scope.tabs.push({
             id: id,
@@ -50,23 +64,4 @@ angular.module('caliop.component.dashboard', [
             active: true
         });
     };
-
-    MessageSrv.getList().then(function(messages) {
-        $scope.tabs = [
-            { id: 1, title: 'Messages', content: messages, active: true }
-        ];
-
-        $scope.addTab = function() {
-            addNewTab();
-        };
-    });
-}])
-
-/**
- * MessagesCtrl
- */
-.controller('MessagesCtrl', ['$scope',
-    function DashboardCtrl($scope) {
-
-    // console.log('MessagesCtrl');
 }]);
