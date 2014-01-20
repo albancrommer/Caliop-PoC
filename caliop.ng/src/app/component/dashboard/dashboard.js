@@ -24,10 +24,6 @@ angular.module('caliop.component.dashboard', [
                 'main@app.dashboard': {
                     templateUrl: 'component/dashboard/dashboard.tpl.html',
                     controller: 'DashboardCtrl'
-                },
-                'panel@': {
-                    templateUrl: 'component/panel/panel.tpl.html',
-                    controller: 'PanelCtrl'
                 }
             }
         });

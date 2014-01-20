@@ -31,6 +31,10 @@ angular.module('caliop', [
                 'layout': {
                     templateUrl: 'component/common/fullpage.tpl.html'
                 },
+                'panel': {
+                    templateUrl: 'component/panel/panel.tpl.html',
+                    controller: 'PanelCtrl'
+                },
                 'footer': {
                     templateUrl: 'component/footer/footer.tpl.html',
                     controller: 'FooterCtrl'
