@@ -5,6 +5,7 @@ angular.module('caliop', [
 
     /* services */
     'caliop.service.config',
+    'caliop.service.account',
 
     /* components */
     'caliop.component.header',
@@ -43,11 +44,25 @@ angular.module('caliop', [
         });
 })
 
-.run(['$rootScope', 'config', 'Restangular',
-    function run($rootScope, configSrv, restangularPvdr) {
+.run(['$rootScope', 'config', 'auth', '$state', 'Restangular',
+    function run($rootScope, configSrv, authSrv, $state, restangularPvdr) {
+
+    var contact = authSrv.getContact();
+
+    // if a user is connected, save the contact in the rootScope
+    if (contact) {
+        $rootScope.authContact = contact;
+    }
 
     // set optional config from the querystring
     configSrv.configure();
+
+    // redirect to the app if already logged in
+    $rootScope.$on('$stateChangeStart', function(next, current) {
+        if (current.name != 'app.login' && !contact) {
+            $state.go('app.login');
+        }
+    });
 
     // update the title of the page according to the ui-router pageTitle data
     $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {

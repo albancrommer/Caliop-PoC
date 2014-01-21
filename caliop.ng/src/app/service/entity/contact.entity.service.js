@@ -31,11 +31,18 @@ angular.module('caliop.service.entity.contact', [
         return [this.firstName, this.lastName].join(' ');
     };
 
+    Contact.new_ = function(obj) {
+        return new Contact(obj);
+    };
+
     Restangular.addElementTransformer('contact', function(obj) {
         return new Contact(obj);
     });
 
-    return Restangular;
+    return {
+        new_: Contact.new_,
+        Restangular: Restangular
+    };
 }]);
 
 }());

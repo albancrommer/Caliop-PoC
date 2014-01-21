@@ -5,8 +5,10 @@ angular.module('caliop.component.header', [
     'caliop.service.account'
 ])
 
-.controller('HeaderCtrl', ['$rootScope', '$scope', 'auth',
-    function HeaderCtrl($rootScope, $scope, authSrv) {
+.controller('HeaderCtrl', [
+    function HeaderCtrl() {
+
+    // console.log('HeaderCtrl', authSrv.getContact());
 
 
 }]);

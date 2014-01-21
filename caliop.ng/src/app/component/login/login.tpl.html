@@ -13,7 +13,7 @@
         <img class="caliop-screen" src="/static/assets/image/u4_normal.png" alt="image login" >
     </section>
 
-    <aside class="col-xs-4 container text-center">
+    <aside class="col-xs-4 container">
         <form class="form-group well well-lg" role="form" ng-submit="login()">
             <h2>Connexion à votre compte</h2>
 
@@ -29,13 +29,17 @@
                 {{messages.error}}
             </div>
 
-            <button type="submit" class="text-center btn btn-lg btn-block">Sign in</button>
-            <a href="">j'ai oublié mon identifiant / mot de passe</a>
+            <div class="text-right">
+                <p>
+                    <button type="submit" class="btn btn-primary btn-lg ">Sign in</button>
+                </p>
+                <a href="">J'ai oublié mon identifiant / mot de passe</a>
+            </div>
         </form>
 
-        <div class="text-center">
+        <div class="text-right">
             <p>Vous n'avez pas encore de compte ?</p>
-            <button type="button" class="btn btn-success btn-lg">nouveau</button>
+            <button type="button" class="btn btn-primary btn-lg">Créer un compte</button>
         </div>
     </aside>
 </div>

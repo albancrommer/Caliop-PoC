@@ -3,40 +3,48 @@
 "use strict";
 
 angular.module('caliop.service.account', [
-    'caliop.service.entity.contact'
+    'caliop.service.entity.contact',
+
+    'ngCookies'
 ])
 
-.factory('auth', ['contact',
-    function (contactSrv) {
+.factory('auth', ['contact', '$cookieStore', '$q',
+    function (contactSrv, $cookieStore, $q) {
 
     return {
-        contact: undefined,
+        getContact: function() {
+            var contact = $cookieStore.get('contact');
+            return contact ? contactSrv.new_(contact) : undefined;
+        },
 
         login: function(credentials) {
-            return contactSrv.one('contact').post('login', credentials, {}, {
+            var that = this,
+                deferred = $q.defer();
+
+            contactSrv.Restangular.one('contact').post('login', credentials, {}, {
                 'Content-Type': 'application/x-www-form-urlencoded'
-            });
+            })
+            .then(
+                function() {
+                    contactSrv.Restangular.one('contact', 'info').get()
+                    .then(
+                        function(contact) {
+                            $cookieStore.put('contact', contact);
+                            deferred.resolve(that.getContact());
+                        },
+                        function() {
+                            deferred.reject('Contact info failed');
+                        });
+                },
+                function() {
+                    deferred.reject('Bad credentials');
+                });
+
+            return deferred.promise;
         },
 
         logout: function() {
-            this.contact = undefined;
-        },
-
-        getContact: function() {
-            if (!this.contact) {
-                this.retrieveContact();
-            }
-
-            // @TODO return defered
-            return this.contact;
-        },
-
-        retrieveContact: function(contact) {
-            var that = this;
-
-            contactSrv.one('contact', 'info').get().then(function(contact) {
-                that.contact = contact;
-            });
+            $cookieStore.remove('contact');
         }
     };
 }]);

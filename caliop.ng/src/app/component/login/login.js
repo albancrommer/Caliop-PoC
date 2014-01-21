@@ -39,33 +39,22 @@ angular.module('caliop.component.login', [
 .controller('LoginCtrl', ['$rootScope', '$scope', 'auth', '$state',
     function LoginCtrl($rootScope, $scope, authSrv, $state) {
 
+    if (authSrv.getContact()) {
+        $state.go('app.dashboard');
+    }
+
     $scope.messages = {};
-    authSrv.logout();
 
-    $scope.login = function(){
-        $scope.statusMessage = 'Wait for login...';
+    $scope.login = function() {
+        //if login successful, retrieve the contact asynchronously
+        authSrv.login($scope.credentials).then(function(contact) {
+            $rootScope.authContact = contact;
+            $state.go('app.dashboard');
 
-        // if login successful, retrieve the contact asynchronously
-        authSrv.login($scope.credentials).then(function() {
-            authSrv.getContact();
-        }, function() {
-            $scope.messages.error = 'Bad login or password.';
+        }, function(error) {
+            $scope.messages.error = 'Identifiant ou mot de passe incorrect.';
         });
     };
-
-    // save the contact in the rootScope and redirect if a contact has been
-    // retrieved
-    $rootScope.$watch(function() {
-        return authSrv.contact;
-    }, function(contact) {
-        // console.log('authSrv.contact modified');
-        $rootScope.authContact = contact;
-
-        if (contact) {
-            // redirect
-            $state.go('app.dashboard');
-        }
-    });
 }])
 
 /**
@@ -75,5 +64,7 @@ angular.module('caliop.component.login', [
     function LogoutCtrl($rootScope, authSrv, $state) {
 
     authSrv.logout();
+    $rootScope.authContact = undefined;
+
     $state.go('app.login');
 }]);

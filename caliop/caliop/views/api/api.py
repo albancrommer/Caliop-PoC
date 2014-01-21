@@ -36,13 +36,13 @@ class ContactLogin(Api):
             pass
 
         try:
-            if (credentials['login'] == 'c' and credentials['password'] == 'c'):
-                with open(self.get_json()) as jsonfile:
-                    response = Response(jsonfile.read())
-
-                return response
-            else:
+            if (credentials['login'] == 'bad' and credentials['password'] == 'bad'):
                 raise BadCredentials
+
+            with open(self.get_json()) as jsonfile:
+                response = Response(jsonfile.read())
+
+            return response
         except (KeyError, BadCredentials):
             return Response('BadCredentials', status='403 Forbidden')
 
