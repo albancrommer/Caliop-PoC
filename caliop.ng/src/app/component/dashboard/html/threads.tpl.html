@@ -1,7 +1,7 @@
-<header class="msglisthead">
+<header class="threads-list-header">
     <span class="col-xs-11">Aujourd'hui 24/12/2013 :
-        <a href="#"> Discussions récentes <span class="badge">12</span></a>
-        <a href="#"> , non-lues <span class="badge">2</span></a>
+        <a href="#">Discussions récentes <span class="badge">12</span></a>
+        <a href="#">non-lues <span class="badge">2</span></a>
         <!-- TODO count thread today -->
         <!-- TODO count thread today unread -->
     </span>
@@ -9,26 +9,38 @@
 </header>
 
 <section>
-    <ul class="list-unstyled msglist">
-        <li class="row" ng-repeat="thread in threads">
+    <ul class="list-unstyled threads-list">
+        <li
+            class="row"
+            style="border-color: #{{thread.securityColor}}"
+            ng-repeat="thread in threads"
+            ng-click="openThread(thread)">
+
             <div class="col-xs-1 text-center date">
                 {{thread.date_updated | date:'medium'}}
             </div>
 
             <div class="col-xs-1 avatar text-center" >
                 <img
+                    tooltip="{{thread.getLastRecipient().displayName()}}"
                     class="img-circle"
-                    src="{{thread.recipients[thread.recipients.length - 1].getAvatarSrc()}}"
+                    ng-src="{{thread.getLastRecipient().getAvatarSrc()}}"
                     alt="avatar" />
             </div>
 
             <div class="col-xs-8">
-                <div class="recipients">{{thread.recipients | joinRecipients:5 }}</div>
+                <div class="recipients">
+                    <span href="#" tooltip="{{thread.recipients | joinRecipients:-1 }}">
+                        {{thread.recipients | joinRecipients:5 }}
+                    </span>
+                </div>
 
                 <div class="labels">
                     <span class="label label-default">Perso</span>
                     <span class="label label-default">Boulot</span>
-                    <span class="badge">3</span> {{thread.title}}
+                    <span class="badge">
+                        {{thread.recipients.length}}
+                    </span> {{thread.title}}
                 </div>
 
                 <div class="text text-muted">{{thread.text}}</div>

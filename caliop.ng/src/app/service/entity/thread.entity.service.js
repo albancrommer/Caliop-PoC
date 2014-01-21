@@ -45,9 +45,25 @@ angular.module('caliop.service.entity.thread', [
         return that.recipients;
     };
 
+    /**
+     * Return the security color.
+     */
+    Thread.prototype.getSecurityColor = function() {
+        var n = Math.floor((this.security * parseInt('ffffff', 16)) / 100);
+        this.securityColor = n.toString(16);
+    };
+
+    /**
+     * Return the last recipient.
+     */
+    Thread.prototype.getLastRecipient = function() {
+        return this.recipients[this.recipients.length - 1];
+    };
+
     Thread.new_ = function(obj) {
         var thread = new Thread(obj);
         thread.getRecipients();
+        thread.getSecurityColor();
         return thread;
     };
 

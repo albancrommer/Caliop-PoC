@@ -16,7 +16,7 @@ angular.module('caliop.component.dashboard.filters', [])
             return r.displayName();
         });
 
-        if (parts.length > limit) {
+        if (limit > 0 && parts.length > limit) {
             parts = parts.splice(0, limit);
             parts.push('...');
         }

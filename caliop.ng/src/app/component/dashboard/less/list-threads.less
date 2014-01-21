@@ -6,23 +6,21 @@
 @threadMargin: 10px;
 @avatarSize: 57px;
 
-header.msglisthead {
+header.threads-list-header {
     padding: 5px 0 25px 0;
 }
 
-ul.msglist {
+ul.threads-list {
     > li.row {
         height: @threadHeight;
-
         padding: @threadMargin 0;
         margin: 0;
+        cursor: pointer;
 
-        //border-bottom: 1px solid #DDDDDD;
         border-left: 8px solid black;
 
         &:first-child {
             margin-top: 12px;
-            //border-top: 1px solid #DDDDDD;
         }
 
         &:nth-child(even) {

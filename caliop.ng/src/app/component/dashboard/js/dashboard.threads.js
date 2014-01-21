@@ -23,14 +23,10 @@ angular.module('caliop.component.dashboard')
     function ThreadsCtrl($scope, ThreadSrv) {
 
     ThreadSrv.Restangular.all('threads').getList().then(function(threads) {
-        // angular.forEach(threads, function(thread) {
-        //     thread.recipients = thread.getRecipients();
-        // });
-
         $scope.threads = threads;
     });
 
-    // $scope.openThread = function(thread) {
-    //     console.log('open thread', thread);
-    // };
+    $scope.openThread = function(thread) {
+        console.log('open thread', thread);
+    };
 }]);
