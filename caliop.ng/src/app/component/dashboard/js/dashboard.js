@@ -1,3 +1,7 @@
+(function() {
+
+"use strict";
+
 /**
  * Dashboard component.
  */
@@ -68,3 +72,5 @@ angular.module('caliop.component.dashboard', [
     //     });
     // };
 }]);
+
+}());

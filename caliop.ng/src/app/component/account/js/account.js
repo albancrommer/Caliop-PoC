@@ -1,3 +1,7 @@
+(function() {
+
+"use strict";
+
 /**
  * Account component.
  */
@@ -52,3 +56,5 @@ angular.module('caliop.component.account', [
 
     // console.log('PreferencesCtrl');
 }]);
+
+}());

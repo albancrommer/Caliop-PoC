@@ -1,3 +1,7 @@
+(function() {
+
+"use strict";
+
 /**
  * Login component.
  */
@@ -68,3 +72,5 @@ angular.module('caliop.component.login', [
 
     $state.go('app.login');
 }]);
+
+}());

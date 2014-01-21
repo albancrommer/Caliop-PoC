@@ -1,3 +1,7 @@
+(function() {
+
+"use strict";
+
 /**
  * Panel components.
  */
@@ -25,3 +29,5 @@ angular.module('caliop.component.panel', [
 
     console.log('PanelCtrl is here');
 }]);
+
+}());

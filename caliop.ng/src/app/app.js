@@ -1,3 +1,7 @@
+(function() {
+
+"use strict";
+
 angular.module('caliop', [
     /* grunt builds stuff */
     'templates-app',
@@ -81,3 +85,5 @@ angular.module('caliop', [
     var baseUrl = useMocks ? '/api/mock' : '/api';
     restangularPvdr.setBaseUrl(baseUrl);
 }]);
+
+}());

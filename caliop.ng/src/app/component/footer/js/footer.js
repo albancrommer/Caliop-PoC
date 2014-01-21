@@ -1,3 +1,7 @@
+(function() {
+
+"use strict";
+
 /**
  * Footer component.
  */
@@ -11,3 +15,5 @@ angular.module('caliop.component.footer', [
     function FooterCtrl() {
 
 }]);
+
+}());

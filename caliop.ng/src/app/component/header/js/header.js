@@ -1,3 +1,7 @@
+(function() {
+
+"use strict";
+
 /**
  * Header component.
  */
@@ -12,3 +16,5 @@ angular.module('caliop.component.header', [
 
 
 }]);
+
+}());

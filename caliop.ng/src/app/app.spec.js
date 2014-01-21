@@ -1,3 +1,7 @@
+(function() {
+
+"use strict";
+
 describe( 'DashboardCtrl', function() {
     describe( 'isCurrentUrl', function() {
         var AppCtrl, $location, $scope;
@@ -15,3 +19,5 @@ describe( 'DashboardCtrl', function() {
         }));
     });
 });
+
+}());
