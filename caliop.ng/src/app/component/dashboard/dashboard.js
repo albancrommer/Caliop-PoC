@@ -36,19 +36,18 @@ angular.module('caliop.component.dashboard', [
     function DashboardCtrl($scope, $state, MessageSrv) {
 
     $scope.tabs = [{
-            id: 1,
-            title: 'Messages 1',
-            state: 'app.dashboard.messages',
-            active: true
-        }, {
-            id: 2,
-            title: 'Messages 2',
-            state: 'app.dashboard.writeMessage',
-            active: false
-        }];
+        id: 1,
+        title: 'Conversations',
+        state: 'app.dashboard.messages',
+        active: true
+    }];
 
     $scope.loadContent = function(tab) {
         $state.go(tab.state);
+    };
+
+    $scope.writeMessage = function(tab) {
+        $state.go('app.dashboard.writeMessage');
     };
 
     $scope.addTab = function() {
