@@ -1,9 +1,9 @@
 <header class="msglisthead">
-        <span class="col-xs-11">Aujourd'hui 24/12/2013 :
-            <a href="#"> Discussions récentes <span class="badge">12</span></a>
-            <a href="#"> , non-lues <span class="badge">2</span></a>
-        </span>
-        <span class="col-xs-1"><input type="checkbox"></span>
+    <span class="col-xs-11">Aujourd'hui 24/12/2013 :
+        <a href="#"> Discussions récentes <span class="badge">12</span></a>
+        <a href="#"> , non-lues <span class="badge">2</span></a>
+    </span>
+    <span class="col-xs-1"><input type="checkbox"></span>
 </header>
 <section>
     <ul class="list-unstyled msglist">
@@ -16,25 +16,29 @@
                 <img src="/static/assets/image/avatar.png" alt="avatar" class="img-circle">
             </span>
             <span class="col-xs-8">
-                <div>
-                    <span class="">{{message.author}}<span>
+                <div>{{message.author}}
+                    <!-- TODO add each label -->
+                    <span ng-repeat="label in message.labels">
+                        <span class="label label-default">{{label}}</span>
+                    </span>
                     <span class="label label-default">Perso</span>
                     <span class="label label-default">Boulot</span>
 
                     <span class="pull-right " href="#">
                         <span class="glyphicon glyphicon-paperclip"></span> 
+                        <!-- TODO add each attached doc -->
                         <img src="/static/assets/image/u982_normal.png" alt="avatar" class="img-rounded">
-
+                        <span ng-repeat="document in message.documents">
+                            <img src="/static/assets/image/{{document}}" alt="avatar" class="img-rounded">
+                        </span>
                     </span>
                 </div>
                 <div>
                     <strong>
-
                         <span class="glyphicon glyphicon-envelope"></span> 
                         <span class="badge">3</span> {{message.title}}
                     </strong>
                     <span class="text-muted">{{message.body}}<span>
-
                 </div>
             </span>
             <span class="col-xs-1">

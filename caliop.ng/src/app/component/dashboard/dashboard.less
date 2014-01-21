@@ -41,29 +41,31 @@ div.tab-content {
  * List Messages
  */
 
-.msglist li{
+ul.msglist li.row{
     border-bottom:1px solid #DDDDDD;
     padding-top:10px;
     padding-bottom:10px;
     margin-left:0px;
     margin-right:0px;
-
     border-left: 8px solid black;
 }
 
-.msglist li:nth-child(even){
+ul.msglist li.row input[type=checkbox]{
+    margin-top:20px;
+}
+
+ul.msglist li.row:nth-child(even){
     background-color:#EDEDED;
 }
-.msglist li:first-child{
+
+ul.msglist li.row:first-child{
     margin-top: 12px;
     border-top:1px solid #DDDDDD;
 }
 
-
 .msglisthead{
 padding-bottom: 25px;
 padding-top: 5px;
-
 }
 
 .tabContent, .tab-content{
