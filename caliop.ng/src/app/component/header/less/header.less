@@ -1,10 +1,14 @@
 @headerHeight: 40px;
 
 #header {
+    position: fixed;
+    top: 0;
+    z-index: 2000;
     width: 100%;
     height: @headerHeight;
     .gradient(white, #eee);
     border-bottom: 1px solid #aaa;
+    .drop-shadow(@x-axis: 0px, @y-axis: 2px, @blur: 5px, @alpha: 0.5);
 
     h1 {
         margin: 0;
