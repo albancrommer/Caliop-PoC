@@ -5,7 +5,7 @@
     "angular": "",
     "restangular": "",
     "angular-mocks": "",
-    "angular-ui-router": "",
+    "angular-ui-router": "0.2.7",
     "angular-ui-utils": "",
     "angular-animate": "",
     "moment": "",
