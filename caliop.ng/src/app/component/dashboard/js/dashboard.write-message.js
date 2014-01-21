@@ -19,8 +19,8 @@ angular.module('caliop.component.dashboard')
 /**
  * DashboardCtrl
  */
-.controller('WriteMessageCtrl', ['$scope', 'message',
-    function WriteMessageCtrl($scope, MessageSrv) {
+.controller('WriteMessageCtrl', ['$scope',
+    function WriteMessageCtrl($scope) {
 
     console.log('WriteMessageCtrl');
 }]);

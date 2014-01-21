@@ -2,50 +2,53 @@
     <span class="col-xs-11">Aujourd'hui 24/12/2013 :
         <a href="#"> Discussions récentes <span class="badge">12</span></a>
         <a href="#"> , non-lues <span class="badge">2</span></a>
-        <!-- TODO count message today -->
-        <!-- TODO count message today unread -->
+        <!-- TODO count thread today -->
+        <!-- TODO count thread today unread -->
     </span>
     <span class="col-xs-1"><input type="checkbox"></span>
 </header>
+
 <section>
     <ul class="list-unstyled msglist">
-        <li class="row" ng-repeat="message in messages">
-            <!--{{message}}-->
+        <li class="row" ng-repeat="thread in threads">
+            <!--{{thread}}-->
             <small class="col-xs-1 ">
-                {{message.date_created | date:'medium'}}
+                {{thread.date_updated | date:'medium'}}
             </small>
             <span class="col-xs-1">
                 <img src="/static/assets/image/avatar.png" alt="avatar" class="img-circle">
-                <!-- TODO add avatar of the author message -->
-                <!-- <img src="/static/assets/image/{{message.avatar}}" alt="avatar" class="img-circle"> -->
+                <!-- TODO add avatar of the author thread -->
+                <!-- <img src="/static/assets/image/{{thread.avatar}}" alt="avatar" class="img-circle"> -->
             </span>
             <span class="col-xs-8">
-                <div>{{message.author}}
+                <div>
+                    <span class="recipients">{{thread.recipients | joinRecipients:5 }}</span>
+
                     <!-- TODO add each label -->
-                    <!-- <span ng-repeat="label in message.labels">
+                    <!-- <span ng-repeat="label in thread.labels">
                         <span class="label label-default">{{label}}</span>
                     </span> -->
                     <span class="label label-default">Perso</span>
                     <span class="label label-default">Boulot</span>
 
                     <span class="pull-right " href="#">
-                        <span class="glyphicon glyphicon-paperclip"></span> 
+                        <span class="glyphicon glyphicon-paperclip"></span>
                         <!-- TODO add each attached doc -->
                         <img src="/static/assets/image/u982_normal.png" alt="avatar" class="img-rounded">
-                        <!-- <span ng-repeat="document in message.documents">
+                        <!-- <span ng-repeat="document in thread.documents">
                             <img src="/static/assets/image/{{document}}" alt="avatar" class="img-rounded">
                         </span> -->
                     </span>
                 </div>
                 <div>
                     <strong>
-                        <span class="glyphicon glyphicon-envelope"></span> 
-                        <!-- TODO add message count response -->
-                        <!-- <span class="badge">{{(message.response|filter:query).length}}</span> 
-                            {{message.title}} -->
-                        <span class="badge">3</span> {{message.title}}
+                        <span class="glyphicon glyphicon-envelope"></span>
+                        <!-- TODO add thread count response -->
+                        <!-- <span class="badge">{{(thread.response|filter:query).length}}</span>
+                            {{thread.title}} -->
+                        <span class="badge">3</span> {{thread.title}}
                     </strong>
-                    <span class="text-muted">{{message.body}}<span>
+                    <span class="text-muted">{{thread.text}}<span>
                 </div>
             </span>
             <span class="col-xs-1">
@@ -54,9 +57,9 @@
                     <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
                         <span class="sr-only">40% Complete (success)</span>
                     </div>
-                     <!-- TODO add confidentiality value to message -->
-                    <!-- <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{message.confidentiality}}" aria-valuemin="0" aria-valuemax="100" style="width: {{message.confidentiality}}%">
-                        <span class="sr-only">{{message.confidentiality}} Complete (success)</span>
+                     <!-- TODO add confidentiality value to thread -->
+                    <!-- <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{thread.confidentiality}}" aria-valuemin="0" aria-valuemax="100" style="width: {{thread.confidentiality}}%">
+                        <span class="sr-only">{{thread.confidentiality}} Complete (success)</span>
                     </div> -->
                 </div>
             </span>

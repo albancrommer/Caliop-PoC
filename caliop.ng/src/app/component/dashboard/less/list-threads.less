@@ -1,0 +1,37 @@
+/**
+ * List of threads
+ */
+
+header.msglisthead {
+    padding-bottom: 25px;
+    padding-top: 5px;
+}
+
+ul.msglist {
+    li.row {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        margin-left: 0px;
+        margin-right: 0px;
+        border-bottom: 1px solid #DDDDDD;
+        border-left: 8px solid black;
+
+        &:first-child {
+            margin-top: 12px;
+            border-top: 1px solid #DDDDDD;
+        }
+
+        &:nth-child(even) {
+            background-color: #EDEDED;
+        }
+
+        input[type=checkbox] {
+            margin-top: 20px;
+        }
+    }
+}
+
+.tabContent, .tab-content {
+    border-left: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
+}

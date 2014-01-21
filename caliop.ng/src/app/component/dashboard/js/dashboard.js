@@ -5,7 +5,9 @@ angular.module('caliop.component.dashboard', [
     'templates-app',
     'ui.router',
 
-    'caliop.service.entity.message',
+    'caliop.component.dashboard.filters',
+
+    'caliop.service.entity.thread',
 
     'caliop.component.panel',
 
@@ -32,13 +34,13 @@ angular.module('caliop.component.dashboard', [
 /**
  * DashboardCtrl
  */
-.controller('DashboardCtrl', ['$scope', '$state', 'message',
-    function DashboardCtrl($scope, $state, MessageSrv) {
+.controller('DashboardCtrl', ['$scope', '$state',
+    function DashboardCtrl($scope, $state) {
 
     $scope.tabs = [{
         id: 1,
         title: 'Conversations',
-        state: 'app.dashboard.messages',
+        state: 'app.dashboard.threads',
         active: true
     }];
 
