@@ -13,10 +13,10 @@ angular.module('caliop.component.account', [
             url: 'account',
             views: {
                 'layout@': {
-                    templateUrl: 'component/common/fullpage.tpl.html'
+                    templateUrl: 'component/common/html/fullpage.tpl.html'
                 },
                 'main@app.account': {
-                    templateUrl: 'component/account/account.tpl.html',
+                    templateUrl: 'component/account/html/account.tpl.html',
                     controller: 'AccountCtrl'
                 }
             }
@@ -25,10 +25,10 @@ angular.module('caliop.component.account', [
             url: 'preferences',
             views: {
                 'layout@': {
-                    templateUrl: 'component/common/fullpage.tpl.html'
+                    templateUrl: 'component/common/html/fullpage.tpl.html'
                 },
                 'main@app.preferences': {
-                    templateUrl: 'component/account/preferences.tpl.html',
+                    templateUrl: 'component/account/html/preferences.tpl.html',
                     controller: 'PreferencesCtrl'
                 }
             }

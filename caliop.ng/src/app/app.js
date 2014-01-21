@@ -26,18 +26,18 @@ angular.module('caliop', [
             url: '/',
             views: {
                 'header': {
-                    templateUrl: 'component/header/header.tpl.html',
+                    templateUrl: 'component/header/html/header.tpl.html',
                     controller: 'HeaderCtrl'
                 },
                 'layout': {
-                    templateUrl: 'component/common/fullpage.tpl.html'
+                    templateUrl: 'component/common/html/fullpage.tpl.html'
                 },
                 'panel': {
-                    templateUrl: 'component/panel/panel.tpl.html',
+                    templateUrl: 'component/panel/html/panel.tpl.html',
                     controller: 'PanelCtrl'
                 },
                 'footer': {
-                    templateUrl: 'component/footer/footer.tpl.html',
+                    templateUrl: 'component/footer/html/footer.tpl.html',
                     controller: 'FooterCtrl'
                 }
             }

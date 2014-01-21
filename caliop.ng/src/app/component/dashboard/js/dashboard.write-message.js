@@ -9,7 +9,7 @@ angular.module('caliop.component.dashboard')
             url: '/write',
             views: {
                 'tabContent@app.dashboard': {
-                    templateUrl: 'component/dashboard/write-message.tpl.html',
+                    templateUrl: 'component/dashboard/html/write-message.tpl.html',
                     controller: 'WriteMessageCtrl'
                 }
             }

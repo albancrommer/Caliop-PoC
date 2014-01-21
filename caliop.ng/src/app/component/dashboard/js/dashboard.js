@@ -19,10 +19,10 @@ angular.module('caliop.component.dashboard', [
             url: 'dashboard',
             views: {
                 'layout@': {
-                    templateUrl: 'component/common/2columns.tpl.html'
+                    templateUrl: 'component/common/html/2columns.tpl.html'
                 },
                 'main@app.dashboard': {
-                    templateUrl: 'component/dashboard/dashboard.tpl.html',
+                    templateUrl: 'component/dashboard/html/dashboard.tpl.html',
                     controller: 'DashboardCtrl'
                 }
             }
