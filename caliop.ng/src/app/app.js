@@ -18,7 +18,7 @@ angular.module('caliop', [
     'ui.router'
 ])
 
-.config(function myAppConfig($urlRouterProvider, $stateProvider) {
+.config(function myAppConfig($urlRouterProvider, $stateProvider, $tooltipProvider) {
     $urlRouterProvider.otherwise('/login');
 
     $stateProvider
@@ -42,6 +42,11 @@ angular.module('caliop', [
                 }
             }
         });
+
+    /* Display tooltip after 500 ms */
+    $tooltipProvider.options({
+        popupDelay: 500
+    });
 })
 
 .run(['$rootScope', 'config', 'auth', '$state', 'Restangular',
