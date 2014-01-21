@@ -1,28 +1,30 @@
-<form class="form-horizontal" role="form" ng-submit="sendMessage()" novalidate>
-    <div class="form-group">
-        <label for="messageto" class="col-xs-1 control-label"> À : </label>
-        <div class="col-xs-7">
-            <input type="text" class="form-control input-default" id="messageto" name="messageto" ng-model="message.to" placeholder="adresse">
+<div id="write-message">
+    <form class="form-horizontal" role="form" ng-submit="sendMessage()" novalidate>
+        <div class="form-group">
+            <label for="messageto" class="col-xs-1 control-label">À</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control input-default" id="messageto" name="messageto" ng-model="message.to" placeholder="Destinataire">
+            </div>
+            <div class="col-xs-4 cc">
+                <a href="#">Cc</a>/<a href="#">Cci</a>
+            </div>
         </div>
-        <div class="col-xs-4">
-            <a href="#">Cc</a>/<a href="#">Cci</a>
+        <div class="form-group">
+            <label for="messagetitle" class="col-xs-1 control-label">Objet</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control input-default" id="messagetitle" name="messagetitle" ng-model="message.title" placeholder="Objet de votre message">
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="messagetitle" class="col-xs-1 control-label"> Objet : </label>
-        <div class="col-xs-7">
-            <input type="text" class="form-control input-default" id="messagetitle" name="messagetitle" ng-model="message.title" placeholder="l'objet de votre message">
+        <div class="form-group">
+            <label for="password" class="col-xs-1 control-label">Message</label>
+            <div class="col-xs-11">
+                <textarea class="form-control" rows="6" placeholder="" ng-models="message.content"></textarea>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="password" class="col-xs-1 control-label">Message</label>
-        <div class="col-xs-11">
-          <textarea class="form-control" rows="6" placeholder="contenu de votre message" ng-models="message.content"></textarea>
+        <div class="form-group">
+            <div class="col-xs-offset-1 col-xs-10">
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="col-xs-offset-1 col-xs-10">
-            <button type="submit" class="btn">Envoyer</button>
-        </div>
-    </div>
-</form>
+    </form>
+</div>
