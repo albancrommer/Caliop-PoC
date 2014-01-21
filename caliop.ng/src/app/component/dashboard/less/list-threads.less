@@ -2,23 +2,27 @@
  * List of threads
  */
 
+@threadHeight: 80px;
+@threadMargin: 10px;
+@avatarSize: 57px;
+
 header.msglisthead {
-    padding-bottom: 25px;
-    padding-top: 5px;
+    padding: 5px 0 25px 0;
 }
 
 ul.msglist {
-    li.row {
-        padding-top: 10px;
-        padding-bottom: 10px;
-        margin-left: 0px;
-        margin-right: 0px;
-        border-bottom: 1px solid #DDDDDD;
+    > li.row {
+        height: @threadHeight;
+
+        padding: @threadMargin 0;
+        margin: 0;
+
+        //border-bottom: 1px solid #DDDDDD;
         border-left: 8px solid black;
 
         &:first-child {
             margin-top: 12px;
-            border-top: 1px solid #DDDDDD;
+            //border-top: 1px solid #DDDDDD;
         }
 
         &:nth-child(even) {
@@ -26,12 +30,32 @@ ul.msglist {
         }
 
         input[type=checkbox] {
-            margin-top: 20px;
+            margin-top: 24px;
+        }
+
+        div.date {
+            margin-top: 10px;
+        }
+
+        div.avatar {
+            img {
+                margin-top: 2px;
+                max-width: @avatarSize;
+                max-height: @avatarSize;
+            }
+        }
+
+        div.avatar,
+        div.recipients,
+        div.labels,
+        div.text,
+        div.attachments {
+            .inlineblock();
+        }
+
+        div.attachments {
+            height: @threadHeight - @threadMargin*2;
+            line-height: @threadHeight - @threadMargin*2;
         }
     }
-}
-
-.tabContent, .tab-content {
-    border-left: 1px solid #DDDDDD;
-    border-right: 1px solid #DDDDDD;
 }

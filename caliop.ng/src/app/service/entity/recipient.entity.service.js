@@ -31,6 +31,11 @@ angular.module('caliop.service.entity.recipient', [
         return [this.firstName, this.lastName].join(' ');
     };
 
+    Recipient.prototype.getAvatarSrc = function(obj) {
+        var avatar = this.avatar || 'avatar.png';
+        return '/static/assets/images/avatars/' + avatar;
+    };
+
     Recipient.new_ = function(obj) {
         return new Recipient(obj);
     };
