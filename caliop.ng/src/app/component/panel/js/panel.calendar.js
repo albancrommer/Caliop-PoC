@@ -13,7 +13,7 @@ angular.module('caliop.component.dashboard')
             views: {
                 'panelContent@app.dashboard': {
                     templateUrl: 'component/panel/html/panel.calendar.tpl.html',
-                    controller: 'WriteMessageCtrl'
+                    controller: 'PanelCalendarCtrl'
                 }
             }
         });
