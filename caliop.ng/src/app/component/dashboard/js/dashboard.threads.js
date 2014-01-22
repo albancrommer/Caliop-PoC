@@ -32,8 +32,8 @@ angular.module('caliop.component.dashboard')
 /**
  * ThreadsCtrl
  */
-.controller('ThreadsCtrl', ['$scope', '$state', 'thread',
-    function ThreadsCtrl($scope, $state, ThreadSrv) {
+.controller('ThreadsCtrl', ['$scope', '$state', '$filter', 'thread',
+    function ThreadsCtrl($scope, $state, $filter, ThreadSrv) {
 
     ThreadSrv.Restangular.all('threads').getList().then(function(threads) {
         $scope.threads = threads;
@@ -55,6 +55,14 @@ angular.module('caliop.component.dashboard')
 
     // open the thread
     $scope.openThread = function(thread) {
+        $scope.addTab({
+            title: $filter('joinRecipients')(thread.recipients, 3),
+            tooltip: $filter('joinRecipients')(thread.recipients, -1),
+            state: 'app.dashboard.threads.detail',
+            stateParams: {id: thread.id},
+            active: true
+        });
+
         $state.go("app.dashboard.threads.detail", {id:thread.id});
     };
 }])
@@ -62,10 +70,15 @@ angular.module('caliop.component.dashboard')
 /**
  * ThreadDetailCtrl
  */
-.controller('ThreadDetailCtrl', ['$scope', '$stateParams', 'thread',
-    function ThreadDetailCtrl($scope, $stateParams, ThreadSrv) {
+.controller('ThreadDetailCtrl', ['$scope', '$state', '$stateParams', 'thread',
+    function ThreadDetailCtrl($scope, $state, $stateParams, ThreadSrv) {
 
     var threadId = $stateParams.id;
+
+    if (!threadId) {
+        $state.go('app.dashboard.threads');
+        return;
+    }
 
     ThreadSrv.by_id(threadId).then(function(thread) {
         $scope.thread = thread;

@@ -27,12 +27,21 @@ section#search-form {
     }
 }
 
-/**
- * Tabs content
- */
-div.tab-content {
-    padding: 5px 0;
+#inbox {
+    tab-heading {
+        &.closable {
+            // for the close icon button
+            margin-right: 14px;
+        }
 
-    &.messages {
+        button {
+            position: absolute;
+            top: 9px;
+            right: 8px;
+        }
+    }
+
+    div.tab-content {
+        padding: 5px 0;
     }
 }

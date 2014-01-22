@@ -26,6 +26,17 @@
             heading="{{tab.title}}"
             active="tab.active"
             disabled="tab.disabled">
+
+            <tab-heading ng-class="{ 'closable' : !!tab.tooltip }">
+                <span tooltip="{{tab.tooltip}}">{{tab.title}}</span>
+                <button
+                    type="button"
+                    class="close"
+                    aria-hidden="true"
+                    ng-click="closeTab(tab)"
+                    ng-if="!!tab.tooltip">&times;
+                </button>
+            </tab-heading>
         </tab>
 
         <!-- Write a message tab -->
@@ -34,13 +45,6 @@
                 <i class="glyphicon glyphicon-pencil"></i>
             </tab-heading>
         </tab>
-
-        <!-- Add a tab -->
-        <!--<tab select="addTab()">
-            <tab-heading>
-                <i class="glyphicon glyphicon-plus"></i>
-            </tab-heading>
-        </tab>-->
     </tabset>
 
     <div class="tabContent" ui-view="tabContent"></div>

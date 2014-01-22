@@ -52,9 +52,35 @@ angular.module('caliop.component.dashboard', [
         active: true
     }];
 
+    $scope.writeMessage = function(tab) {
+        $state.go('app.dashboard.writeMessage');
+    };
+
+    /**
+     * Tabs management.
+     */
+    $scope.addTab = function(object) {
+        var tabObject = angular.extend({
+            id: $scope.tabs.length + 1
+        }, object);
+
+        $scope.tabs.push(tabObject);
+    };
+
+    $scope.closeTab = function(tab) {
+        _.remove($scope.tabs, function(tab_) {
+            return tab_.id == tab.id;
+        });
+
+        // go to the state of the previous tab
+        var lastTab = $scope.tabs[$scope.tabs.length-1];
+        $state.go(lastTab.state, lastTab.stateParams || {});
+    };
+
     $scope.loadContent = function(tab) {
         if (tab.state) {
-            $state.go(tab.state);
+            var params = tab.stateParams || {};
+            $state.go(tab.state, params);
         }
     };
 
@@ -63,20 +89,6 @@ angular.module('caliop.component.dashboard', [
     if ($state.current.name == 'app.dashboard') {
         $scope.loadContent($scope.tabs[0]);
     }
-
-    $scope.writeMessage = function(tab) {
-        $state.go('app.dashboard.writeMessage');
-    };
-
-    // $scope.addTab = function() {
-    //     var id = $scope.tabs.length + 1;
-    //     $scope.tabs.push({
-    //         id: id,
-    //         title: "Workspace " + id,
-    //         content: "Workspace " + id,
-    //         active: true
-    //     });
-    // };
 }]);
 
 }());
