@@ -62,6 +62,10 @@ angular.module('caliop', [
     if (contact) {
         $rootScope.authContact = contact;
     }
+    else {
+        authSrv.logout();
+        $state.go('app.login');
+    }
 
     // set optional config from the querystring
     configSrv.configure();
