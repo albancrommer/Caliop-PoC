@@ -39,8 +39,12 @@
                 </div>
 
                 <div class="labels">
-                    <span class="label label-default">Perso</span>
-                    <span class="label label-default">Boulot</span>
+                    <span
+                        class="label label-default"
+                        style="color: {{label.color}}; background: {{label.background}}"
+                        ng-repeat="label in thread.labels">
+                        {{label.label}}
+                    </span>
                     <span class="badge">
                         {{thread.recipients.length}}
                     </span> {{thread.title}}

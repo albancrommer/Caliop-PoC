@@ -1,0 +1,46 @@
+[{
+  "id": 1,
+  "label": "Travail",
+  "background": "#ed8484",
+  "color": "white"
+}, {
+  "id": 2,
+  "label": "Perso",
+  "background": "#6553cc",
+  "color": "white"
+}, {
+  "id": 3,
+  "label": "Caliop",
+  "background": "#69e6f4",
+  "color": "black"
+}, {
+  "id": 4,
+  "label": "Gandi",
+  "background": "#e5a74b",
+  "color": "white"
+}, {
+  "id": 5,
+  "label": "TODO",
+  "background": "#cecece",
+  "color": "black"
+}, {
+  "id": 6,
+  "label": "Spam",
+  "background": "#000000",
+  "color": "white"
+}, {
+  "id": 7,
+  "label": "Banque",
+  "background": "#f400dc",
+  "color": "white"
+}, {
+  "id": 8,
+  "label": "A lire",
+  "background": "#a08282",
+  "color": "black"
+}, {
+  "id": 9,
+  "label": "Projet X",
+  "background": "#ffff00",
+  "color": "black"
+}]

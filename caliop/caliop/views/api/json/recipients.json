@@ -58,4 +58,10 @@
   "lastName": "Roussy",
   "avatar": "olivier.png",
   "date_created": "2013-15-01 14:51:21"
+}, {
+  "id": 10,
+  "firstName": "Picsou",
+  "lastName": "",
+  "avatar": "",
+  "date_created": "2013-15-01 14:51:21"
 }]

@@ -38,13 +38,19 @@ class Threads(Api):
 
     def __call__(self):
         recipients = json.loads(self.read_json(filename='recipients.json'))
+        labels = json.loads(self.read_json(filename='labels.json'))
         threads = json.loads(self.read_json())
 
-        # link recipients to each threads
         for thread in threads:
+            # link recipients
             thread_recipients = filter(lambda r: r['id'] in thread['recipients'],
                                        recipients)
             thread['recipients'] = thread_recipients
+
+            # link labels
+            thread_labels = filter(lambda l: l['id'] in thread['labels'],
+                                       labels)
+            thread['labels'] = thread_labels
 
         return Response(json.dumps(threads))
 

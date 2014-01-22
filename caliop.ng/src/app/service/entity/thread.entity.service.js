@@ -6,11 +6,12 @@ angular.module('caliop.service.entity.thread', [
     'restangular',
     'caliop.service.helpers',
 
-    'caliop.service.entity.recipient'
+    'caliop.service.entity.recipient',
+    'caliop.service.entity.label'
 ])
 
-.factory('thread', ['Restangular', 'string', 'recipient',
-    function (Restangular, stringSrv, recipientSrv) {
+.factory('thread', ['Restangular', 'string', 'recipient', 'label',
+    function (Restangular, stringSrv, recipientSrv, labelSrv) {
 
     var Thread = function Thread(obj) {
         var self = this;
@@ -46,6 +47,22 @@ angular.module('caliop.service.entity.thread', [
     };
 
     /**
+     * Return the list of labels
+     * @return [{caliop.service.entity.labels}]
+     */
+    Thread.prototype.getLabels = function() {
+        var that = this;
+
+        var labels = [];
+        angular.forEach(this.labels, function(label) {
+            labels.push(labelSrv.new_(label));
+        });
+
+        that.labels = labels;
+        return that.labels;
+    };
+
+    /**
      * Return the security color.
      */
     Thread.prototype.getSecurityColor = function() {
@@ -63,6 +80,7 @@ angular.module('caliop.service.entity.thread', [
     Thread.new_ = function(obj) {
         var thread = new Thread(obj);
         thread.getRecipients();
+        thread.getLabels();
         thread.getSecurityColor();
         return thread;
     };
