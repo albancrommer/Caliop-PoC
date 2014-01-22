@@ -30,6 +30,12 @@ angular.module('caliop.component.dashboard')
         $scope.threads = threads;
     });
 
+    $scope.$watch('selectAll', function(checked) {
+        angular.forEach($scope.threads, function(thread) {
+            thread.selected = checked;
+        });
+    });
+
     $scope.openThread = function(thread) {
         console.log('open thread', thread);
     };

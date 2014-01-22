@@ -5,7 +5,9 @@
         <!-- TODO count thread today -->
         <!-- TODO count thread today unread -->
     </span>
-    <span class="col-xs-1"><input type="checkbox"></span>
+    <span class="col-xs-1">
+        <input type="checkbox" ng-model="selectAll" />
+    </span>
 </header>
 
 <section>
@@ -14,6 +16,7 @@
             class="row"
             style="border-color: #{{thread.securityColor}}"
             ng-repeat="thread in threads"
+            ng-class="{'selected': thread.selected}"
             ng-click="openThread(thread)">
 
             <div class="col-xs-1 text-center date">
@@ -30,7 +33,7 @@
 
             <div class="col-xs-8">
                 <div class="recipients">
-                    <span href="#" tooltip="{{thread.recipients | joinRecipients:-1 }}">
+                    <span tooltip="{{thread.recipients | joinRecipients:-1 }}">
                         {{thread.recipients | joinRecipients:5 }}
                     </span>
                 </div>
@@ -53,7 +56,7 @@
             </div>
 
             <div class="col-xs-1">
-                <input type="checkbox" />
+                <input type="checkbox" ng-model="thread.selected" />
             </div>
 
             <!--<span class="progress">
