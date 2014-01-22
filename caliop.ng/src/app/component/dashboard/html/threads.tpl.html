@@ -1,12 +1,22 @@
 <header class="threads-list-header">
-    <span class="col-xs-11">Aujourd'hui 24/12/2013 :
+    <span class="col-xs-10">Aujourd'hui 24/12/2013 :
         <a href="#">Discussions récentes <span class="badge">12</span></a>
         <a href="#">non-lues <span class="badge">2</span></a>
         <!-- TODO count thread today -->
         <!-- TODO count thread today unread -->
     </span>
+
+    <span class="col-xs-1 thread-actions">
+        <span ng-show="showThreadActions()">
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-share"></span>
+            <span class="glyphicon glyphicon-print"></span>
+            <span class="glyphicon glyphicon-trash"></span>
+        </span>
+    </span>
+
     <span class="col-xs-1">
-        <input type="checkbox" ng-model="selectAll" />
+        <input type="checkbox" ng-model="selectAllThreads" />
     </span>
 </header>
 
@@ -16,8 +26,7 @@
             class="row"
             style="border-color: #{{thread.securityColor}}"
             ng-repeat="thread in threads"
-            ng-class="{'selected': thread.selected}"
-            ng-click="openThread(thread)">
+            ng-class="{'selected': thread.selected}">
 
             <div class="col-xs-1 text-center date">
                 {{thread.date_updated | date:'medium'}}
@@ -31,7 +40,7 @@
                     alt="avatar" />
             </div>
 
-            <div class="col-xs-8">
+            <div class="col-xs-8 text" ng-click="openThread(thread)">
                 <div class="recipients">
                     <span tooltip="{{thread.recipients | joinRecipients:-1 }}">
                         {{thread.recipients | joinRecipients:5 }}

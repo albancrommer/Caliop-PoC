@@ -39,16 +39,23 @@ angular.module('caliop.component.dashboard')
         $scope.threads = threads;
     });
 
-    $scope.$watch('selectAll', function(checked) {
+    // if any thread is selected, show actions icons
+    $scope.showThreadActions = function() {
+        return _.filter($scope.threads, function(thread) {
+            return thread.selected;
+        }).length > 0;
+    };
+
+    // select all/none threads
+    $scope.$watch('selectAllThreads', function(checked) {
         angular.forEach($scope.threads, function(thread) {
             thread.selected = checked;
         });
     });
 
+    // open the thread
     $scope.openThread = function(thread) {
         $state.go("app.dashboard.threads.detail", {id:thread.id});
-
-        console.log('open thread', thread);
     };
 }])
 
@@ -58,14 +65,12 @@ angular.module('caliop.component.dashboard')
 .controller('ThreadDetailCtrl', ['$scope', '$stateParams', 'thread',
     function ThreadDetailCtrl($scope, $stateParams, ThreadSrv) {
 
-        var threadId = $stateParams.id;
+    var threadId = $stateParams.id;
 
-        ThreadSrv.by_id(threadId).then(function(thread) {
-            $scope.thread = thread;
-            $scope.messages = thread.getMessages().$object;
-
-            console.log(thread);
-        });
+    ThreadSrv.by_id(threadId).then(function(thread) {
+        $scope.thread = thread;
+        $scope.messages = thread.getMessages().$object;
+    });
 
 }]);
 

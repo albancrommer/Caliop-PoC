@@ -8,6 +8,12 @@
 
 header.threads-list-header {
     padding: 5px 0 25px 0;
+
+    span.thread-actions {
+        span.glyphicon {
+            margin: 0 3px;
+        }
+    }
 }
 
 ul.threads-list {
@@ -15,7 +21,6 @@ ul.threads-list {
         clear:both;
         padding: @threadMargin 0;
         margin: 0;
-        cursor: pointer;
         border-left: 8px solid black;
         .transition();
 
@@ -33,6 +38,10 @@ ul.threads-list {
 
         input[type=checkbox] {
             margin-top: 24px;
+        }
+
+        div.text {
+            cursor: pointer;
         }
 
         div.date {
@@ -54,8 +63,6 @@ ul.threads-list {
         div.attachments {
             .inlineblock();
         }
-
-        
 
         span.label {
             margin: 0 2px;
