@@ -58,6 +58,12 @@ angular.module('caliop.component.dashboard', [
         }
     };
 
+    // redirect to the list of threads
+    // @TODO check if it's possible to manage the redirection via the ui-router
+    if ($state.current.name == 'app.dashboard') {
+        $scope.loadContent($scope.tabs[0]);
+    }
+
     $scope.writeMessage = function(tab) {
         $state.go('app.dashboard.writeMessage');
     };
