@@ -1,12 +1,14 @@
+@footerHeight: 30px;
+
 #footer {
     position: fixed;
     bottom: 0;
     z-index: 2000;
     width: 100%;
+    height: @footerHeight;
+    line-height: @footerHeight;
     background: #355f7f;
-    padding: 10px;
-    color: white;
-    text-align: center;
     .box-sizing();
+    .gradient(white, #eee);
     .drop-shadow(@x-axis: 0px, @y-axis: -2px, @blur: 10px, @alpha: 0.5);
 }
