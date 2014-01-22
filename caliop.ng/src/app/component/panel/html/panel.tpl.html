@@ -1,9 +1,10 @@
 <tabset>
     <!-- Users tab -->
-    <tab select="loadPanelContent(tab)" ng-repeat="tab in tabs">
+    <tab ng-click="loadPanelContent(tab)" ng-repeat="tab in tabs">
         <tab-heading>
             <i class="glyphicon glyphicon-{{tab.icon}}"></i>
         </tab-heading>
     </tab>
 </tabset>
+
 <div class="panelContent" ui-view="panelContent"></div>
