@@ -49,7 +49,7 @@ angular.module('caliop', [
 
     /* Display tooltip after 500 ms */
     $tooltipProvider.options({
-        popupDelay: 500
+        popupDelay: 250
     });
 })
 
