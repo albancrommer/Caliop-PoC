@@ -36,7 +36,7 @@ angular.module('caliop.service.entity.contact', [
     };
 
     Restangular.addElementTransformer('contact', function(obj) {
-        return new Contact(obj);
+        return Contact.new_(obj);
     });
 
     return {

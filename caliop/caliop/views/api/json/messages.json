@@ -3,11 +3,20 @@
   "title": "Hello Caliop",
   "body": "I'm glad to be the first message ever of Caliop!",
   "date_created": "2013-15-01 14:51:21",
-  "author": "Alexis Mineaud"
+  "author": 2,
+  "thread_id": 1
 }, {
   "id": 2,
   "title": "Nice!",
-  "body": "Hehe, continue the good job!",
+  "body": "Continue the good job!",
   "date_created": "2013-15-01 14:56:10",
-  "author": "Laurent Chemla"
+  "author": 5,
+  "thread_id": 1
+}, {
+  "id": 3,
+  "title": "That's a new thread.",
+  "body": "Hey wat?",
+  "date_created": "2013-15-01 14:56:10",
+  "author": 1,
+  "thread_id": 2
 }]

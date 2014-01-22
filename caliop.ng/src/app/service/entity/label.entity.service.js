@@ -36,7 +36,7 @@ angular.module('caliop.service.entity.label', [
     };
 
     Restangular.addElementTransformer('labels', false, function(obj) {
-        return new Label(obj);
+        return Label.new_(obj);
     });
 
     return {

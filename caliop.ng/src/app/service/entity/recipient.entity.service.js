@@ -41,7 +41,7 @@ angular.module('caliop.service.entity.recipient', [
     };
 
     Restangular.addElementTransformer('recipients', false, function(obj) {
-        return new Recipient(obj);
+        return Recipient.new_(obj);
     });
 
     return {

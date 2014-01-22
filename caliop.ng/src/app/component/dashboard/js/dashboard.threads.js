@@ -17,14 +17,23 @@ angular.module('caliop.component.dashboard')
                     controller: 'ThreadsCtrl'
                 }
             }
-        });
+        })
+        .state('app.dashboard.threads.detail', {
+            url: '/:id',
+            views: {
+                'tabContent@app.dashboard': {
+                    templateUrl: 'component/dashboard/html/threadDetail.tpl.html',
+                    controller: 'ThreadDetailCtrl'
+                }
+            }
+    });
 })
 
 /**
  * ThreadsCtrl
  */
-.controller('ThreadsCtrl', ['$scope', 'thread',
-    function ThreadsCtrl($scope, ThreadSrv) {
+.controller('ThreadsCtrl', ['$scope', '$state', 'thread',
+    function ThreadsCtrl($scope, $state, ThreadSrv) {
 
     ThreadSrv.Restangular.all('threads').getList().then(function(threads) {
         $scope.threads = threads;
@@ -37,8 +46,28 @@ angular.module('caliop.component.dashboard')
     });
 
     $scope.openThread = function(thread) {
+        $state.go("app.dashboard.threads.detail", {id:thread.id});
+
         console.log('open thread', thread);
     };
+}])
+
+/**
+ * ThreadDetailCtrl
+ */
+.controller('ThreadDetailCtrl', ['$scope', '$stateParams', 'thread',
+    function ThreadDetailCtrl($scope, $stateParams, ThreadSrv) {
+
+        var threadId = $stateParams.id;
+
+        ThreadSrv.by_id(threadId).then(function(thread) {
+            $scope.thread = thread;
+            $scope.messages = thread.getMessages().$object;
+
+            console.log(thread);
+        });
+
 }]);
 
 }());
+
