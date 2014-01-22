@@ -2,7 +2,7 @@
  * List of threads
  */
 
-@threadHeight: 80px;
+
 @threadMargin: 10px;
 @avatarSize: 57px;
 
@@ -12,7 +12,7 @@ header.threads-list-header {
 
 ul.threads-list {
     > li.row {
-        height: @threadHeight;
+        clear:both;
         padding: @threadMargin 0;
         margin: 0;
         cursor: pointer;
@@ -55,10 +55,7 @@ ul.threads-list {
             .inlineblock();
         }
 
-        div.attachments {
-            height: @threadHeight - @threadMargin*2;
-            line-height: @threadHeight - @threadMargin*2;
-        }
+        
 
         span.label {
             margin: 0 2px;
