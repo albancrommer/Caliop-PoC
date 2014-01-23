@@ -76,6 +76,9 @@ module.exports = {
       'vendor/angular-cookies/angular-cookies.min.js',
       'vendor/angular-cookies/angular-cookies.min.js.map',
 
+      'vendor/angular-sanitize/angular-sanitize.min.js',
+      'vendor/angular-sanitize/angular-sanitize.min.js.map',
+
       'vendor/lodash/dist/lodash.min.js',
       'vendor/restangular/src/restangular.js',
 

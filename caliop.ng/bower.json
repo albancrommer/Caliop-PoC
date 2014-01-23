@@ -11,6 +11,7 @@
     "moment": "",
     "bootstrap": "",
     "angular-bootstrap": "",
-    "angular-cookies": ""
+    "angular-cookies": "",
+    "angular-sanitize": ""
   }
 }

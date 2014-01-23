@@ -1,0 +1,20 @@
+<section class="messages" ng-repeat="message in messages">
+    <div class="row message">
+        <div class="col-xs-1 avatar left">
+            <img class="img-circle" ng-src="{{message.author.getAvatarSrc()}}" />
+        </div>
+
+        <div class="col-xs-11 content" style="border-color: #{{message.securityColor}}">
+            <div class="title">
+                {{message.author.displayName()}} -
+                <span class="date-sent">{{message.date_sent | date:'medium'}},</span>
+                <span class="protocole">par {{message.displayProtocole()}}</span>
+            </div>
+            <div class="body" ng-bind-html="message.body"></div>
+        </div>
+    </div>
+</section>
+
+<p ng-if="messages.length == 0">
+    Aucun message trouvé dans cette conversation.
+</p>

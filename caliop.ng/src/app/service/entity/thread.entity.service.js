@@ -102,10 +102,6 @@ angular.module('caliop.service.entity.thread', [
         return Thread.new_(obj);
     });
 
-    Restangular.addElementTransformer('messages', false, function(obj) {
-        return MessageSrv.new_(obj);
-    });
-
     return {
         new_: Thread.new_,
         by_id: Thread.by_id,

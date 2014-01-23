@@ -1,22 +1,48 @@
 [{
   "id": 1,
   "title": "Hello Caliop",
-  "body": "I'm glad to be the first message ever of Caliop!",
-  "date_created": "2013-15-01 14:51:21",
+  "body": "Bonjour,<br/><br/>Quibus ita sceleste patratis Paulus cruore perfusus reversusque ad principis castra quibus ita sceleste patratis Paulus cruore perfusus reversusque ad principis castra quibus ita sceleste patratis Paulus cruore perfusus reversusque ad principis castra quibus ita sceleste patratis.<br/><br/>Cordialement,<br/><br/>Stephan Ramoin.",
+  "date_sent": "2013-15-01 11:11:21",
+  "protocole": "email",
+  "security": 85,
   "author": 2,
   "thread_id": 1
 }, {
   "id": 2,
   "title": "Nice!",
-  "body": "Continue the good job!",
-  "date_created": "2013-15-01 14:56:10",
+  "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fermentum felis a augue interdum, vel vestibulum leo luctus. Suspendisse ut dignissim est. Ut semper lectus elit, sit amet aliquam eros bibendum ultricies. Pellentesque vel mi ligula. Aliquam sed enim neque. Duis in neque commodo, tincidunt sem a, rhoncus felis. Phasellus eu ligula odio.",
+  "date_sent": "2013-15-01 12:02:10",
   "author": 5,
+  "security": 45,
+  "protocole": "email",
   "thread_id": 1
 }, {
   "id": 3,
+  "title": "yeah!",
+  "body": "Donec tempus risus quis neque rhoncus euismod. Donec nec metus non velit facilisis consequat at a urna.",
+  "date_sent": "2013-15-01 15:02:10",
+  "author": 1,
+  "security": 65,
+  "protocole": "msn",
+  "answer_to": 2,
+  "thread_id": 1
+}, {
+  "id": 4,
+  "title": "yeah!",
+  "body": "Donec tempus risus quis neque rhoncus euismod. Donec nec metus non velit facilisis consequat at a urna.",
+  "date_sent": "2013-15-01 15:02:10",
+  "author": 4,
+  "security": 55,
+  "protocole": "msn",
+  "answer_to": 2,
+  "thread_id": 1
+}, {
+  "id": 5,
   "title": "That's a new thread.",
   "body": "Hey wat?",
-  "date_created": "2013-15-01 14:56:10",
+  "date_sent": "2013-15-01 14:56:10",
   "author": 1,
+  "security": 85,
+  "protocole": "email",
   "thread_id": 2
 }]

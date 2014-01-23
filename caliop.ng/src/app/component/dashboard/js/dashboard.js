@@ -9,14 +9,14 @@ angular.module('caliop.component.dashboard', [
     'templates-app',
     'ui.router',
 
-    'caliop.component.dashboard.filters',
-
     'caliop.service.entity.thread',
 
     'caliop.component.panel',
+    'caliop.component.dashboard.filters',
 
     'ui.bootstrap',
-    'ngAnimate'
+
+    'ngSanitize'
 ])
 
 .config(function config($stateProvider) {

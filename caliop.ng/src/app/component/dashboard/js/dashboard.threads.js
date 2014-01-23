@@ -18,12 +18,12 @@ angular.module('caliop.component.dashboard')
                 }
             }
         })
-        .state('app.dashboard.threads.detail', {
+        .state('app.dashboard.threads.messages', {
             url: '/:id',
             views: {
                 'tabContent@app.dashboard': {
-                    templateUrl: 'component/dashboard/html/threadDetail.tpl.html',
-                    controller: 'ThreadDetailCtrl'
+                    templateUrl: 'component/dashboard/html/messages.tpl.html',
+                    controller: 'MessagesCtrl'
                 }
             }
     });
@@ -55,23 +55,25 @@ angular.module('caliop.component.dashboard')
 
     // open the thread
     $scope.openThread = function(thread) {
+        var stateMessages = 'app.dashboard.threads.messages';
+
         $scope.addTab({
             title: $filter('joinRecipients')(thread.recipients, 3),
             tooltip: $filter('joinRecipients')(thread.recipients, -1),
-            state: 'app.dashboard.threads.detail',
+            state: stateMessages,
             stateParams: {id: thread.id},
             active: true
         });
 
-        $state.go("app.dashboard.threads.detail", {id:thread.id});
+        $state.go(stateMessages, {id:thread.id});
     };
 }])
 
 /**
- * ThreadDetailCtrl
+ * MessagesCtrl
  */
-.controller('ThreadDetailCtrl', ['$scope', '$state', '$stateParams', 'thread',
-    function ThreadDetailCtrl($scope, $state, $stateParams, ThreadSrv) {
+.controller('MessagesCtrl', ['$scope', '$state', '$stateParams', 'thread',
+    function MessagesCtrl($scope, $state, $stateParams, ThreadSrv) {
 
     var threadId = $stateParams.id;
 
