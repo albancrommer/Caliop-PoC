@@ -79,6 +79,14 @@ angular.module('caliop.service.entity.thread', [
     };
 
     /**
+     * Return the icon src of the attachment (last message attachment).
+     */
+    Thread.prototype.getAttachmentIconSrc = function() {
+        var file = this.attachment + '.png';
+        return '/static/assets/images/attachments/' + file;
+    };
+
+    /**
      * Return the messages of the thread.
      * @return [{caliop.service.entity.message}]
      */

@@ -32,8 +32,8 @@ angular.module('caliop.component.dashboard')
 /**
  * ThreadsCtrl
  */
-.controller('ThreadsCtrl', ['$scope', '$state', '$filter', 'thread',
-    function ThreadsCtrl($scope, $state, $filter, ThreadSrv) {
+.controller('ThreadsCtrl', ['$scope', '$state', '$filter', '$modal', 'thread',
+    function ThreadsCtrl($scope, $state, $filter, $modal, ThreadSrv) {
 
     ThreadSrv.Restangular.all('threads').getList().then(function(threads) {
         $scope.threads = threads;
@@ -67,6 +67,18 @@ angular.module('caliop.component.dashboard')
 
         $state.go(stateMessages, {id:thread.id});
     };
+
+    $scope.openAttachment = function(extension) {
+        var modalInstance = $modal.open({
+            templateUrl: 'component/dashboard/html/attachment.tpl.html',
+            controller: 'AttachmentCtrl',
+            resolve: {
+                extension: function () {
+                    return extension;
+                }
+            }
+        });
+    };
 }])
 
 /**
@@ -86,7 +98,15 @@ angular.module('caliop.component.dashboard')
         $scope.thread = thread;
         $scope.messages = thread.getMessages().$object;
     });
+}])
 
+/**
+ * MessagesCtrl
+ */
+.controller('AttachmentCtrl', ['$scope', 'extension', 'attachment',
+    function AttachmentCtrl($scope, extension, attachmentSrv) {
+
+    $scope.attachment = attachmentSrv.new_({extension: extension});
 }]);
 
 }());

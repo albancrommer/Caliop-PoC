@@ -10,6 +10,7 @@ angular.module('caliop.component.dashboard', [
     'ui.router',
 
     'caliop.service.entity.thread',
+    'caliop.service.entity.attachment',
 
     'caliop.component.panel',
     'caliop.component.dashboard.filters',

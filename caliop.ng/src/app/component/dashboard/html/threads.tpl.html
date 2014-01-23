@@ -63,8 +63,10 @@
             </div>
 
             <div class="col-xs-1">
-                <div class="attachments">
-                    <img src="/static/assets/images/u982_normal.png" alt="avatar" class="img-rounded" />
+                <div class="attachments" ng-if="thread.attachment">
+                    <img
+                        ng-click="openAttachment(thread.attachment)"
+                        ng-src="{{thread.getAttachmentIconSrc()}}" />
                 </div>
             </div>
 
