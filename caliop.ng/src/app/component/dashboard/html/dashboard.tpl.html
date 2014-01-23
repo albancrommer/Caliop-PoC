@@ -28,7 +28,11 @@
             disabled="tab.disabled">
 
             <tab-heading ng-class="{ 'closable' : !!tab.tooltip }">
-                <span tooltip="{{tab.tooltip}}">{{tab.title}}</span>
+                <span
+                    tooltip="{{tab.tooltip}}"
+                    ng-bind-html="tab.title">
+                </span>
+
                 <button
                     type="button"
                     class="close"

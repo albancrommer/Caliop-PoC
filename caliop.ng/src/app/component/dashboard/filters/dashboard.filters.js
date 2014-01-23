@@ -10,18 +10,28 @@ angular.module('caliop.component.dashboard.filters', [])
  */
 .filter('joinRecipients', function () {
     return function (recipients, limit) {
-        limit = limit || 5;
+        limit = limit || 4;
 
-        var parts = _.map(recipients, function(r) {
+        var names = _.map(recipients, function(r) {
             return r.displayName();
         });
 
-        if (limit > 0 && parts.length > limit) {
-            parts = parts.splice(0, limit);
-            parts.push('...');
+        var finalNames = names;
+
+        if (limit > 0 && names.length > limit) {
+            var namesLeft = _.remove(names, function(name, i) {
+                if (i > limit-1) {
+                    return name;
+                }
+            });
+
+            // display someting like '+2...'
+            var moar = '+' + namesLeft.length;
+            moar = '<span class="moar-recipients">'+moar+'...</span>';
+            finalNames.push(moar);
         }
 
-        return parts.join(', ');
+        return finalNames.join(', ');
     };
 });
 

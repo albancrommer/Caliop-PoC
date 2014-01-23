@@ -42,8 +42,9 @@
 
             <div class="col-xs-8 text" ng-click="openThread(thread)">
                 <div class="recipients">
-                    <span tooltip="{{thread.recipients | joinRecipients:-1 }}">
-                        {{thread.recipients | joinRecipients:5 }}
+                    <span
+                        tooltip="{{thread.recipients | joinRecipients:-1 }}"
+                        ng-bind-html="thread.recipients | joinRecipients:3">
                     </span>
                 </div>
 
