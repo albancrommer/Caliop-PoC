@@ -1,7 +1,7 @@
 [{
   "id": 1,
   "title": "Hello Caliop",
-  "body": "Bonjour,<br/><br/>Quibus ita sceleste patratis Paulus cruore perfusus reversusque ad principis castra quibus ita sceleste patratis Paulus cruore perfusus reversusque ad principis castra quibus ita sceleste patratis Paulus cruore perfusus reversusque ad principis castra quibus ita sceleste patratis.<br/><br/>Cordialement,<br/><br/>Stephan Ramoin.",
+  "body": "Bonjour,<br/><br/>Quibus ita sceleste patratis Paulus cruore <strong><u>perfusus reversusque</u></strong> ad principis castra quibus ita sceleste patratis Paulus cruore perfusus reversusque ad principis castra quibus ita sceleste patratis Paulus cruore perfusus reversusque ad principis castra quibus ita sceleste patratis.<br/><br/>Cordialement,<br/><br/>Alexis Mineaud",
   "date_sent": "2013-15-01 11:11:21",
   "protocole": "email",
   "security": 85,
@@ -10,7 +10,7 @@
 }, {
   "id": 2,
   "title": "Nice!",
-  "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fermentum felis a augue interdum, vel vestibulum leo luctus. Suspendisse ut dignissim est. Ut semper lectus elit, sit amet aliquam eros bibendum ultricies. Pellentesque vel mi ligula. Aliquam sed enim neque. Duis in neque commodo, tincidunt sem a, rhoncus felis. Phasellus eu ligula odio.",
+  "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fermentum felis a augue interdum, vel vestibulum leo luctus. Suspendisse ut dignissim est. Ut semper lectus elit, sit amet aliquam eros bibendum ultricies. Pellentesque vel mi ligula. Aliquam sed enim neque. Duis in neque commodo, tincidunt sem a, rhoncus felis. Phasellus eu ligula odio. <img class='illustration' src='http://www.divergence-images.com/wimages/470-470/639018.jpg' />",
   "date_sent": "2013-15-01 12:02:10",
   "author": 5,
   "security": 45,
