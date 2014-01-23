@@ -46,6 +46,12 @@ angular.module('caliop.component.dashboard', [
 .controller('DashboardCtrl', ['$scope', '$state',
     function DashboardCtrl($scope, $state) {
 
+    // redirect to the list of threads
+    // @TODO check if it's possible to manage the redirection via the ui-router
+    if ($state.current.name == 'app.dashboard') {
+        $state.go('app.dashboard.threads');
+    }
+
     $scope.tabs = [{
         id: 1,
         title: 'Conversations',
@@ -117,12 +123,6 @@ angular.module('caliop.component.dashboard', [
             $state.go(tab.state, params);
         }
     };
-
-    // redirect to the list of threads
-    // @TODO check if it's possible to manage the redirection via the ui-router
-    if ($state.current.name == 'app.dashboard') {
-        $scope.loadContent($scope.tabs[0]);
-    }
 }]);
 
 }());
