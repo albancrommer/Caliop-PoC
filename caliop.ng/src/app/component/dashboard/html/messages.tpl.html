@@ -1,10 +1,10 @@
 <section class="messages" ng-repeat="message in messages">
     <div class="row message">
-        <div class="col-xs-1 avatar left">
+        <div ng-class="{'col-xs-offset-{{message.offset}}': message.offset}" class="col-xs-1 avatar left">
             <img class="img-circle" ng-src="{{message.author.getAvatarSrc()}}" />
         </div>
 
-        <div class="col-xs-11 content" style="border-color: #{{message.securityColor}}">
+        <div class="col-xs-{{11 - message.offset}} content" style="border-color: #{{message.securityColor}}">
             <div class="title">
                 {{message.author.displayName()}} -
                 <span class="date-sent">{{message.date_sent | date:'medium'}},</span>

@@ -19,12 +19,13 @@
 }, {
   "id": 3,
   "title": "yeah!",
-  "body": "Donec tempus risus quis neque rhoncus euismod. Donec nec metus non velit facilisis consequat at a urna.",
+  "body": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.<br/>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
   "date_sent": "2013-15-01 15:02:10",
   "author": 1,
   "security": 65,
   "protocole": "msn",
   "answer_to": 2,
+  "offset": 1,
   "thread_id": 1
 }, {
   "id": 4,
@@ -34,7 +35,30 @@
   "author": 4,
   "security": 55,
   "protocole": "msn",
+  "answer_to": 3,
+  "offset": 2,
+  "thread_id": 1
+}, {
+  "id": 4,
+  "title": "yeah!",
+  "body": "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.<br/><br/>No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful.",
+  "date_sent": "2013-15-01 15:02:10",
+  "author": 4,
+  "security": 55,
+  "protocole": "msn",
   "answer_to": 2,
+  "offset": 2,
+  "thread_id": 1
+}, {
+  "id": 4,
+  "title": "yeah!",
+  "body": "Donec tempus risus quis neque rhoncus euismod. Donec nec metus non velit facilisis consequat at a urna.",
+  "date_sent": "2013-15-01 15:02:10",
+  "author": 4,
+  "security": 55,
+  "protocole": "email",
+  "answer_to": 2,
+  "offset": 0,
   "thread_id": 1
 }, {
   "id": 5,
