@@ -60,14 +60,44 @@ angular.module('caliop.component.dashboard', [
     /**
      * Tabs management.
      */
-    $scope.addTab = function(object) {
-        var tabObject = angular.extend({
-            id: $scope.tabs.length + 1
-        }, object);
 
-        $scope.tabs.push(tabObject);
+    /**
+     * Add a new tab.
+     */
+    $scope.addTab = function(object) {
+        // search if the tab is already opened
+        var threadId = object.stateParams.id;
+
+        var tabsFound = _.filter($scope.tabs, function(tab) {
+            return tab.stateParams && (tab.stateParams.id == threadId);
+        });
+
+        // select the found tab
+        if (tabsFound.length) {
+            $scope.selectTab(tabsFound[0]);
+        }
+
+        // create a new tab
+        else {
+            var tabObject = angular.extend({
+                id: $scope.tabs.length + 1
+            }, object);
+
+            $scope.tabs.push(tabObject);
+        }
     };
 
+    /**
+     * Select an existing tab.
+     */
+    $scope.selectTab = function(tab) {
+        tab.active = true;
+        $state.go(tab.state, tab.stateParams || {});
+    };
+
+    /**
+     * Close a tab.
+     */
     $scope.closeTab = function(tab) {
         _.remove($scope.tabs, function(tab_) {
             return tab_.id == tab.id;
@@ -78,6 +108,9 @@ angular.module('caliop.component.dashboard', [
         $state.go(lastTab.state, lastTab.stateParams || {});
     };
 
+    /**
+     * Load the content of a tab.
+     */
     $scope.loadContent = function(tab) {
         if (tab.state) {
             var params = tab.stateParams || {};
