@@ -12,7 +12,8 @@ angular.module('caliop.component.dashboard')
         .state('app.dashboard.threads', {
             url: '/threads',
             views: {
-                'tabContent@app.dashboard': {
+                // ui-view="tabContent" of dashboard.tpl.html
+                'tabContent': {
                     templateUrl: 'component/dashboard/html/threads.tpl.html',
                     controller: 'ThreadsCtrl'
                 }
@@ -21,12 +22,13 @@ angular.module('caliop.component.dashboard')
         .state('app.dashboard.threads.messages', {
             url: '/:id',
             views: {
+                // ui-view="tabContent" of dashboard.tpl.html
                 'tabContent@app.dashboard': {
                     templateUrl: 'component/dashboard/html/messages.tpl.html',
                     controller: 'MessagesCtrl'
                 }
             }
-    });
+        });
 })
 
 /**

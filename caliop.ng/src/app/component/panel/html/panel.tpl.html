@@ -7,4 +7,10 @@
     </tab>
 </tabset>
 
-<div class="panelContent" ui-view="panelContent"></div>
+<div
+	ng-include
+	class="panelContent"
+	src="tabSelected.template"
+	resolve-controller="{{tabSelected.controller}}"
+	resolve="{'resolve-tab':tabSelected}">
+</div>

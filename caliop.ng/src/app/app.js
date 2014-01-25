@@ -29,20 +29,9 @@ angular.module('caliop', [
         .state('app', {
             url: '/',
             views: {
-                'header': {
-                    templateUrl: 'component/header/html/header.tpl.html',
-                    controller: 'HeaderCtrl'
-                },
                 'layout': {
-                    templateUrl: 'component/common/html/fullpage.tpl.html'
-                },
-                'panel': {
-                    templateUrl: 'component/panel/html/panel.tpl.html',
-                    controller: 'PanelCtrl'
-                },
-                'footer': {
-                    templateUrl: 'component/footer/html/footer.tpl.html',
-                    controller: 'FooterCtrl'
+                    templateUrl: 'component/common/html/fullpage.tpl.html',
+                    controller: 'AppCtrl'
                 }
             }
         });
@@ -67,15 +56,20 @@ angular.module('caliop', [
         $state.go('app.login');
     }
 
-    // set optional config from the querystring
-    configSrv.configure();
-
     // redirect to the app if already logged in
     $rootScope.$on('$stateChangeStart', function(next, current) {
         if (current.name != 'app.login' && !contact) {
             $state.go('app.login');
         }
     });
+
+    // display route state for debug (@TODO use configSrv ?)
+    $rootScope.$on('$stateChangeSuccess', function(e, current) {
+        console.log('Current state:', current.name);
+    });
+
+    // set optional config from the querystring
+    configSrv.configure();
 
     // update the title of the page according to the ui-router pageTitle data
     $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
@@ -88,6 +82,17 @@ angular.module('caliop', [
     var useMocks = configSrv.get('useMocks') || 1;
     var baseUrl = useMocks ? '/api/mock' : '/api';
     restangularPvdr.setBaseUrl(baseUrl);
+}])
+
+/**
+ * AccountCtrl
+ */
+.controller('AppCtrl', ['$scope',
+    function AppCtrl($scope) {
+
+    console.log('AppCtrl');
+
+    // $scope.contact = authSrv.getContact();
 }]);
 
 }());

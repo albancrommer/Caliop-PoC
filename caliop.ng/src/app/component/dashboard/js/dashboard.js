@@ -25,16 +25,29 @@ angular.module('caliop.component.dashboard', [
         .state('app.dashboard', {
             url: 'dashboard',
             views: {
+                // ui-view="header" of index.html
+                'header@': {
+                    templateUrl: 'component/header/html/header.tpl.html',
+                    controller: 'HeaderCtrl'
+                },
+                // ui-view="layout" of index.html
                 'layout@': {
                     templateUrl: 'component/common/html/2columns.tpl.html'
                 },
+                // ui-view="main" of 2columns.tpl.html
                 'main@app.dashboard': {
                     templateUrl: 'component/dashboard/html/dashboard.tpl.html',
                     controller: 'DashboardCtrl'
                 },
+                // ui-view="panel" of 2columns.tpl.html
                 'panel@app.dashboard': {
                     templateUrl: 'component/panel/html/panel.tpl.html',
                     controller: 'PanelCtrl'
+                },
+                // ui-view="footer" of index.html
+                'footer@': {
+                    templateUrl: 'component/footer/html/footer.tpl.html',
+                    controller: 'FooterCtrl'
                 }
             }
         });
@@ -46,11 +59,13 @@ angular.module('caliop.component.dashboard', [
 .controller('DashboardCtrl', ['$scope', '$state',
     function DashboardCtrl($scope, $state) {
 
+    console.log('DashboardCtrl');
+
     // redirect to the list of threads
     // @TODO check if it's possible to manage the redirection via the ui-router
-    if ($state.current.name == 'app.dashboard') {
-        $state.go('app.dashboard.threads');
-    }
+    // if ($state.current.name == 'app.dashboard') {
+    //     $state.go('app.dashboard.threads');
+    // }
 
     $scope.tabs = [{
         id: 1,
@@ -120,7 +135,7 @@ angular.module('caliop.component.dashboard', [
     $scope.loadContent = function(tab) {
         if (tab.state) {
             var params = tab.stateParams || {};
-            $state.go(tab.state, params);
+            $state.transitionTo(tab.state, params);
         }
     };
 }]);
