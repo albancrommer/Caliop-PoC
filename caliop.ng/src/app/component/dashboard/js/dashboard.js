@@ -24,6 +24,7 @@ angular.module('caliop.component.dashboard', [
     $stateProvider
         .state('app.dashboard', {
             url: 'dashboard',
+            abstract: true,
             views: {
                 // ui-view="header" of index.html
                 'header@': {
@@ -58,14 +59,6 @@ angular.module('caliop.component.dashboard', [
  */
 .controller('DashboardCtrl', ['$scope', '$state',
     function DashboardCtrl($scope, $state) {
-
-    console.log('DashboardCtrl');
-
-    // redirect to the list of threads
-    // @TODO check if it's possible to manage the redirection via the ui-router
-    // if ($state.current.name == 'app.dashboard') {
-    //     $state.go('app.dashboard.threads');
-    // }
 
     $scope.tabs = [{
         id: 1,

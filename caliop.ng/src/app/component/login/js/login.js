@@ -48,7 +48,7 @@ angular.module('caliop.component.login', [
     function LoginCtrl($rootScope, $scope, authSrv, $state) {
 
     if (authSrv.getContact()) {
-        $state.go('app.dashboard');
+        $state.go('app.dashboard.threads');
     }
 
     $scope.messages = {};
