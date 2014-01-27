@@ -11,6 +11,16 @@ pyramid.debug_authorization = false
 pyramid.debug_notfound = false
 pyramid.debug_routematch = false
 pyramid.default_locale_name = en
+pyramid.includes =
+    caliop
+    caliop.views.app
+    caliop.views.api
+
+###
+# Angular app settings.
+###
+
+caliop.ng.path = ../../caliop.ng/bin
 
 ###
 # wsgi server configuration

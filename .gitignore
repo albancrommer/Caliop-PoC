@@ -55,3 +55,7 @@ caliop.ng/build/
 caliop.ng/bin/
 caliop.ng/node_modules/
 caliop.ng/vendor/
+
+# Pyramid app
+caliop/development.ini
+caliop/production.ini

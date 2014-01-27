@@ -92,3 +92,18 @@ $ pserve development.ini
 # Start a modern browser and go to http://localhost:6543
 # Enjoy.
 ```
+
+## For a production installation
+
+```shell
+# Compile instead of build
+$ cd ~/workspace/Caliop-PoC/caliop.ng
+$ grunt compile
+
+# Copy (and adapt if needed) your production ini file
+$ cd ~/workspace/Caliop-PoC/caliop
+$ cp production.ini.sample production.ini
+
+# Start the app
+$ pserve production.ini
+```
