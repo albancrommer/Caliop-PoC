@@ -83,6 +83,9 @@ $ source ~/.virtualenvs/caliop/bin/activate
 $ cd ~/workspace/Caliop-PoC/caliop
 $ python setup.py develop
 
+# Copy (and adapt if needed) your ini file
+$ cp development.ini.sample development.ini
+
 # Start the app
 $ pserve development.ini
 

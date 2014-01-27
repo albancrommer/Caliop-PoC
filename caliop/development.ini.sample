@@ -21,6 +21,12 @@ pyramid.includes =
 # debugtoolbar.hosts = 127.0.0.1 ::1
 
 ###
+# Angular app settings.
+###
+
+caliop.ng.path = ../../caliop.ng/build
+
+###
 # wsgi server configuration
 ###
 

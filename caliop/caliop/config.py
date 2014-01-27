@@ -16,7 +16,7 @@ def includeme(config):
     rootpath = os.path.dirname(os.path.realpath(__file__))
 
     # configure templates dir (angular build dir)
-    template_path = os.path.join(rootpath, '../../caliop.ng/build')
+    template_path = os.path.join(rootpath, settings['caliop.ng.path'])
     config.add_jinja2_search_path(template_path)
 
     # configure static dir on the same dir (angular build dir)

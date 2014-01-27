@@ -67,17 +67,18 @@ module.exports = {
    */
   vendor_files: {
     js: [
+      /**
+       * Use the non minified files for easy debugging and because the compilation
+       * with uglify tool fails with the js.map files (used for source mapping).
+       *
+       * But this is the same in the end, angular source files will be minified
+       * with uglify.
+       */
       'vendor/angular/angular.js',
-      // 'vendor/angular/angular.min.js.map',
-      'vendor/angular-animate/angular-animate.min.js',
-      'vendor/angular-animate/angular-animate.min.js.map',
-      // 'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
+      'vendor/angular-animate/angular-animate.js',
       'vendor/angular-ui-router/release/angular-ui-router.js',
-      'vendor/angular-cookies/angular-cookies.min.js',
-      'vendor/angular-cookies/angular-cookies.min.js.map',
-
-      'vendor/angular-sanitize/angular-sanitize.min.js',
-      'vendor/angular-sanitize/angular-sanitize.min.js.map',
+      'vendor/angular-cookies/angular-cookies.js',
+      'vendor/angular-sanitize/angular-sanitize.js',
 
       'vendor/lodash/dist/lodash.min.js',
       'vendor/restangular/src/restangular.js',
