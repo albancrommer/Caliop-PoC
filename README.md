@@ -107,3 +107,17 @@ $ cp production.ini.sample production.ini
 # Start the app
 $ pserve production.ini
 ```
+
+## Building the documentation
+
+```shell
+# Generate HTML documentation
+$ cd ~/workspace/Caliop-PoC/docs
+$ make html
+
+# Serve the files
+$ cd _build/html
+$ python -m SimpleHTTPServer
+
+# Go to http://localhost:8000
+```
