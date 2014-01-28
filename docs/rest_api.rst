@@ -15,6 +15,11 @@ REST API Documentation
   API specifications.
 
 
+.. seealso::
+
+  RESTful API best pratices: http://stackoverflow.com/questions/2001773/understanding-rest-verbs-error-codes-and-authentication/2022938#2022938
+
+
 .. http:post:: /sessions
 
    Create a new session which allows to login to the application. Return the session.
