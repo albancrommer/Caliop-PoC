@@ -134,3 +134,43 @@ REST API Documentation
 
    :statuscode 200: no error
    :statuscode 404: the thread has not been found
+
+
+.. http:post:: /threads/(int:thread_id)/messages
+
+   Create a new message in the thread `thread_id`.
+
+   **Example request**:
+
+   .. sourcecode:: http
+
+      POST /threads/42/messages HTTP/1.1
+      Accept: application/json
+
+   **Example response**:
+
+   .. sourcecode:: http
+
+      HTTP/1.1 200 OK
+      Vary: Accept
+      Content-Type: application/json
+
+      [{
+        "id": 10,
+        "title": "Lorem ipsum dolor sit amet.",
+        "body": "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
+        "date_sent": "2013-15-01 14:01:21",
+        "protocole": "email",
+        "attachments": [{
+          'file': 'afile.pdf',
+          'type_mime': 'application/pdf'
+        }],
+        "security": 80,
+        "offset": 1,
+        "answer_message_id": 1,
+        "thread_id": 42
+      }]
+
+   :query message_id: the ID of the message to which this message answers
+   :statuscode 200: no error
+   :statuscode 404: the thread has not been found
