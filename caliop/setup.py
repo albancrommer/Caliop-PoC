@@ -11,7 +11,9 @@ requires = [
     'pyramid_debugtoolbar',
     'waitress',
     'pyramid_jinja2',
-    'simplejson'
+    'simplejson',
+    'sphinx',
+    'sphinxcontrib-httpdomain'
     ]
 
 setup(name='caliop',
