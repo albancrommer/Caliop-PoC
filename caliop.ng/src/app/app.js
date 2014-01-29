@@ -32,9 +32,20 @@ angular.module('caliop', [
         .state('app', {
             url: '/',
             views: {
+                // ui-view="header" of index.tpl.html
+                'header': {
+                    templateUrl: 'header/html/header.tpl.html',
+                    controller: 'HeaderCtrl'
+                },
+                // ui-view="layout" of index.tpl.html
                 'layout': {
                     templateUrl: 'common/html/fullpage.tpl.html',
                     controller: 'AppCtrl'
+                },
+                // ui-view="footer" of index.tpl.html
+                'footer': {
+                    templateUrl: 'footer/html/footer.tpl.html',
+                    controller: 'FooterCtrl'
                 }
             }
         });

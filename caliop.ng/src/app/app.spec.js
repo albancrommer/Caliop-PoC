@@ -20,7 +20,7 @@ describe( 'Hello World', function() {
 });
 
 
-describe( 'DashboardCtrl', function() {
+describe( 'InBoxCtrl', function() {
     describe( 'isCurrentUrl', function() {
         var AppCtrl, $location, $scope;
 
@@ -29,7 +29,7 @@ describe( 'DashboardCtrl', function() {
         beforeEach( inject( function( $controller, _$location_, $rootScope ) {
             $location = _$location_;
             $scope = $rootScope.$new();
-            AppCtrl = $controller( 'DashboardCtrl', { $location: $location, $scope: $scope });
+            AppCtrl = $controller( 'InBoxCtrl', { $location: $location, $scope: $scope });
         }));
 
         it( 'should pass a dummy test', inject( function() {

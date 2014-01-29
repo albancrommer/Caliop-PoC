@@ -9,48 +9,28 @@ angular.module('caliop.account')
         .state('app.account', {
             url: 'account',
             views: {
-                // ui-view="header" of index.html
-                'header@': {
-                    templateUrl: 'header/html/header.tpl.html',
-                    controller: 'HeaderCtrl'
-                },
-                // ui-view="layout" of index.html
+                // ui-view="layout" of index.tpl.html
                 'layout@': {
                     templateUrl: 'common/html/fullpage.tpl.html'
                 },
-                // ui-view="main" of fullpage.html
+                // ui-view="main" of fullpage.tpl.html
                 'main@app.account': {
                     templateUrl: 'account/html/account.tpl.html',
                     controller: 'AccountCtrl'
-                },
-                // ui-view="footer" of index.html
-                'footer@': {
-                    templateUrl: 'footer/html/footer.tpl.html',
-                    controller: 'FooterCtrl'
                 }
             }
         })
         .state('app.preferences', {
             url: 'preferences',
             views: {
-                // ui-view="header" of index.html
-                'header@': {
-                    templateUrl: 'header/html/header.tpl.html',
-                    controller: 'HeaderCtrl'
-                },
-                // ui-view="layout" of index.html
+                // ui-view="layout" of index.tpl.html
                 'layout@': {
                     templateUrl: 'common/html/fullpage.tpl.html'
                 },
-                // ui-view="main" of fullpage.html
+                // ui-view="main" of fullpage.tpl.html
                 'main@app.preferences': {
                     templateUrl: 'account/html/preferences.tpl.html',
                     controller: 'PreferencesCtrl'
-                },
-                // ui-view="footer" of index.html
-                'footer@': {
-                    templateUrl: 'footer/html/footer.tpl.html',
-                    controller: 'FooterCtrl'
                 }
             }
         });

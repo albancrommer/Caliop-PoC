@@ -9,7 +9,7 @@ angular.module('caliop.inbox')
         .state('app.dashboard.threads.messages', {
             url: '/:id',
             views: {
-                // ui-view="tabContent" of dashboard.tpl.html
+                // ui-view="tabContent" of inbox/html/layout.tpl.html
                 'tabContent@app.dashboard': {
                     templateUrl: 'message/html/list.tpl.html',
                     controller: 'MessagesCtrl'
@@ -19,6 +19,7 @@ angular.module('caliop.inbox')
         .state('app.dashboard.writeMessage', {
             url: '/write',
             views: {
+                // ui-view="tabContent" of inbox/html/layout.tpl.html
                 'tabContent@app.dashboard': {
                     templateUrl: 'message/html/write.tpl.html',
                     controller: 'WriteMessageCtrl'

@@ -7,39 +7,29 @@ angular.module('caliop.inbox')
 .config(function config($stateProvider) {
     $stateProvider
         .state('app.dashboard', {
-            url: 'dashboard',
+            url: 'inbox',
             abstract: true,
             views: {
-                // ui-view="header" of index.html
-                'header@': {
-                    templateUrl: 'header/html/header.tpl.html',
-                    controller: 'HeaderCtrl'
-                },
-                // ui-view="layout" of index.html
+                // ui-view="layout" of index.tpl.html
                 'layout@': {
                     templateUrl: 'common/html/2columns.tpl.html'
                 },
                 // ui-view="main" of 2columns.tpl.html
                 'main@app.dashboard': {
                     templateUrl: 'inbox/html/layout.tpl.html',
-                    controller: 'DashboardCtrl'
+                    controller: 'InBoxCtrl'
                 },
                 // ui-view="panel" of 2columns.tpl.html
                 'panel@app.dashboard': {
                     templateUrl: 'panel/html/panel.tpl.html',
                     controller: 'PanelCtrl'
-                },
-                // ui-view="footer" of index.html
-                'footer@': {
-                    templateUrl: 'footer/html/footer.tpl.html',
-                    controller: 'FooterCtrl'
                 }
             }
         })
         .state('app.dashboard.threads', {
-            url: '/threads',
+            url: '/',
             views: {
-                // ui-view="tabContent" of dashboard.tpl.html
+                // ui-view="tabContent" of inbox/html/layout.tpl.html
                 'tabContent': {
                     templateUrl: 'inbox/html/list.tpl.html',
                     controller: 'ThreadsCtrl'
@@ -49,10 +39,10 @@ angular.module('caliop.inbox')
 })
 
 /**
- * DashboardCtrl
+ * InBoxCtrl
  */
-.controller('DashboardCtrl', ['$scope', '$state',
-    function DashboardCtrl($scope, $state) {
+.controller('InBoxCtrl', ['$scope', '$state',
+    function InBoxCtrl($scope, $state) {
 
     $scope.tabs = [{
         id: 1,

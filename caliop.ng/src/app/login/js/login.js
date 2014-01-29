@@ -16,7 +16,11 @@ angular.module('caliop.login', [
         .state('app.login', {
             url: 'login',
             views: {
-                // ui-view="layout" of index.html
+                // ui-view="layout" of index.tpl.html
+                'header@': {
+                    template: ''
+                },
+                // ui-view="layout" of index.tpl.html
                 'layout@': {
                     templateUrl: 'common/html/fullpage.tpl.html'
                 },
@@ -24,13 +28,16 @@ angular.module('caliop.login', [
                 'main@app.login': {
                     templateUrl: 'login/html/login.tpl.html',
                     controller: 'LoginCtrl'
+                },
+                'footer@': {
+                    template: ''
                 }
             }
         })
         .state('app.logout', {
             url: 'logout',
             views: {
-                // ui-view="layout" of index.html
+                // ui-view="layout" of index.tpl.html
                 'layout@': {
                     templateUrl: 'common/html/fullpage.tpl.html'
                 },
