@@ -2,23 +2,7 @@
 
 "use strict";
 
-/**
- * Dashboard component.
- */
-angular.module('caliop.component.dashboard', [
-    'templates-app',
-    'ui.router',
-
-    'caliop.service.entity.thread',
-    'caliop.service.entity.attachment',
-
-    'caliop.component.panel',
-    'caliop.component.dashboard.filters',
-
-    'ui.bootstrap',
-
-    'ngSanitize'
-])
+angular.module('caliop.inbox')
 
 .config(function config($stateProvider) {
     $stateProvider
@@ -37,7 +21,7 @@ angular.module('caliop.component.dashboard', [
                 },
                 // ui-view="main" of 2columns.tpl.html
                 'main@app.dashboard': {
-                    templateUrl: 'component/dashboard/html/dashboard.tpl.html',
+                    templateUrl: 'component/inbox/html/layout.tpl.html',
                     controller: 'DashboardCtrl'
                 },
                 // ui-view="panel" of 2columns.tpl.html
@@ -49,6 +33,16 @@ angular.module('caliop.component.dashboard', [
                 'footer@': {
                     templateUrl: 'component/footer/html/footer.tpl.html',
                     controller: 'FooterCtrl'
+                }
+            }
+        })
+        .state('app.dashboard.threads', {
+            url: '/threads',
+            views: {
+                // ui-view="tabContent" of dashboard.tpl.html
+                'tabContent': {
+                    templateUrl: 'component/inbox/html/list.tpl.html',
+                    controller: 'ThreadsCtrl'
                 }
             }
         });
@@ -130,6 +124,58 @@ angular.module('caliop.component.dashboard', [
             var params = tab.stateParams || {};
             $state.transitionTo(tab.state, params);
         }
+    };
+}])
+
+/**
+ * ThreadsCtrl
+ */
+.controller('ThreadsCtrl', ['$scope', '$state', '$filter', '$modal', 'thread',
+    function ThreadsCtrl($scope, $state, $filter, $modal, ThreadSrv) {
+
+    ThreadSrv.Restangular.all('threads').getList().then(function(threads) {
+        $scope.threads = threads;
+    });
+
+    // if any thread is selected, show actions icons
+    $scope.showThreadActions = function() {
+        return _.filter($scope.threads, function(thread) {
+            return thread.selected;
+        }).length > 0;
+    };
+
+    // select all/none threads
+    $scope.$watch('selectAllThreads', function(checked) {
+        angular.forEach($scope.threads, function(thread) {
+            thread.selected = checked;
+        });
+    });
+
+    // open the thread
+    $scope.openThread = function(thread) {
+        var stateMessages = 'app.dashboard.threads.messages';
+
+        $scope.addTab({
+            title: $filter('joinRecipients')(thread.recipients, 3),
+            tooltip: $filter('joinRecipients')(thread.recipients, -1),
+            state: stateMessages,
+            stateParams: {id: thread.id},
+            active: true
+        });
+
+        $state.go(stateMessages, {id:thread.id});
+    };
+
+    $scope.openAttachment = function(extension) {
+        var modalInstance = $modal.open({
+            templateUrl: 'component/attachment/html/download.tpl.html',
+            controller: 'AttachmentCtrl',
+            resolve: {
+                extension: function () {
+                    return extension;
+                }
+            }
+        });
     };
 }]);
 

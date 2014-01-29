@@ -2,15 +2,12 @@
 
 "use strict";
 
-angular.module('caliop.service.entity.contact', [
-    'restangular',
-    'caliop.service.helpers'
-])
+angular.module('caliop.inbox.label.entity')
 
-.factory('contact', ['Restangular', 'string',
+.factory('label', ['Restangular', 'string',
     function (Restangular, stringSrv) {
 
-    var Contact = function Contact(obj) {
+    var Label = function Label(obj) {
         var self = this;
 
         angular.extend(self, obj);
@@ -27,20 +24,20 @@ angular.module('caliop.service.entity.contact', [
         });
     };
 
-    Contact.prototype.fullname = function() {
-        return [this.firstName, this.lastName].join(' ');
+    // Label.prototype.displayName = function(obj) {
+    //     return [this.firstName, this.lastName].join(' ');
+    // };
+
+    Label.new_ = function(obj) {
+        return new Label(obj);
     };
 
-    Contact.new_ = function(obj) {
-        return new Contact(obj);
-    };
-
-    Restangular.addElementTransformer('contact', function(obj) {
-        return Contact.new_(obj);
+    Restangular.addElementTransformer('labels', false, function(obj) {
+        return Label.new_(obj);
     });
 
     return {
-        new_: Contact.new_,
+        new_: Label.new_,
         Restangular: Restangular
     };
 }]);

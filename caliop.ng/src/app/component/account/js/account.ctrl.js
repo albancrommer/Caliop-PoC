@@ -2,14 +2,7 @@
 
 "use strict";
 
-/**
- * Account component.
- */
-angular.module('caliop.component.account', [
-    'ui.router',
-
-    'caliop.service.account'
-])
+angular.module('caliop.account')
 
 .config(function config($stateProvider) {
     $stateProvider

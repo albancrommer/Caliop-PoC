@@ -2,10 +2,7 @@
 
 "use strict";
 
-angular.module('caliop.service.entity.recipient', [
-    'restangular',
-    'caliop.service.helpers'
-])
+angular.module('caliop.message.recipient.entity')
 
 .factory('recipient', ['Restangular', 'string',
     function (Restangular, stringSrv) {

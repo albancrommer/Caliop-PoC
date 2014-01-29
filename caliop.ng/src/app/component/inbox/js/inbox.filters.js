@@ -2,7 +2,7 @@
 
 "use strict";
 
-angular.module('caliop.component.dashboard.filters', [])
+angular.module('caliop.inbox.filter')
 
 /**
  * Display the list of recipients.

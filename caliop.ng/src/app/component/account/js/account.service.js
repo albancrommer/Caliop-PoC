@@ -2,11 +2,7 @@
 
 "use strict";
 
-angular.module('caliop.service.account', [
-    'caliop.service.entity.contact',
-
-    'ngCookies'
-])
+angular.module('caliop.account.service')
 
 .factory('auth', ['contact', '$cookieStore', '$q',
     function (contactSrv, $cookieStore, $q) {

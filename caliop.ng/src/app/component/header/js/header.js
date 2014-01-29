@@ -5,8 +5,7 @@
 /**
  * Header component.
  */
-angular.module('caliop.component.header', [
-    'caliop.service.account'
+angular.module('caliop.header', [
 ])
 
 .controller('HeaderCtrl', [

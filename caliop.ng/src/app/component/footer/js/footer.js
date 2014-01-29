@@ -5,7 +5,7 @@
 /**
  * Footer component.
  */
-angular.module('caliop.component.footer', [
+angular.module('caliop.footer', [
 ])
 
 /**

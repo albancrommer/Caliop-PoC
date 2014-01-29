@@ -2,7 +2,7 @@
 
 "use strict";
 
-angular.module('caliop.service.helpers', [])
+angular.module('caliop.common.helpers.service', [])
 
 .factory('string', [function () {
     return {

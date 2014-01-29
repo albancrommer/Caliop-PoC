@@ -5,9 +5,10 @@
 /**
  * Login component.
  */
-angular.module('caliop.component.login', [
+angular.module('caliop.login', [
     'ui.router',
-    'caliop.service.account'
+
+    'caliop.account.service'
 ])
 
 .config(function config($stateProvider) {

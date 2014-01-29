@@ -7,19 +7,22 @@ angular.module('caliop', [
     'templates-app',
     'templates-common',
 
+    /* utils */
+    'ui.router',
+    'ui.bootstrap',
+    'ngCookies',
+    'ngSanitize',
+
     /* services */
-    'caliop.service.config',
-    'caliop.service.account',
+    'caliop.common.config.service',
+    'caliop.account.service',
 
     /* components */
-    'caliop.component.header',
-    'caliop.component.footer',
-    'caliop.component.account',
-    'caliop.component.dashboard',
-    'caliop.component.login',
-
-    /* utils */
-    'ui.router'
+    'caliop.header',
+    'caliop.footer',
+    'caliop.account',
+    'caliop.inbox',
+    'caliop.login'
 ])
 
 .config(function myAppConfig($urlRouterProvider, $stateProvider, $tooltipProvider) {

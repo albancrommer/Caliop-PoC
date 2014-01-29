@@ -5,7 +5,7 @@
 /**
  * Panel components.
  */
-angular.module('caliop.component.panel', [
+angular.module('caliop.panel', [
     'templates-app',
     'ui.router'
 ])
