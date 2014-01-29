@@ -2,9 +2,9 @@
 
 "use strict";
 
-angular.module('caliop.attachment.attachment.entity', [
+angular.module('caliop.attachment.entity.attachment', [
     // 'restangular',
-    'caliop.common.helpers.service'
+    'caliop.common.service.helpers'
 ])
 
 .factory('attachment', ['string',

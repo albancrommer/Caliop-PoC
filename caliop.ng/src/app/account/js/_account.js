@@ -3,19 +3,19 @@
 "use strict";
 
 angular.module('caliop.account', [
-    'caliop.account.service'
+    'caliop.service.account'
 ]);
 
 
-angular.module('caliop.account.service', [
-    'caliop.account.entity'
+angular.module('caliop.service.account', [
+    'caliop.entity.account'
 ]);
 
 
-angular.module('caliop.account.entity', [
+angular.module('caliop.entity.account', [
     'restangular',
 
-    'caliop.common.helpers.service'
+    'caliop.common.service.helpers'
 ]);
 
 }());

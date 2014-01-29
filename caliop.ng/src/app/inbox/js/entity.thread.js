@@ -2,7 +2,7 @@
 
 "use strict";
 
-angular.module('caliop.inbox.thread.entity')
+angular.module('caliop.inbox.entity.thread')
 
 .factory('thread', ['Restangular', 'string', 'recipient', 'label',
     function (Restangular, stringSrv, recipientSrv, labelSrv) {
@@ -26,7 +26,7 @@ angular.module('caliop.inbox.thread.entity')
 
     /**
      * Return the list of recipients
-     * @return [{caliop.message.recipient.entity}]
+     * @return [{caliop.message.entity.recipient}]
      */
     Thread.prototype.getRecipients = function() {
         var that = this;
@@ -42,7 +42,7 @@ angular.module('caliop.inbox.thread.entity')
 
     /**
      * Return the list of labels
-     * @return [{caliop.inbox.label.entity}]
+     * @return [{caliop.inbox.entity.label}]
      */
     Thread.prototype.getLabels = function() {
         var that = this;
@@ -81,7 +81,7 @@ angular.module('caliop.inbox.thread.entity')
 
     /**
      * Return the messages of the thread.
-     * @return [{caliop.message.message.entity}]
+     * @return [{caliop.message.entity.message}]
      */
     Thread.prototype.getMessages = function() {
         return Restangular.one('threads', this.id).getList('messages');

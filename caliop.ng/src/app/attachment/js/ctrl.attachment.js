@@ -6,7 +6,7 @@
  * Dashboard component.
  */
 angular.module('caliop.attachment', [
-    'caliop.attachment.attachment.entity'
+    'caliop.attachment.entity.attachment'
 ])
 
 /**

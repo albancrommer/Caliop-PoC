@@ -4,7 +4,7 @@
 
 angular.module('caliop.inbox', [
     /* internal dependancies */
-    'caliop.inbox.thread.entity',
+    'caliop.inbox.entity.thread',
     'caliop.inbox.filter',
 
     /* external dependancies */
@@ -16,22 +16,22 @@ angular.module('caliop.inbox', [
 angular.module('caliop.inbox.filter', []);
 
 
-angular.module('caliop.inbox.label.entity', [
+angular.module('caliop.inbox.entity.label', [
     'restangular',
 
-    'caliop.common.helpers.service'
+    'caliop.common.service.helpers'
 ]);
 
 
-angular.module('caliop.inbox.thread.entity', [
+angular.module('caliop.inbox.entity.thread', [
     'restangular',
 
     /* internal dependancies */
-    'caliop.inbox.label.entity',
+    'caliop.inbox.entity.label',
 
     /* external dependancies */
-    'caliop.common.helpers.service',
-    'caliop.message.recipient.entity'
+    'caliop.common.service.helpers',
+    'caliop.message.entity.recipient'
 ]);
 
 

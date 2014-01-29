@@ -14,8 +14,7 @@ angular.module('caliop', [
     'ngSanitize',
 
     /* services */
-    'caliop.common.config.service',
-    'caliop.account.service',
+    'caliop.common.service.config',
 
     /* components */
     'caliop.header',

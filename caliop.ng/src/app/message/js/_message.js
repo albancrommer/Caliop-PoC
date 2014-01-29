@@ -4,7 +4,7 @@
 
 angular.module('caliop.message', [
     /* internal dependancies */
-    'caliop.inbox.thread.entity',
+    'caliop.inbox.entity.thread',
     'caliop.inbox.filter',
 
     /* external dependancies */
@@ -13,17 +13,17 @@ angular.module('caliop.message', [
 ]);
 
 
-angular.module('caliop.message.message.entity', [
+angular.module('caliop.message.entity.message', [
     'restangular',
 
-    'caliop.common.helpers.service'
+    'caliop.common.service.helpers'
 ]);
 
 
-angular.module('caliop.message.recipient.entity', [
+angular.module('caliop.message.entity.recipient', [
     'restangular',
 
-    'caliop.common.helpers.service'
+    'caliop.common.service.helpers'
 ]);
 
 

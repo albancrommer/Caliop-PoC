@@ -2,7 +2,7 @@
 
 "use strict";
 
-angular.module('caliop.common.config.service', [])
+angular.module('caliop.common.service.config', [])
 
 /**
  * Service used to:
