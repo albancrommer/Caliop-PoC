@@ -61,14 +61,42 @@ angular.module('caliop.panel', [
 
     $scope.groups = [{
         name: 'Famille',
-        people: ['Toto', 'tata', 'titi']
+        users: [{
+            name: 'Toto',
+            connectionStatus: 1
+        }, {
+            name: 'Toto2',
+            connectionStatus: 0
+        }]
     }, {
         name: 'Boulot',
-        people: ['Toto2', 'tata2', 'titi2']
+        users: [{
+            name: 'Toto',
+            connectionStatus: 0
+        }, {
+            name: 'Toto2',
+            connectionStatus: 1
+        }]
     }, {
         name: 'Pôtes',
-        people: ['Toto3', 'tata3', 'titi3']
+        users: [{
+            name: 'Toto',
+            connectionStatus: 1
+        }, {
+            name: 'Toto2',
+            connectionStatus: 1
+        }, {
+            name: 'Toto3',
+            connectionStatus: 1
+        }]
     }];
+
+    // count the number of connected users
+    _.map($scope.groups, function(group) {
+        group.connectedUsersCount = _.filter(group.users, function(user) {
+            return user.connectionStatus == 1;
+        }).length;
+    });
 }])
 
 .controller('PanelCalendarCtrl', ['$scope', 'resolve-tab',

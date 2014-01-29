@@ -1,25 +1,41 @@
-<div class="btn-group btn-group-xm col-xs-offset-2">
-    <button type="button" class="btn btn-default dropdown-toggle col-xs-10" data-toggle="dropdown">
-        <span class="glyphicon glyphicon-user"></span> Ajout contact <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu">
-        <li><a href="#"> <span class="glyphicon glyphicon-user"></span>Rajouter un groupe de contact</a></li>
-    </ul>
-</div>
-
-<div class="col-xs-offset-1">
-    <div ng-repeat="group in groups">
-        <a class="" ng-click="group.isCollapsed = !group.isCollapsed">
+<div class="users-content">
+    <div class="btn-group">
+        <button type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-user"></span> Créer un contact
+        </button>
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
             <span class="caret"></span>
-            {{group.name}}
-        </a>
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
 
-        <div collapse="group.isCollapsed">
-            <ul class="">
-                <li class="" ng-repeat="user in group.people">
-                    {{user}}
-                </li>
-            </ul>
+        <ul class="dropdown-menu" role="menu">
+            <li>
+                <a href="#">
+                    <span class="glyphicon glyphicon-user"></span> Créer un groupe
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="groups">
+        <div ng-repeat="group in groups">
+            <a class="" ng-click="group.isCollapsed = !group.isCollapsed">
+                <span class="caret"></span>
+                {{group.name}}
+            </a>
+            ({{group.connectedUsersCount}}/{{group.users.length}})
+
+            <div collapse="group.isCollapsed">
+                <ul class="">
+                    <li class="" ng-repeat="user in group.users">
+                        <span
+                            class="connected-status glyphicon glyphicon-ok-sign"
+                            ng-class="user.connectionStatus ? 'on' : 'off'">
+                        </span>
+                        {{user.name}}
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
