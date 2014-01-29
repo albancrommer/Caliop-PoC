@@ -19,19 +19,19 @@ angular.module('caliop.panel', [
     $scope.tabs = [{
         id: 1,
         icon: 'user',
-        template: 'component/panel/html/users.tpl.html',
+        template: 'panel/html/users.tpl.html',
         controller: 'PanelUsersCtrl',
         active: true
     },{
         id: 2,
         icon: 'calendar',
-        template: 'component/panel/html/calendar.tpl.html',
+        template: 'panel/html/calendar.tpl.html',
         controller: 'PanelCalendarCtrl',
         active: false
     },{
         id: 3,
         icon: 'file',
-        template: 'component/panel/html/files.tpl.html',
+        template: 'panel/html/files.tpl.html',
         controller: 'PanelFilesCtrl',
         active: false
     }];

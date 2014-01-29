@@ -33,7 +33,7 @@ angular.module('caliop', [
             url: '/',
             views: {
                 'layout': {
-                    templateUrl: 'component/common/html/fullpage.tpl.html',
+                    templateUrl: 'common/html/fullpage.tpl.html',
                     controller: 'AppCtrl'
                 }
             }

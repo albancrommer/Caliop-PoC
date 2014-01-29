@@ -12,26 +12,26 @@ angular.module('caliop.inbox')
             views: {
                 // ui-view="header" of index.html
                 'header@': {
-                    templateUrl: 'component/header/html/header.tpl.html',
+                    templateUrl: 'header/html/header.tpl.html',
                     controller: 'HeaderCtrl'
                 },
                 // ui-view="layout" of index.html
                 'layout@': {
-                    templateUrl: 'component/common/html/2columns.tpl.html'
+                    templateUrl: 'common/html/2columns.tpl.html'
                 },
                 // ui-view="main" of 2columns.tpl.html
                 'main@app.dashboard': {
-                    templateUrl: 'component/inbox/html/layout.tpl.html',
+                    templateUrl: 'inbox/html/layout.tpl.html',
                     controller: 'DashboardCtrl'
                 },
                 // ui-view="panel" of 2columns.tpl.html
                 'panel@app.dashboard': {
-                    templateUrl: 'component/panel/html/panel.tpl.html',
+                    templateUrl: 'panel/html/panel.tpl.html',
                     controller: 'PanelCtrl'
                 },
                 // ui-view="footer" of index.html
                 'footer@': {
-                    templateUrl: 'component/footer/html/footer.tpl.html',
+                    templateUrl: 'footer/html/footer.tpl.html',
                     controller: 'FooterCtrl'
                 }
             }
@@ -41,7 +41,7 @@ angular.module('caliop.inbox')
             views: {
                 // ui-view="tabContent" of dashboard.tpl.html
                 'tabContent': {
-                    templateUrl: 'component/inbox/html/list.tpl.html',
+                    templateUrl: 'inbox/html/list.tpl.html',
                     controller: 'ThreadsCtrl'
                 }
             }
@@ -168,7 +168,7 @@ angular.module('caliop.inbox')
 
     $scope.openAttachment = function(extension) {
         var modalInstance = $modal.open({
-            templateUrl: 'component/attachment/html/download.tpl.html',
+            templateUrl: 'attachment/html/download.tpl.html',
             controller: 'AttachmentCtrl',
             resolve: {
                 extension: function () {

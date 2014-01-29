@@ -11,21 +11,21 @@ angular.module('caliop.account')
             views: {
                 // ui-view="header" of index.html
                 'header@': {
-                    templateUrl: 'component/header/html/header.tpl.html',
+                    templateUrl: 'header/html/header.tpl.html',
                     controller: 'HeaderCtrl'
                 },
                 // ui-view="layout" of index.html
                 'layout@': {
-                    templateUrl: 'component/common/html/fullpage.tpl.html'
+                    templateUrl: 'common/html/fullpage.tpl.html'
                 },
                 // ui-view="main" of fullpage.html
                 'main@app.account': {
-                    templateUrl: 'component/account/html/account.tpl.html',
+                    templateUrl: 'account/html/account.tpl.html',
                     controller: 'AccountCtrl'
                 },
                 // ui-view="footer" of index.html
                 'footer@': {
-                    templateUrl: 'component/footer/html/footer.tpl.html',
+                    templateUrl: 'footer/html/footer.tpl.html',
                     controller: 'FooterCtrl'
                 }
             }
@@ -35,21 +35,21 @@ angular.module('caliop.account')
             views: {
                 // ui-view="header" of index.html
                 'header@': {
-                    templateUrl: 'component/header/html/header.tpl.html',
+                    templateUrl: 'header/html/header.tpl.html',
                     controller: 'HeaderCtrl'
                 },
                 // ui-view="layout" of index.html
                 'layout@': {
-                    templateUrl: 'component/common/html/fullpage.tpl.html'
+                    templateUrl: 'common/html/fullpage.tpl.html'
                 },
                 // ui-view="main" of fullpage.html
                 'main@app.preferences': {
-                    templateUrl: 'component/account/html/preferences.tpl.html',
+                    templateUrl: 'account/html/preferences.tpl.html',
                     controller: 'PreferencesCtrl'
                 },
                 // ui-view="footer" of index.html
                 'footer@': {
-                    templateUrl: 'component/footer/html/footer.tpl.html',
+                    templateUrl: 'footer/html/footer.tpl.html',
                     controller: 'FooterCtrl'
                 }
             }

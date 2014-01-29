@@ -11,7 +11,7 @@ angular.module('caliop.inbox')
             views: {
                 // ui-view="tabContent" of dashboard.tpl.html
                 'tabContent@app.dashboard': {
-                    templateUrl: 'component/message/html/list.tpl.html',
+                    templateUrl: 'message/html/list.tpl.html',
                     controller: 'MessagesCtrl'
                 }
             }
@@ -20,7 +20,7 @@ angular.module('caliop.inbox')
             url: '/write',
             views: {
                 'tabContent@app.dashboard': {
-                    templateUrl: 'component/message/html/write.tpl.html',
+                    templateUrl: 'message/html/write.tpl.html',
                     controller: 'WriteMessageCtrl'
                 }
             }
