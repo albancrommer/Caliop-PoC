@@ -30,7 +30,7 @@ class Thread(API):
                                    self.labels)
         thread['labels'] = thread_labels
 
-    def __call__(self):
+    def get(self):
         thread_id = int(self.request.matchdict.get('thread_id'))
 
         threads = json.loads(self.read_json())
@@ -42,7 +42,7 @@ class Thread(API):
 
 
 class Threads(Thread):
-    def __call__(self):
+    def get(self):
         threads = json.loads(self.read_json())
 
         for thread in threads:

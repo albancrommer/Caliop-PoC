@@ -4,6 +4,7 @@ import os
 import json
 
 from pyramid.response import Response
+from pyramid.httpexceptions import HTTPMethodNotAllowed
 
 
 class API(object):
@@ -33,4 +34,7 @@ class API(object):
         return json
 
     def __call__(self):
-        return Response(self.read_json())
+        try:
+            return getattr(self, self.request.method.lower())()
+        except AttributeError:
+            return HTTPMethodNotAllowed()

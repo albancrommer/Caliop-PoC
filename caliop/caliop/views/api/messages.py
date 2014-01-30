@@ -8,10 +8,10 @@ from .api import API
 
 
 
-class ThreadMessages(API):
+class Messages(API):
     filename = 'messages.json'
 
-    def __call__(self):
+    def get(self):
         messages = json.loads(self.read_json())
         recipients = json.loads(self.read_json(filename='recipients.json'))
 
@@ -26,7 +26,3 @@ class ThreadMessages(API):
                                        recipients).pop()
 
         return Response(json.dumps(filtered_messages))
-
-
-class Messages(API):
-    filename = 'messages.json'
