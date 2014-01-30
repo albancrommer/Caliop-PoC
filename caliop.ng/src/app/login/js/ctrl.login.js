@@ -79,10 +79,10 @@ angular.module('caliop.login', [
 .controller('LogoutCtrl', ['$rootScope', 'auth', '$state',
     function LogoutCtrl($rootScope, authSrv, $state) {
 
-    authSrv.logout();
-    $rootScope.authContact = undefined;
-
-    $state.go('app.login');
+    authSrv.logout().then(function() {
+        $rootScope.authContact = undefined;
+        $state.go('app.login');
+    });
 }]);
 
 }());

@@ -8,16 +8,24 @@ angular.module('caliop.service.account')
     function (contactSrv, $cookieStore, $q) {
 
     return {
+        /**
+         * Return the authed contact from the cookie.
+         */
         getContact: function() {
             var contact = $cookieStore.get('contact');
             return contact ? contactSrv.new_(contact) : undefined;
         },
 
+        /**
+         * Do a POST query on the API,
+         * set the cookie
+         * and return a promise object.
+         */
         login: function(credentials) {
             var that = this,
                 deferred = $q.defer();
 
-            contactSrv.Restangular.one('contact').post('login', credentials, {}, {
+            contactSrv.Restangular.all('sessions').post(credentials, {}, {
                 'Content-Type': 'application/x-www-form-urlencoded'
             })
             .then(
@@ -39,8 +47,18 @@ angular.module('caliop.service.account')
             return deferred.promise;
         },
 
+        /**
+         * Do a DELETE query on the API,
+         * remove the cookie
+         * and return a promise object.
+         */
         logout: function() {
-            $cookieStore.remove('contact');
+            return contactSrv.Restangular.one('sessions').remove()
+                .then(function(response) {
+                    if (response.status == 'logout') {
+                        $cookieStore.remove('contact');
+                    }
+                });
         }
     };
 }]);

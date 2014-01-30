@@ -32,7 +32,7 @@ angular.module('caliop.entity.account')
         return new Contact(obj);
     };
 
-    Restangular.addElementTransformer('contact', function(obj) {
+    Restangular.addElementTransformer('sessions', function(obj) {
         return Contact.new_(obj);
     });
 

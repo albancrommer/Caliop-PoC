@@ -10,8 +10,19 @@ def includeme(config):
     Serve a static JSON based REST API.
     """
 
+    config.add_route('sessions', '/api/mock/sessions')
+    config.add_view('caliop.views.api.Sessions',
+        request_method=('POST', 'DELETE'),
+        route_name='sessions',
+        renderer='json')
+
+
     config.add_route('threads', '/api/mock/threads')
-    config.add_view('caliop.views.api.Threads', route_name='threads', renderer='json')
+    config.add_view('caliop.views.api.Threads',
+        request_method=('GET',),
+        route_name='threads',
+        renderer='json')
+
 
     config.add_route('thread', '/api/mock/threads/{thread_id}')
     config.add_view('caliop.views.api.Thread', route_name='thread', renderer='json')
@@ -22,5 +33,4 @@ def includeme(config):
     config.add_route('contact.info', '/api/mock/contact/info')
     config.add_view('caliop.views.api.ContactInfo', route_name='contact.info', renderer='json')
 
-    config.add_route('contact.login', '/api/mock/contact/login')
-    config.add_view('caliop.views.api.ContactLogin', route_name='contact.login', renderer='json')
+

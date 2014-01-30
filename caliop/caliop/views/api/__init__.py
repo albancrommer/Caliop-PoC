@@ -1,5 +1,6 @@
 from .config import includeme  # used by pyramid
 
 
-from .api import (Threads, Thread, ThreadMessages,
-                  Messages, ContactLogin, ContactInfo)
+from .sessions import (Sessions, ContactInfo)
+from .threads import (Thread, Threads)
+from .messages import (ThreadMessages, Messages)

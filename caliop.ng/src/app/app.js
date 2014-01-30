@@ -58,14 +58,17 @@ angular.module('caliop', [
 .run(['$rootScope', 'config', 'auth', '$state', 'Restangular',
     function run($rootScope, configSrv, authSrv, $state, restangularPvdr) {
 
-    var contact = authSrv.getContact();
+    // use mocks or not
+    var useMocks = configSrv.get('useMocks') || 1;
+    var baseUrl = useMocks ? '/api/mock' : '/api';
+    restangularPvdr.setBaseUrl(baseUrl);
 
     // if a user is connected, save the contact in the rootScope
+    var contact = authSrv.getContact();
     if (contact) {
         $rootScope.authContact = contact;
     }
     else {
-        authSrv.logout();
         $state.go('app.login');
     }
 
@@ -90,11 +93,6 @@ angular.module('caliop', [
             $rootScope.pageTitle = toState.data.pageTitle + ' | Caliop' ;
         }
     });
-
-    // use mocks or not
-    var useMocks = configSrv.get('useMocks') || 1;
-    var baseUrl = useMocks ? '/api/mock' : '/api';
-    restangularPvdr.setBaseUrl(baseUrl);
 }])
 
 /**
