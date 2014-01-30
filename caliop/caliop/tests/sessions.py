@@ -15,7 +15,7 @@ class TestViewSessions(unittest.TestCase):
     def tearDown(self):
         testing.tearDown()
 
-    def test01_post_sessions_ok(self):
+    def test01_post_sessions(self):
         """
         When POSTING valid credentials, it should return a dict.
         """
@@ -33,7 +33,7 @@ class TestViewSessions(unittest.TestCase):
             u'firstName': u'Gandi',
             u'date_created': u'2013-15-01 14:51:21'})
 
-    def test01_post_sessions_ko(self):
+    def test02_post_sessions_bad_credentials(self):
         """
         When POSTING bad credentials, it should return a 403.
         """
@@ -46,7 +46,7 @@ class TestViewSessions(unittest.TestCase):
 
         self.assertEqual(response.status, '403 Forbidden')
 
-    def test01_delete_sessions(self):
+    def test03_delete_sessions(self):
         request = testing.DummyRequest()
         request.method = 'DELETE'
         request.context = testing.DummyResource()
