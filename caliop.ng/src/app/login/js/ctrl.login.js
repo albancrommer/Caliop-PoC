@@ -56,7 +56,7 @@ angular.module('caliop.login', [
     function LoginCtrl($rootScope, $scope, authSrv, $state) {
 
     if (authSrv.getContact()) {
-        $state.go('app.dashboard.threads');
+        $state.go('app.inbox');
     }
 
     $scope.messages = {};
@@ -65,7 +65,7 @@ angular.module('caliop.login', [
         //if login successful, retrieve the contact asynchronously
         authSrv.login($scope.credentials).then(function(contact) {
             $rootScope.authContact = contact;
-            $state.go('app.dashboard.threads');
+            $state.go('app.inbox');
 
         }, function(error) {
             $scope.messages.error = 'Identifiant ou mot de passe incorrect.';

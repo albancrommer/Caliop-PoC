@@ -29,7 +29,7 @@ angular.module('caliop', [
 
     $stateProvider
         .state('app', {
-            url: '/',
+            url: '',
             views: {
                 // ui-view="header" of index.tpl.html
                 'header': {

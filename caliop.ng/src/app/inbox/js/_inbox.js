@@ -8,6 +8,7 @@ angular.module('caliop.inbox', [
     'caliop.inbox.filter',
 
     /* external dependancies */
+    'caliop.message',
     'caliop.panel',
     'caliop.attachment'
 ]);

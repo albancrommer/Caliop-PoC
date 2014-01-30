@@ -6,58 +6,44 @@ angular.module('caliop.inbox')
 
 .config(function config($stateProvider) {
     $stateProvider
-        .state('app.dashboard', {
-            url: 'inbox',
-            abstract: true,
+        .state('app.inbox', {
+            url: '/inbox',
             views: {
                 // ui-view="layout" of index.tpl.html
                 'layout@': {
                     templateUrl: 'common/html/2columns.tpl.html'
                 },
                 // ui-view="main" of 2columns.tpl.html
-                'main@app.dashboard': {
+                'main@app.inbox': {
                     templateUrl: 'inbox/html/layout.tpl.html',
+                    controller: 'TabsManagementCtrl'
+                },
+                // ui-view="tabContent" of inbox/html/2columns.tpl.html
+                'tabContent@app.inbox': {
+                    templateUrl: 'inbox/html/list.tpl.html',
                     controller: 'InBoxCtrl'
                 },
                 // ui-view="panel" of 2columns.tpl.html
-                'panel@app.dashboard': {
+                'panel@app.inbox': {
                     templateUrl: 'panel/html/panel.tpl.html',
                     controller: 'PanelCtrl'
-                }
-            }
-        })
-        .state('app.dashboard.threads', {
-            url: '/',
-            views: {
-                // ui-view="tabContent" of inbox/html/layout.tpl.html
-                'tabContent': {
-                    templateUrl: 'inbox/html/list.tpl.html',
-                    controller: 'ThreadsCtrl'
                 }
             }
         });
 })
 
 /**
- * InBoxCtrl
+ * TabsManagementCtrl
  */
-.controller('InBoxCtrl', ['$scope', '$state',
-    function InBoxCtrl($scope, $state) {
+.controller('TabsManagementCtrl', ['$scope', '$state',
+    function TabsManagementCtrl($scope, $state) {
 
     $scope.tabs = [{
         id: 1,
         title: 'Conversations',
-        state: 'app.dashboard.threads',
+        state: 'app.inbox',
         active: true
     }];
-
-    $scope.writeMessage = function(tab) {
-        $state.go('app.dashboard.writeMessage');
-    };
-
-    /**
-     * Tabs management.
-     */
 
     /**
      * Add a new tab.
@@ -115,17 +101,20 @@ angular.module('caliop.inbox')
             $state.transitionTo(tab.state, params);
         }
     };
+
+    /**
+     * Redirect to the write message interface.
+     */
+    $scope.writeMessage = function(tab) {
+        $state.go('app.inbox.writeMessage');
+    };
 }])
 
 /**
- * ThreadsCtrl
+ * InBoxCtrl
  */
-.controller('ThreadsCtrl', ['$scope', '$state', '$filter', '$modal', 'thread',
-    function ThreadsCtrl($scope, $state, $filter, $modal, ThreadSrv) {
-
-    ThreadSrv.Restangular.all('threads').getList().then(function(threads) {
-        $scope.threads = threads;
-    });
+.controller('InBoxCtrl', ['$injector', '$scope', '$state', '$filter', '$modal', 'thread',
+    function InBoxCtrl($injector, $scope, $state, $filter, $modal, ThreadSrv) {
 
     // if any thread is selected, show actions icons
     $scope.showThreadActions = function() {
@@ -134,16 +123,9 @@ angular.module('caliop.inbox')
         }).length > 0;
     };
 
-    // select all/none threads
-    $scope.$watch('selectAllThreads', function(checked) {
-        angular.forEach($scope.threads, function(thread) {
-            thread.selected = checked;
-        });
-    });
-
     // open the thread
     $scope.openThread = function(thread) {
-        var stateMessages = 'app.dashboard.threads.messages';
+        var stateMessages = 'app.inbox.thread';
 
         $scope.addTab({
             title: $filter('joinRecipients')(thread.recipients, 3),
@@ -167,6 +149,17 @@ angular.module('caliop.inbox')
             }
         });
     };
+
+    ThreadSrv.Restangular.all('threads').getList().then(function(threads) {
+        $scope.threads = threads;
+    });
+
+    // select all/none threads
+    $scope.$watch('selectAllThreads', function(checked) {
+        angular.forEach($scope.threads, function(thread) {
+            thread.selected = checked;
+        });
+    });
 }]);
 
 }());
