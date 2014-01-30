@@ -29,16 +29,9 @@ angular.module('caliop.service.account')
                 'Content-Type': 'application/x-www-form-urlencoded'
             })
             .then(
-                function() {
-                    contactSrv.Restangular.one('contact', 'info').get()
-                    .then(
-                        function(contact) {
-                            $cookieStore.put('contact', contact);
-                            deferred.resolve(that.getContact());
-                        },
-                        function() {
-                            deferred.reject('Contact info failed');
-                        });
+                function(contactInfo) {
+                    $cookieStore.put('contact', contactInfo);
+                    deferred.resolve(that.getContact());
                 },
                 function() {
                     deferred.reject('Bad credentials');
