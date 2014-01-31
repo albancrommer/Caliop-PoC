@@ -49,7 +49,6 @@ angular.module('caliop.user')
 .controller('UserCreationCtrl', ['$scope', 'tabs',
     function AccountCtrl($scope, tabsSrv) {
 
-    console.log('UserCreationCtrl');
 }]);
 
 }());

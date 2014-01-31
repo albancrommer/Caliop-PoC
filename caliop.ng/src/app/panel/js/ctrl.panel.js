@@ -59,8 +59,6 @@ angular.module('caliop.panel', [
 .controller('PanelUsersCtrl', ['$scope', '$state', 'resolve-tab', 'tabs', 'user',
     function PanelCtrl($scope, $state, tab, InBoxTabsSrv, userSrv) {
 
-    console.log('PanelUsersCtrl');
-
     // retrieve the list of groups/users
     userSrv.Restangular.all('users').getList().then(function(users) {
         // index users by groups
@@ -105,13 +103,11 @@ angular.module('caliop.panel', [
 .controller('PanelCalendarCtrl', ['$scope', 'resolve-tab',
     function PanelCtrl($scope, tab) {
 
-    console.log('PanelCalendarCtrl');
 }])
 
 .controller('PanelFilesCtrl', ['$scope', 'resolve-tab',
     function PanelCtrl($scope, tab) {
 
-    console.log('PanelFilesCtrl');
 }]);
 
 }());

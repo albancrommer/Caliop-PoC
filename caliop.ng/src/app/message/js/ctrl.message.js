@@ -53,7 +53,6 @@ angular.module('caliop.message')
 .controller('WriteMessageCtrl', ['$scope',
     function WriteMessageCtrl($scope) {
 
-    console.log('WriteMessageCtrl');
 }]);
 
 }());

@@ -42,9 +42,6 @@ angular.module('caliop.account')
 .controller('AccountCtrl', ['$scope', 'auth',
     function AccountCtrl($scope, authSrv) {
 
-    console.log('AccountCtrl');
-
-    // $scope.contact = authSrv.getContact();
 }])
 
 /**
@@ -53,9 +50,6 @@ angular.module('caliop.account')
 .controller('PreferencesCtrl', ['$scope', 'auth',
     function PreferencesCtrl($scope, authSrv) {
 
-    console.log('PreferencesCtrl');
-
-    // console.log('PreferencesCtrl');
 }]);
 
 }());

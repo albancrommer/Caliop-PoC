@@ -75,12 +75,6 @@ angular.module('caliop', [
     }
 
     $rootScope.$on('$stateChangeStart', function(next, current) {
-        // redirect to the inbox if already logged in
-        // console.log(current.name, contact);
-        // if (current.name == 'app' && contact) {
-        //     $state.go('app.inbox');
-        // }
-
         // redirect to the login page if not authed
         if (current.name != 'app.login' && !contact) {
             $state.go('app.login');
@@ -109,9 +103,6 @@ angular.module('caliop', [
 .controller('AppCtrl', ['$scope',
     function AppCtrl($scope) {
 
-    console.log('AppCtrl');
-
-    // $scope.contact = authSrv.getContact();
 }]);
 
 }());
