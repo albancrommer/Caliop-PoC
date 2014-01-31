@@ -24,9 +24,9 @@ angular.module('caliop.user.entity.user')
         });
     };
 
-    // Recipient.prototype.displayName = function(obj) {
-    //     return [this.firstName, this.lastName].join(' ');
-    // };
+    User.prototype.displayName = function(obj) {
+        return [this.firstName, this.lastName].join(' ');
+    };
 
     User.new_ = function(obj) {
         return new User(obj);

@@ -56,52 +56,36 @@ angular.module('caliop.panel', [
     };
 }])
 
-.controller('PanelUsersCtrl', ['$scope', 'resolve-tab',
-    function PanelCtrl($scope, tab) {
+.controller('PanelUsersCtrl', ['$scope', 'resolve-tab', 'user',
+    function PanelCtrl($scope, tab, userSrv) {
 
     console.log('PanelUsersCtrl');
 
-    // userSrv.Restangular.all('users').then(function(users) {
-    //     $scope.users = users;
-    // });
+    // retrieve the list of groups/users
+    userSrv.Restangular.all('users').getList().then(function(users) {
+        // index users by groups
+        var groups = {};
+        _.map(users, function(user) {
+            _.forEach(user.groups, function(group) {
+                if (!groups[group.id]) {
+                    groups[group.id] = {
+                        'group': group,
+                        'users': []
+                    };
+                }
 
-    $scope.groups = [{
-        name: 'Famille',
-        users: [{
-            name: 'Toto',
-            connectionStatus: 1
-        }, {
-            name: 'Toto2',
-            connectionStatus: 0
-        }]
-    }, {
-        name: 'Boulot',
-        users: [{
-            name: 'Toto',
-            connectionStatus: 0
-        }, {
-            name: 'Toto2',
-            connectionStatus: 1
-        }]
-    }, {
-        name: 'Pôtes',
-        users: [{
-            name: 'Toto',
-            connectionStatus: 1
-        }, {
-            name: 'Toto2',
-            connectionStatus: 1
-        }, {
-            name: 'Toto3',
-            connectionStatus: 1
-        }]
-    }];
+                groups[group.id].users.push(user);
+            });
+        });
 
-    // count the number of connected users
-    _.map($scope.groups, function(group) {
-        group.connectedUsersCount = _.filter(group.users, function(user) {
-            return user.connectionStatus == 1;
-        }).length;
+        // count the number of connected users
+        _.map(groups, function(group) {
+            group.group.connectedUsersCount = _.filter(group.users, function(user) {
+                return user.connected;
+            }).length;
+        });
+
+        $scope.groups = groups;
     });
 }])
 

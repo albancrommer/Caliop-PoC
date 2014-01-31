@@ -1,5 +1,3 @@
-{{users}}
-
 <div class="users-content">
     <div class="btn-group">
         <button type="button" class="btn btn-default">
@@ -21,20 +19,20 @@
 
     <div class="groups">
         <div ng-repeat="group in groups">
-            <a class="" ng-click="group.isCollapsed = !group.isCollapsed">
+            <a class="" ng-click="group.group.isCollapsed = !group.group.isCollapsed">
                 <span class="caret"></span>
-                {{group.name}}
+                {{group.group.label}}
             </a>
-            ({{group.connectedUsersCount}}/{{group.users.length}})
+            ({{group.group.connectedUsersCount}}/{{group.users.length}})
 
-            <div collapse="group.isCollapsed">
+            <div collapse="group.group.isCollapsed">
                 <ul class="">
                     <li class="" ng-repeat="user in group.users">
                         <span
                             class="connected-status glyphicon glyphicon-ok-sign"
-                            ng-class="user.connectionStatus ? 'on' : 'off'">
+                            ng-class="user.connected ? 'on' : 'off'">
                         </span>
-                        {{user.name}}
+                        {{user.displayName()}}
                     </li>
                 </ul>
             </div>
