@@ -20,13 +20,14 @@ angular.module('caliop.inbox')
          * Add a new tab.
          */
         add: function(object) {
+            // if some stateParams has been filled, use them to retrieve an
+            // already opened tab
             var tabFound;
-            if (object.stateParams && object.stateParams.id) {
-                // search if the tab is already opened
-                var stateParamId = object.stateParams.id;
-
+            if (object.stateParams && object.stateParams.id && object.stateParams.type) {
                 var tabsFound = _.filter(this.tabs, function(tab) {
-                    return tab.stateParams && (tab.stateParams.id == stateParamId);
+                    return tab.stateParams  &&
+                        (tab.stateParams.id == object.stateParams.id) &&
+                        (tab.stateParams.type == object.stateParams.type);
                 });
 
                 if (tabsFound.length) {
@@ -34,12 +35,12 @@ angular.module('caliop.inbox')
                 }
             }
 
-            // select the found tab
+            // select the found if found
             if (tabFound) {
                 this.select(tabFound);
             }
 
-            // create a new tab
+            // otherwise, create a new tab
             else {
                 var tabObject = angular.extend({
                     id: this.tabs.length + 1,

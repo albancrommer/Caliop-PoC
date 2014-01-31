@@ -53,7 +53,10 @@ angular.module('caliop.inbox')
             title: $filter('joinRecipients')(thread.recipients, 3),
             tooltip: $filter('joinRecipients')(thread.recipients, -1),
             state: stateMessages,
-            stateParams: {id: thread.id},
+            stateParams: {
+                type: 'thread',
+                id: thread.id
+            },
             active: true
         });
 

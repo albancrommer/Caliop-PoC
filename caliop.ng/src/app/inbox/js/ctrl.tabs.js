@@ -10,8 +10,6 @@ angular.module('caliop.inbox')
 .controller('TabsManagementCtrl', ['$scope', '$state', 'tabs',
     function TabsManagementCtrl($scope, $state, tabsSrv) {
 
-    console.log('TabsManagementCtrl');
-
     // watch the tabs list in the service
     $scope.$watch(function() {
         return tabsSrv.tabs;
