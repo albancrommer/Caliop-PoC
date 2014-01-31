@@ -1,16 +1,24 @@
 <div class="users-content">
     <div class="btn-group">
-        <button type="button" class="btn btn-default" ng-click="createContact()">
+        <button
+            type="button"
+            class="btn btn-default"
+            ng-click="createUser()">
+
             <span class="glyphicon glyphicon-user"></span> Créer un contact
         </button>
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        <button
+            type="button"
+            class="btn btn-default dropdown-toggle"
+            data-toggle="dropdown">
+
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
         </button>
 
         <ul class="dropdown-menu" role="menu">
             <li>
-                <a href="#">
+                <a href="" ng-click="createGroup()">
                     <span class="glyphicon glyphicon-user"></span> Créer un groupe
                 </a>
             </li>

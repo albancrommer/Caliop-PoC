@@ -53,13 +53,17 @@ angular.module('caliop.inbox')
             else {
                 var tabObject = angular.extend({
                     id: this.tabs.length + 1,
-                    closable: true
+                    closable: true,
+                    active: true
                 }, object);
 
                 this.tabs.push(tabObject);
             }
 
             this.updateCookie();
+
+            // redirect
+            $state.go(object.state, object.stateParams);
         },
 
         /**
@@ -87,7 +91,7 @@ angular.module('caliop.inbox')
             var previousTab;
 
             _.remove(this.tabs, function(tab_, i) {
-                var tabFound = tab_.id == tab.id;
+                var tabFound = tab_.id == tab.id && tab_.type == tab.type;
                 if (tabFound) {
                     previousTab = that.tabs[i-1];
                 }

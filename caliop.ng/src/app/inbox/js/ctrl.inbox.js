@@ -56,11 +56,8 @@ angular.module('caliop.inbox')
             stateParams: {
                 type: 'thread',
                 id: thread.id
-            },
-            active: true
+            }
         });
-
-        $state.go(stateMessages, {id:thread.id});
     };
 
     $scope.openAttachment = function(extension) {

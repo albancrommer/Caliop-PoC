@@ -21,7 +21,7 @@ angular.module('caliop.user')
                 },
                 // ui-view="tabContent" of inbox/html/layout.tpl.html
                 'tabContent@app.user': {
-                    templateUrl: 'user/html/create.tpl.html',
+                    templateUrl: 'user/html/create-user.tpl.html',
                     controller: 'UserCreationCtrl'
                 },
                 // ui-view="panel" of 2columns.tpl.html
@@ -32,13 +32,16 @@ angular.module('caliop.user')
             }
         })
         .state('app.user.create', {
-            url: 'create',
+            url: 'create'
+        })
+        .state('app.user.createGroup', {
+            url: 'create-group',
             views: {
-                // // ui-view="main" of 2columns.tpl.html
-                // 'main@app.user': {
-                //     templateUrl: 'user/html/create.tpl.html',
-                //     controller: 'UserCreationCtrl'
-                // }
+                // ui-view="tabContent" of inbox/html/layout.tpl.html
+                'tabContent@app.user': {
+                    templateUrl: 'user/html/create-group.tpl.html',
+                    controller: 'GroupCreationCtrl'
+                }
             }
         });
 })
@@ -46,8 +49,16 @@ angular.module('caliop.user')
 /**
  * UserCreationCtrl
  */
-.controller('UserCreationCtrl', ['$scope', 'tabs',
-    function AccountCtrl($scope, tabsSrv) {
+.controller('UserCreationCtrl', ['$scope',
+    function AccountCtrl($scope) {
+
+}])
+
+/**
+ * GroupCreationCtrl
+ */
+.controller('GroupCreationCtrl', ['$scope',
+    function AccountCtrl($scope) {
 
 }]);
 

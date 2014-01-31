@@ -87,16 +87,23 @@ angular.module('caliop.panel', [
     });
 
     /**
-     * Redirection to the contact creation
+     * Add a tab and redirect to the user creation
      */
-    $scope.createContact = function() {
+    $scope.createUser = function() {
         InBoxTabsSrv.add({
             title: 'Créer un contact',
-            state: 'app.user.create',
-            active: true
+            state: 'app.user.create'
         });
+    };
 
-        $state.go('app.user.create');
+    /**
+     * Redirection to the group creation.
+     */
+    $scope.createGroup = function() {
+        InBoxTabsSrv.add({
+            title: 'Créer un groupe',
+            state: 'app.user.createGroup'
+        });
     };
 }])
 
