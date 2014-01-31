@@ -2,12 +2,12 @@
 
 "use strict";
 
-angular.module('caliop.message.entity.recipient')
+angular.module('caliop.entity.session')
 
-.factory('recipient', ['Restangular', 'string',
+.factory('session', ['Restangular', 'string',
     function (Restangular, stringSrv) {
 
-    var Recipient = function Recipient(obj) {
+    var Session = function Session(obj) {
         var self = this;
 
         angular.extend(self, obj);
@@ -24,25 +24,21 @@ angular.module('caliop.message.entity.recipient')
         });
     };
 
-    Recipient.prototype.displayName = function(obj) {
+    Session.prototype.fullname = function() {
         return [this.firstName, this.lastName].join(' ');
     };
 
-    Recipient.prototype.getAvatarSrc = function(obj) {
-        var avatar = this.avatar || 'avatar.png';
-        return '/static/assets/images/avatars/' + avatar;
+    Session.new_ = function(obj) {
+        return new Session(obj);
     };
 
-    Recipient.new_ = function(obj) {
-        return new Recipient(obj);
-    };
-
-    Restangular.addElementTransformer('recipients', false, function(obj) {
-        return Recipient.new_(obj);
+    Restangular.addElementTransformer('sessions', false, function(obj) {
+        var session = Session.new_(obj);
+        return session;
     });
 
     return {
-        new_: Recipient.new_,
+        new_: Session.new_,
         Restangular: Restangular
     };
 }]);

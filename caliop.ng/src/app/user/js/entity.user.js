@@ -2,12 +2,12 @@
 
 "use strict";
 
-angular.module('caliop.entity.account')
+angular.module('caliop.user.entity.user')
 
-.factory('contact', ['Restangular', 'string',
+.factory('user', ['Restangular', 'string',
     function (Restangular, stringSrv) {
 
-    var Contact = function Contact(obj) {
+    var User = function User(obj) {
         var self = this;
 
         angular.extend(self, obj);
@@ -24,20 +24,20 @@ angular.module('caliop.entity.account')
         });
     };
 
-    Contact.prototype.fullname = function() {
-        return [this.firstName, this.lastName].join(' ');
+    // Recipient.prototype.displayName = function(obj) {
+    //     return [this.firstName, this.lastName].join(' ');
+    // };
+
+    User.new_ = function(obj) {
+        return new User(obj);
     };
 
-    Contact.new_ = function(obj) {
-        return new Contact(obj);
-    };
-
-    Restangular.addElementTransformer('sessions', function(obj) {
-        return Contact.new_(obj);
+    Restangular.addElementTransformer('users', false, function(obj) {
+        return User.new_(obj);
     });
 
     return {
-        new_: Contact.new_,
+        new_: User.new_,
         Restangular: Restangular
     };
 }]);

@@ -7,7 +7,9 @@
  */
 angular.module('caliop.panel', [
     'templates-app',
-    'ui.router'
+    'ui.router',
+
+    'caliop.user'
 ])
 
 .config(function config($stateProvider) {
@@ -58,6 +60,10 @@ angular.module('caliop.panel', [
     function PanelCtrl($scope, tab) {
 
     console.log('PanelUsersCtrl');
+
+    // userSrv.Restangular.all('users').then(function(users) {
+    //     $scope.users = users;
+    // });
 
     $scope.groups = [{
         name: 'Famille',

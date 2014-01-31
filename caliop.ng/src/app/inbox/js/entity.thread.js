@@ -41,6 +41,13 @@ angular.module('caliop.inbox.entity.thread')
     };
 
     /**
+     * Return the last recipient.
+     */
+    Thread.prototype.getLastRecipient = function() {
+        return this.recipients[this.recipients.length - 1];
+    };
+
+    /**
      * Return the list of labels
      * @return [{caliop.inbox.entity.label}]
      */
@@ -62,13 +69,6 @@ angular.module('caliop.inbox.entity.thread')
     Thread.prototype.getSecurityColor = function() {
         var n = Math.floor((this.security * parseInt('ffffff', 16)) / 100);
         this.securityColor = n.toString(16);
-    };
-
-    /**
-     * Return the last recipient.
-     */
-    Thread.prototype.getLastRecipient = function() {
-        return this.recipients[this.recipients.length - 1];
     };
 
     /**

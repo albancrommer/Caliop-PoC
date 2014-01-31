@@ -8,11 +8,11 @@ angular.module('caliop.account', [
 
 
 angular.module('caliop.service.account', [
-    'caliop.entity.account'
+    'caliop.entity.session'
 ]);
 
 
-angular.module('caliop.entity.account', [
+angular.module('caliop.entity.session', [
     'restangular',
 
     'caliop.common.service.helpers'

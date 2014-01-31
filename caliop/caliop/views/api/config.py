@@ -28,7 +28,11 @@ def includeme(config):
         route_name='messages',
         renderer='json')
 
-    config.add_route('contact.info', '/api/mock/contact/info')
-    config.add_view('caliop.views.api.ContactInfo', route_name='contact.info', renderer='json')
+    config.add_route('users', '/api/mock/users')
+    config.add_view('caliop.views.api.Users',
+        request_method=('GET',),
+        route_name='users',
+        renderer='json')
+
 
 

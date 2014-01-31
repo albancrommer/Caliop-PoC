@@ -4,16 +4,16 @@
 
 angular.module('caliop.service.account')
 
-.factory('auth', ['contact', '$cookieStore', '$q',
-    function (contactSrv, $cookieStore, $q) {
+.factory('auth', ['session', '$cookieStore', '$q',
+    function (SessionSrv, $cookieStore, $q) {
 
     return {
         /**
          * Return the authed contact from the cookie.
          */
         getContact: function() {
-            var contact = $cookieStore.get('contact');
-            return contact ? contactSrv.new_(contact) : undefined;
+            var contact = $cookieStore.get('session');
+            return contact ? SessionSrv.new_(contact) : undefined;
         },
 
         /**
@@ -25,12 +25,12 @@ angular.module('caliop.service.account')
             var that = this,
                 deferred = $q.defer();
 
-            contactSrv.Restangular.all('sessions').post(credentials, {}, {
+            SessionSrv.Restangular.all('sessions').post(credentials, {}, {
                 'Content-Type': 'application/x-www-form-urlencoded'
             })
             .then(
                 function(contactInfo) {
-                    $cookieStore.put('contact', contactInfo);
+                    $cookieStore.put('session', contactInfo);
                     deferred.resolve(that.getContact());
                 },
                 function() {
@@ -46,10 +46,10 @@ angular.module('caliop.service.account')
          * and return a promise object.
          */
         logout: function() {
-            return contactSrv.Restangular.one('sessions').remove()
+            return SessionSrv.Restangular.one('sessions').remove()
                 .then(function(response) {
                     if (response.status == 'logout') {
-                        $cookieStore.remove('contact');
+                        $cookieStore.remove('session');
                     }
                 });
         }

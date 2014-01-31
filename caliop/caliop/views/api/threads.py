@@ -19,7 +19,6 @@ class Thread(API):
         """
         Add recipient, labels.
         """
-
         # link recipients
         thread_recipients = filter(lambda r: r['id'] in thread['recipients'],
                                    self.recipients)

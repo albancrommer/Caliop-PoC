@@ -21,7 +21,9 @@ angular.module('caliop', [
     'caliop.footer',
     'caliop.account',
     'caliop.inbox',
-    'caliop.login'
+    'caliop.login',
+    'caliop.user',
+    'caliop.panel'
 ])
 
 .config(function myAppConfig($urlRouterProvider, $stateProvider, $tooltipProvider) {
