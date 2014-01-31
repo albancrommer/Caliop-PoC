@@ -16,13 +16,15 @@ angular.module('caliop.inbox')
             title: 'Conversations',
             state: 'app.inbox',
             active: true,
-            closable: false
+            closable: false,
+            last: false
         }, {
             id: 2,
             icon: 'pencil',
             state: 'app.inbox.writeMessage',
             active: false,
-            closable: false
+            closable: false,
+            last: true
         }],
 
         /**
@@ -54,11 +56,17 @@ angular.module('caliop.inbox')
                 var tabObject = angular.extend({
                     id: this.tabs.length + 1,
                     closable: true,
-                    active: true
+                    active: true,
+                    last: false
                 }, object);
 
                 this.tabs.push(tabObject);
             }
+
+            // keep the write message tab at the end
+            this.tabs = _.sortBy(this.tabs, function(tab) {
+                return tab.last;
+            });
 
             this.updateCookie();
 
