@@ -56,8 +56,8 @@ angular.module('caliop.panel', [
     };
 }])
 
-.controller('PanelUsersCtrl', ['$scope', 'resolve-tab', 'user',
-    function PanelCtrl($scope, tab, userSrv) {
+.controller('PanelUsersCtrl', ['$scope', '$state', 'resolve-tab', 'tabs', 'user',
+    function PanelCtrl($scope, $state, tab, InBoxTabsSrv, userSrv) {
 
     console.log('PanelUsersCtrl');
 
@@ -87,6 +87,19 @@ angular.module('caliop.panel', [
 
         $scope.groups = groups;
     });
+
+    /**
+     * Redirection to the contact creation
+     */
+    $scope.createContact = function() {
+        InBoxTabsSrv.add({
+            title: 'Créer un contact',
+            state: 'app.user.create',
+            active: true
+        });
+
+        $state.go('app.user.create');
+    };
 }])
 
 .controller('PanelCalendarCtrl', ['$scope', 'resolve-tab',

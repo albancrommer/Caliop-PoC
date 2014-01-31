@@ -9,7 +9,6 @@ angular.module('caliop.inbox', [
 
     /* external dependancies */
     'caliop.message',
-    // 'caliop.panel',
     'caliop.attachment'
 ]);
 
@@ -29,7 +28,6 @@ angular.module('caliop.inbox.entity.thread', [
 
     /* internal dependancies */
     'caliop.inbox.entity.label',
-
 
     /* external dependancies */
     'caliop.common.service.helpers',

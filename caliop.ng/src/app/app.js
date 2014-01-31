@@ -19,10 +19,10 @@ angular.module('caliop', [
     /* components */
     'caliop.header',
     'caliop.footer',
-    'caliop.account',
-    'caliop.inbox',
-    'caliop.login',
     'caliop.user',
+    'caliop.inbox',
+    'caliop.account',
+    'caliop.login',
     'caliop.panel'
 ])
 
@@ -31,7 +31,7 @@ angular.module('caliop', [
 
     $stateProvider
         .state('app', {
-            url: '',
+            url: '/',
             views: {
                 // ui-view="header" of index.tpl.html
                 'header': {
@@ -74,8 +74,14 @@ angular.module('caliop', [
         $state.go('app.login');
     }
 
-    // redirect to the app if already logged in
     $rootScope.$on('$stateChangeStart', function(next, current) {
+        // redirect to the inbox if already logged in
+        // console.log(current.name, contact);
+        // if (current.name == 'app' && contact) {
+        //     $state.go('app.inbox');
+        // }
+
+        // redirect to the login page if not authed
         if (current.name != 'app.login' && !contact) {
             $state.go('app.login');
         }

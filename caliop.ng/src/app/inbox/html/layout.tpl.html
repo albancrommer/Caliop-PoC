@@ -27,7 +27,7 @@
             active="tab.active"
             disabled="tab.disabled">
 
-            <tab-heading ng-class="{ 'closable' : !!tab.tooltip }">
+            <tab-heading ng-class="{ 'closable' : tab.closable }">
                 <span
                     tooltip="{{tab.tooltip}}"
                     ng-bind-html="tab.title">
@@ -38,7 +38,7 @@
                     class="close"
                     aria-hidden="true"
                     ng-click="closeTab(tab)"
-                    ng-if="!!tab.tooltip">&times;
+                    ng-if="tab.closable">&times;
                 </button>
             </tab-heading>
         </tab>

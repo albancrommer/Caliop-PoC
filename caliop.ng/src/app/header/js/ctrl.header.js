@@ -8,12 +8,10 @@
 angular.module('caliop.header', [
 ])
 
-.controller('HeaderCtrl', [
-    function HeaderCtrl() {
+.controller('HeaderCtrl', ['$scope',
+    function HeaderCtrl($scope) {
 
     // console.log('HeaderCtrl', authSrv.getContact());
-
-
 }]);
 
 }());
