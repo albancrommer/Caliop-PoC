@@ -7,12 +7,21 @@ angular.module('caliop.inbox')
 .factory('tabs', ['$cookieStore', '$state',
     function ($cookieStore, $state) {
 
+    // @TODO Fix the cookie name to be session based
+    var COOKIE_NAME = 'inBoxTabs';
+
     return {
-        tabs: [{
+        tabs: $cookieStore.get(COOKIE_NAME) || [{
             id: 1,
             title: 'Conversations',
             state: 'app.inbox',
             active: true,
+            closable: false
+        }, {
+            id: 2,
+            icon: 'pencil',
+            state: 'app.inbox.writeMessage',
+            active: false,
             closable: false
         }],
 
@@ -49,27 +58,54 @@ angular.module('caliop.inbox')
 
                 this.tabs.push(tabObject);
             }
+
+            this.updateCookie();
         },
 
         /**
          * Select an existing tab.
          */
         select: function(tab) {
-            tab.active = true;
-            $state.go(tab.state, tab.stateParams || {});
+            _.map(this.tabs, function(tab_) {
+                // activate the clicked tab, deactivate others
+                tab_.active = tab_.id == tab.id;
+            });
+
+            if (tab.state) {
+                var params = tab.stateParams || {};
+                $state.go(tab.state, params);
+            }
+
+            this.updateCookie();
         },
 
         /**
          * Close a tab.
          */
         close: function(tab) {
-            _.remove(this.tabs, function(tab_) {
-                return tab_.id == tab.id;
+            var that = this;
+            var previousTab;
+
+            _.remove(this.tabs, function(tab_, i) {
+                var tabFound = tab_.id == tab.id;
+                if (tabFound) {
+                    previousTab = that.tabs[i-1];
+                }
+                return tabFound;
             });
 
-            // go to the state of the previous tab
-            var lastTab = this.tabs[this.tabs.length-1];
-            $state.go(lastTab.state, lastTab.stateParams || {});
+            // activate and go to the state of the previous tab
+            previousTab.active = true;
+            $state.go(previousTab.state, previousTab.stateParams || {});
+
+            this.updateCookie();
+        },
+
+        /**
+         * Save tabs in a cookie to keep persistence.
+         */
+        updateCookie: function() {
+            $cookieStore.put(COOKIE_NAME, this.tabs);
         }
     };
 }]);

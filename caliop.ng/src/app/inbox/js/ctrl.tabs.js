@@ -7,8 +7,8 @@ angular.module('caliop.inbox')
 /**
  * TabsManagementCtrl
  */
-.controller('TabsManagementCtrl', ['$scope', '$state', 'tabs',
-    function TabsManagementCtrl($scope, $state, tabsSrv) {
+.controller('TabsManagementCtrl', ['$scope', 'tabs',
+    function TabsManagementCtrl($scope, tabsSrv) {
 
     // watch the tabs list in the service
     $scope.$watch(function() {
@@ -21,17 +21,7 @@ angular.module('caliop.inbox')
      * Load the content of a tab.
      */
     $scope.loadContent = function(tab) {
-        if (tab.state) {
-            var params = tab.stateParams || {};
-            $state.go(tab.state, params);
-        }
-    };
-
-    /**
-     * Redirect to the write message interface.
-     */
-    $scope.writeMessage = function(tab) {
-        $state.go('app.inbox.writeMessage');
+        tabsSrv.select(tab);
     };
 
     /**
