@@ -37,11 +37,15 @@ class AbstractIndex(object):
         return True if res.status_code == 200 else False
 
     @classmethod
-    def create_index(cls, user_id, id, idx_object):
+    def create(cls, user_id, id, data):
         route = '%s/%s/%s/%s' % (cls.index_server_url, user_id, cls.type, id)
-        obj = idx_object.to_dict()
-        res = requests.put(route, to_json(obj))
+        res = requests.put(route, to_json(data))
         return True if res.status_code == 200 else False
+
+    @classmethod
+    def create_index(cls, user_id, id, idx_object):
+        obj = idx_object.to_dict()
+        return cls.create(user_id, id, obj)
 
     @classmethod
     def filter(cls, user_id, params):
