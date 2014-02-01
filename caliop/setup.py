@@ -17,6 +17,7 @@ requires = [
     'dateutils',
     'requests',
     'bcrypt',
+    'PyYAML',
     ]
 
 setup(name='caliop',
