@@ -52,6 +52,19 @@ angular.module('caliop.user')
 .controller('UserCreationCtrl', ['$scope',
     function AccountCtrl($scope) {
 
+    $scope.telephones = [{
+        number: undefined
+    }];
+
+    $scope.addTelephone = function() {
+        $scope.telephones.push({
+            number: undefined
+        });
+    };
+
+    $scope.removeTelephone = function(index) {
+        $scope.telephones.splice(index, 1);
+    };
 }])
 
 /**

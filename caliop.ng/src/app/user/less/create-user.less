@@ -1,0 +1,27 @@
+div#create-user-form {
+    div.no-margin-left {
+        padding-left: 0;
+    }
+
+    div.telephones {
+
+        select {
+            width: 120px;
+            .inlineblock();
+
+            & ~ span{
+                .inlineblock();
+
+                &.add {
+                    margin: 8px 0 0 5px;
+                }
+
+                &.remove {
+                    margin: 9px 0 0 5px;
+                }
+            }
+        }
+
+    }
+}
+
