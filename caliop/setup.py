@@ -13,7 +13,10 @@ requires = [
     'pyramid_jinja2',
     'simplejson',
     'sphinx',
-    'sphinxcontrib-httpdomain'
+    'sphinxcontrib-httpdomain',
+    'dateutils',
+    'requests',
+    'bcrypt',
     ]
 
 setup(name='caliop',
