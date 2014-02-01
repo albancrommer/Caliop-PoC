@@ -6,11 +6,6 @@ class IndexedMessage(BaseIndexMessage):
 
     type = 'message'
 
-    def __init__(self, user_id, uid):
-        self.get(user_id, uid)
-        self.user_id = user_id
-        self.uid = uid
-
     def add_tag(self, tag):
         if tag in self.tags:
             return False
