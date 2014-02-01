@@ -19,14 +19,13 @@ class AbstractIndex(object):
         for col in self.columns:
             setattr(self, col, data.get(col, None))
 
-    def get(self, user_id, uid):
-        route = "%s/%s/%s/%s" % (self.index_server_url, user_id, self.type, id)
+    @classmethod
+    def get(cls, user_id, uid):
+        route = "%s/%s/%s/%s" % (cls.index_server_url, user_id, cls.type, id)
         res = requests.get(route)
         if res.status_code == 200:
-            message = res.json()
-            for col in self.columns:
-                setattr(self, col, message[col])
-        raise Exception('Index %s/%s/%s not found' % (user_id, self.type, id))
+            return cls(res.json())
+        raise Exception('Index %s/%s/%s not found' % (user_id, cls.type, id))
 
     def refresh(self):
         self.get(self.user_id, self.uid)
