@@ -38,3 +38,10 @@ class User(AbstractCore):
         counter.model.message_id += 1
         counter.save()
         return counter.message_id
+
+    def new_thread_id(self):
+        counter = Counter.get(self.id)
+        # XXX : MUST be handled by core object correctly
+        counter.model.thread_id += 1
+        counter.save()
+        return counter.thread_id
