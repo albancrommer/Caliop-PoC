@@ -1,10 +1,8 @@
 from caliop.store.base import BaseIndexMessage
 
 
-class IndexedMessage(BaseIndexMessage):
-    """Message from index server with helpers methods"""
-
-    type = 'message'
+class TagMixin(object):
+    """Mixin for indexed objects havings tags"""
 
     def add_tag(self, tag):
         if tag in self.tags:
@@ -38,3 +36,9 @@ class IndexedMessage(BaseIndexMessage):
         self.update(query)
         self.refresh()
         return True
+
+
+class IndexedMessage(BaseIndexMessage, TagMixin):
+    """Message from index server with helpers methods"""
+
+    type = 'message'
