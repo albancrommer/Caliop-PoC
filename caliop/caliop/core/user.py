@@ -31,3 +31,9 @@ class User(AbstractCore):
         if bcrypt.hashpw(password, user.password) == user.password:
             return cls(user)
         raise Exception('Invalid credentials')
+
+    def new_message_id(self):
+        counter = Counter.get(self.id)
+        counter.message_id += 1
+        counter.save()
+        return counter.message_id

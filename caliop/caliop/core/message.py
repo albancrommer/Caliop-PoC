@@ -6,7 +6,7 @@ from caliop.store import (Message as ModelMessage,
                           MailIndexMessage)
 
 from caliop.core.base import AbstractCore
-from caliop.core.user import User, Counter
+from caliop.core.user import User
 
 
 class Message(AbstractCore):
@@ -40,19 +40,15 @@ class Message(AbstractCore):
             index = MailIndexMessage(mail)
 
             for user in find_users:
-                counter = Counter.get(user.id)
-                counter.message_id += 1
-                counter.save()
-                msg = Message.create(user_id=user.id,
-                                     message_id=counter.message_id,
-                                     date_insert=datetime.utcnow(),
-                                     external_id=index.message_id,
-                                     thread_id=index.thread_id)
+                message_id = user.new_message_id()
+                msg = cls.create(user_id=user.id,
+                                 message_id=message_id,
+                                 date_insert=datetime.utcnow(),
+                                 external_id=index.message_id,
+                                 thread_id=index.thread_id)
                 # XXX write raw message in store using msg pkey
-                messages.append(cls(msg))
+                messages.append(msg)
                 # XXX index message asynchronously ?
-                cls._index_class.create_index(user.id,
-                                              counter.message_id,
-                                              index)
+                cls._index_class.create_index(user.id, message_id, index)
             return messages
         return []
