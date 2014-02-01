@@ -92,7 +92,11 @@ angular.module('caliop.panel', [
     $scope.createUser = function() {
         InBoxTabsSrv.add({
             title: 'Créer un contact',
-            state: 'app.user.create'
+            state: 'app.user.create',
+            stateParams: {
+                type: 'createUser',
+                id: 'createUser'
+            }
         });
     };
 
