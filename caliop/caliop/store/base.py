@@ -4,7 +4,6 @@ from email.message import Message as mailMessage
 import json
 import requests
 
-from caliop.helpers.json import to_json
 from caliop.config import Configuration
 
 
@@ -74,10 +73,6 @@ class AbstractIndex(object):
             # XXX only not none columns ?
             data.update({col: getattr(self, col)})
         return data
-
-    def to_json(self):
-        data = self.to_dict()
-        return to_json(data)
 
 
 class UserIndex(AbstractIndex):
