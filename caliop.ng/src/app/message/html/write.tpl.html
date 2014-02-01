@@ -3,8 +3,23 @@
         <div class="form-group">
             <label for="messageto" class="col-xs-1 control-label">À</label>
             <div class="col-xs-7">
-                <input type="text" class="form-control input-default" id="messageto" name="messageto" ng-model="message.to" placeholder="Destinataire">
+                <span class="badge recipient-picked" ng-repeat="recipient in pickedRecipients">
+                    {{recipient.displayName()}}
+                    <span
+                        class="glyphicon glyphicon-remove cursor"
+                        ng-click="removeRecipient(recipient); focusInput=true"></span>
+                </span>
+                <input
+                    type="text"
+                    class="form-control recipient"
+                    id="messageto"
+                    name="messageto"
+                    placeholder="Destinataire"
+                    ng-model="to"
+                    focus-on="recipientRemoved"
+                    typeahead="user.displayName() for user in users | filter:$to | limitTo:8">
             </div>
+            {{to}}
             <div class="col-xs-4 cc">
                 <a href="#">Cc</a>/<a href="#">Cci</a>
             </div>

@@ -50,9 +50,50 @@ angular.module('caliop.message')
 /**
  * WriteMessageCtrl
  */
-.controller('WriteMessageCtrl', ['$scope',
-    function WriteMessageCtrl($scope) {
+.controller('WriteMessageCtrl', ['$scope', 'user',
+    function WriteMessageCtrl($scope, userSrv) {
 
-}]);
+    // retrieve the list of groups/users
+    userSrv.Restangular.all('users').getList().then(function(users) {
+        $scope.users = users;
+
+        $scope.pickedRecipients = [];
+        $scope.$watch('to', function(userName) {
+            // remove it from the available users
+            var removedUsers = _.remove($scope.users, function(user) {
+                return userName == user.displayName();
+            });
+
+            if (removedUsers.length) {
+                // add user to recipients
+                $scope.pickedRecipients = _.union($scope.pickedRecipients, removedUsers);
+                $scope.to = '';
+            }
+        });
+    });
+
+    $scope.removeRecipient = function(recipient) {
+        var removedRecipients = _.remove($scope.pickedRecipients, function(recipient_) {
+            return recipient_.displayName() == recipient.displayName();
+        });
+
+        // merge the list of users with the list of removed recipients
+        $scope.users = _.union($scope.users, removedRecipients);
+
+        // focus the input by using the directive 'focusOn'
+        $scope.$broadcast('recipientRemoved');
+    };
+}])
+
+/**
+ * Allow to focus an element by broadcasting an event in the scope.
+ */
+.directive('focusOn', function() {
+   return function(scope, elem, attr) {
+      scope.$on(attr.focusOn, function(e) {
+          elem[0].focus();
+      });
+   };
+});
 
 }());
