@@ -24,6 +24,13 @@ class Contact(Model):
     infos = columns.Map(columns.Text, columns.Text)
 
 
+class ContactLookup(Model):
+    """Lookup any information needed to recognize a user contact"""
+    user_id = columns.Text(primary_key=True)
+    value = columns.Text(primary_key=True)
+    contact_id = columns.UUID()
+
+
 class Message(Model):
     user_id = columns.Text(primary_key=True)
     message_id = columns.Integer(primary_key=True)  # counter.message_id
