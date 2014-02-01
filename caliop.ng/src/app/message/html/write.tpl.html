@@ -17,9 +17,7 @@
                     placeholder="Destinataire"
                     ng-model="to"
                     focus-on="recipientRemoved"
-                    typeahead="user.displayName() for user in users | filter:$to | limitTo:8">
-            </div>
-            <div class="col-xs-4 cc">
+                    typeahead="user.displayName() for user in users | filter:$to | limitTo:8">&nbsp;
                 <a href="#">Cc</a>/<a href="#">Cci</a>
             </div>
         </div>
