@@ -52,3 +52,9 @@ class Message(AbstractCore):
                 cls._index_class.create_index(user.id, message_id, index)
             return messages
         return []
+
+    @classmethod
+    def find(cls, user, filters, orders=None):
+        """Query index to get messages matching query"""
+        messages = cls._index_class.filter(user.id, filters)
+        return messages
