@@ -41,4 +41,10 @@ class TagMixin(object):
 class IndexedMessage(BaseIndexMessage, TagMixin):
     """Message from index server with helpers methods"""
 
-    type = 'message'
+    type = 'messages'
+
+
+class IndexedContact(BaseIndexMessage, TagMixin):
+    """Contact from index server with helpers methods"""
+
+    type = 'contacts'
