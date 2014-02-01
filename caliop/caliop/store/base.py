@@ -1,10 +1,10 @@
 from dateutil.parser import parse as parse_date
 from email.message import Message as mailMessage
 
-import json
 import requests
 
 from caliop.config import Configuration
+from caliop.helpers.json import to_json
 
 
 class AbstractIndex(object):
@@ -34,14 +34,14 @@ class AbstractIndex(object):
     def update(self, query):
         route = "%s/%s/%s/%s/_update" % \
             (self.index_server_url, self.user_id, self.type, self.uid)
-        res = requests.post(route, data=json.dumps(query))
+        res = requests.post(route, data=to_json(query))
         return True if res.status_code == 200 else False
 
     @classmethod
     def create_index(cls, user_id, id, idx_object):
         route = '%s/%s/%s/%s' % (cls.index_server_url, user_id, cls.type, id)
-        obj = idx_object.to_json()
-        res = requests.put(route, obj)
+        obj = idx_object.to_dict()
+        res = requests.put(route, to_json(obj))
         return True if res.status_code == 200 else False
 
     @classmethod
@@ -60,7 +60,7 @@ class AbstractIndex(object):
             }
         }
         route = "%s/%s/%s/_search?" % (cls.index_server_url, cls.type, user_id)
-        res = requests.get(route, data=json.dumps(query))
+        res = requests.get(route, data=to_json(query))
         data = res.json()
         if data.get('hits', {}).get('hits'):
             return [cls(x['_source'])
