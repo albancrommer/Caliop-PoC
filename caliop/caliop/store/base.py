@@ -59,7 +59,7 @@ class AbstractIndex(object):
                 }
             }
         }
-        route = "%s/%s/%s/_search?" % (cls.index_server_url, cls.type, user_id)
+        route = "%s/%s/%s/_search?" % (cls.index_server_url, user_id, cls.type)
         res = requests.get(route, data=to_json(query))
         data = res.json()
         if data.get('hits', {}).get('hits'):
