@@ -34,6 +34,7 @@ class User(AbstractCore):
 
     def new_message_id(self):
         counter = Counter.get(self.id)
-        counter.message_id += 1
+        # XXX : MUST be handled by core object correctly
+        counter.model.message_id += 1
         counter.save()
         return counter.message_id
