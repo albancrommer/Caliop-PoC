@@ -103,10 +103,11 @@ class BaseIndexMessage(AbstractIndex):
 class MailIndexMessage(BaseIndexMessage):
     """Get a mail message object, and parse it to make an index"""
 
-    def __init__(self, mail):
+    def __init__(self, mail, parts):
         if not isinstance(mail, mailMessage):
             raise Exception('Invalid mail')
         self._parse_mail(mail)
+        self._parse_parts(parts)
 
     def _parse_mail(self, mail):
         self.subject = mail.get('Subject')
@@ -118,7 +119,20 @@ class MailIndexMessage(BaseIndexMessage):
         self.date = parse_date(mail.get('Date'))
         self.message_id = mail.get('Message-Id')
         self.thread_id = mail.get('Thread-Id')
-        self.slug = mail.get_payload()[:200]
+        if not mail.is_multipart():
+            self.slug = mail.get_payload()[:200]
+        else:
+            # XXX: extract first text slug
+            self.slug = None
         self.size = len(mail.get_payload())
         self.tags = ['MAIL', 'INBOX']
         self.markers = ['U']
+
+    def _parse_parts(self, parts):
+        self.parts = {}
+        for part in parts:
+            self.parts.update({'id': part.id,
+                               'size': part.size,
+                               'content_type': part.content_type,
+                               'filename': part.filename,
+                               'content': part.get_text()})
