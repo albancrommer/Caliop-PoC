@@ -37,6 +37,18 @@ class Message(Model):
     thread_id = columns.Integer()                   # counter.thread_id
     date_insert = columns.DateTime()
     external_id = columns.Text()
+    parts = columns.List(columns.UUID)
+
+
+class MessagePart(Model):
+    id = columns.UUID(primary_key=True, default=uuid.uuid4)
+    content_type = columns.Text()
+    size = columns.Integer()
+    filename = columns.Text()
+    # base64 encoded payload
+    payload = columns.Text()
+    # Map user and related message for this part
+    users = columns.Map(columns.Text, columns.Integer)
 
 
 class RRule(Model):
