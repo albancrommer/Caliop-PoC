@@ -1,5 +1,6 @@
 import logging
 from mailbox import Message as Rfc2822
+from email.utils import parseaddr
 
 from caliop.core.user import User
 
@@ -16,10 +17,17 @@ class Message(object):
             log.error('Parse message failed %s' % exc)
             raise
         self.users = self._resolve_users()
+        if self.users:
+            self.parts = self._extract_parts()
+        else:
+            self.parts = []
 
     def _address_to_user(self, addr):
         """Clean an email address for user resolve"""
-        name, domain = addr.lower().split('@', 2)
+        real_name, email = parseaddr(addr)
+        if not email:
+            raise Exception('Invalid email address %s' % addr)
+        name, domain = email.lower().split('@', 2)
         if '+' in name:
             name, ext = name.split('+', 2)
         # unicode everywhere
@@ -41,3 +49,9 @@ class Message(object):
                 # XXX handle NotFound only
                 pass
         return find_users
+
+    def _extract_parts(self):
+        """Multipart message, extract parts"""
+        if not self.mail.is_multipart():
+            return []
+        return [x for x in self.mail.walk()]
