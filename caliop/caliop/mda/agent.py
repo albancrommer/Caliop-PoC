@@ -1,6 +1,7 @@
 from caliop.helpers.log import log
 from caliop.mda.message import Message as Mail
 from caliop.core.message import Message, MessagePart
+from caliop.core.contact import ContactLookup
 
 
 class DeliveryAgent(object):
@@ -11,9 +12,24 @@ class DeliveryAgent(object):
     def __init__(self, conf):
         self.conf = conf
 
+    def _resolve_user_contacts(self, user, mail):
+        """Find all contacts known in the mail"""
+        contacts = []
+        for addr in mail.all_recipients():
+            log.debug('Try to resolve contact %s' % addr)
+            try:
+                contact = ContactLookup.get(user, addr)
+                contacts.append(contact)
+            except:
+                # XXX filter only not found
+                pass
+        return contacts
+
     def process_user_mail(self, user, mail, parts):
         # XXX : logic here, for user rules etc
-        return Message.create_from_mail(user, mail, parts)
+        contacts = self._resolve_user_contacts(user, mail)
+        log.debug('Found %d contacts' % len(contacts))
+        return Message.create_from_mail(user, mail.mail, parts, contacts)
 
     def process(self, buf):
         """
@@ -33,7 +49,7 @@ class DeliveryAgent(object):
                     parts.append(part)
         if mail.users:
             for user in mail.users:
-                message = self.process_user_mail(user, mail.mail, parts)
+                message = self.process_user_mail(user, mail, parts)
                 if message:
                     log.debug('Delivery OK for message %s:%d' %
                               (user.id, message.message_id))
