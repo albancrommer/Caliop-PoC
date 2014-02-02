@@ -1,7 +1,7 @@
 import logging
 from mailbox import Message as Rfc2822
-from email.utils import parseaddr
 
+from caliop.helpers.format import clean_email_address
 from caliop.core.user import User
 
 
@@ -16,33 +16,27 @@ class Message(object):
         except Exception, exc:
             log.error('Parse message failed %s' % exc)
             raise
+        # Get recipients
+        addrs = [self.mail.get('To', [])]
+        addrs.extend(self.mail.get('Cc', []))
+        addrs.extend(self.mail.get('Bcc', []))
+        self.recipients = [clean_email_address(x) for x in addrs]
+        self.from_ = clean_email_address(self.mail.get('From'))
         self.users = self._resolve_users()
         if self.users:
             self.parts = self._extract_parts()
         else:
             self.parts = []
 
-    def _address_to_user(self, addr):
-        """Clean an email address for user resolve"""
-        real_name, email = parseaddr(addr)
-        if not email:
-            raise Exception('Invalid email address %s' % addr)
-        name, domain = email.lower().split('@', 2)
-        if '+' in name:
-            name, ext = name.split('+', 2)
-        # unicode everywhere
-        return u'%s@%s' % (name, domain)
+    def all_recipients(self):
+        return self.recipients + [self.from_]
 
     def _resolve_users(self):
         """Find all users involved in this mail"""
-        addrs = [self.mail.get('To', [])]
-        addrs.extend(self.mail.get('Cc', []))
-        addrs.extend(self.mail.get('Bcc', []))
         find_users = []
-        for addr in addrs:
+        for addr in self.recipients:
             try:
-                # XXX : remove extension in mail to find correctly user (+)
-                user = User.get(self._address_to_user(addr))
+                user = User.get(addr)
                 if not user in find_users:
                     find_users.append(user)
             except:
