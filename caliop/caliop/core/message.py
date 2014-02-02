@@ -1,11 +1,11 @@
 from datetime import datetime
 
+from caliop.helpers.log import log
+from caliop.core.base import AbstractCore
 from caliop.store import (Message as ModelMessage,
                           MessagePart as ModelMessagePart,
                           IndexedMessage,
                           MailIndexMessage)
-
-from caliop.core.base import AbstractCore
 
 
 class MessagePart(AbstractCore):
@@ -56,6 +56,7 @@ class Message(AbstractCore):
         # XXX write raw message in store using msg pkey
         # XXX index message asynchronously ?
         cls._index_class.create_index(user.id, message_id, index)
+        log.debug('Indexing message %s:%d' % (user.id, message_id))
         return msg
 
     @classmethod

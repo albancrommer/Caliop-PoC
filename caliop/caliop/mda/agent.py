@@ -1,3 +1,4 @@
+from caliop.helpers.log import log
 from caliop.mda.message import Message as Mail
 from caliop.core.message import Message, MessagePart
 
@@ -26,11 +27,15 @@ class DeliveryAgent(object):
             for part in mail.parts:
                 if not part.get_content_type() in self.exclude_parts:
                     part = MessagePart.create(part, mail.users)
+                    log.debug('Created part %s (%s)' %
+                              (part.id, part.content_type))
                     part.save()
                     parts.append(part)
         if mail.users:
             for user in mail.users:
                 message = self.process_user_mail(user, mail.mail, parts)
                 if message:
+                    log.debug('Delivery OK for message %s:%d' %
+                              (user.id, message.message_id))
                     messages.append(message)
         return messages
