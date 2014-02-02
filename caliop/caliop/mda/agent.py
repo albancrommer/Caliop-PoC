@@ -28,10 +28,8 @@ class DeliveryAgent(object):
                     part = MessagePart.create(part, mail.users)
                     part.save()
                     parts.append(part)
-        print "Parts %r" % ([x.id for x in parts])
         if mail.users:
             for user in mail.users:
-                print "Processing mail for user %s" % user.id
                 message = self.process_user(user, mail.mail, parts)
                 if message:
                     messages.append(message)

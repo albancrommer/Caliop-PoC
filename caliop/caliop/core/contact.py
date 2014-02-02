@@ -2,7 +2,6 @@ from caliop.store import (Contact as ModelContact,
                           ContactLookup as ModelLookup,
                           IndexedContact)
 from caliop.core.base import AbstractCore
-from caliop.core.user import User
 
 
 class ContactLookup(AbstractCore):
@@ -18,7 +17,6 @@ class Contact(AbstractCore):
     @classmethod
     def create(cls, user, infos):
         c = super(Contact, cls).create(user_id=user.id, infos=infos)
-        print("Created contact %s" % c.id)
         # Create infos lookup
         for k, v in infos.iteritems():
             if 'tel' in k or 'mail' in k:
