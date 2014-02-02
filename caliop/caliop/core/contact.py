@@ -8,6 +8,11 @@ class ContactLookup(AbstractCore):
 
     _model_class = ModelLookup
 
+    @classmethod
+    def get(cls, user, value):
+        obj = cls._model_class.get(user_id=user.id, value=value)
+        return cls(obj)
+
 
 class Contact(AbstractCore):
 
