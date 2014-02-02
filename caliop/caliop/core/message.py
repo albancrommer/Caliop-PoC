@@ -1,10 +1,36 @@
 from datetime import datetime
 
 from caliop.store import (Message as ModelMessage,
+                          MessagePart as ModelMessagePart,
                           IndexedMessage,
                           MailIndexMessage)
 
 from caliop.core.base import AbstractCore
+
+
+class MessagePart(AbstractCore):
+
+    _model_class = ModelMessagePart
+
+    text_content_types = ['text/plain', 'text/html']
+
+    @classmethod
+    def create(cls, part, users):
+        users_id = dict((user.id, 0) for user in users)
+        size = len(part.get_payload())
+        part = super(MessagePart, cls).\
+            create(content_type=part.get_content_type(),
+                   size=size,
+                   filename=part.get_filename(),
+                   payload=part.get_payload(),
+                   users=users_id)
+        return part
+
+    def get_text(self):
+        """Extract text information from part if possible"""
+        if self.content_type in self.text_content_types:
+            return self.payload
+        return None
 
 
 class Message(AbstractCore):
@@ -13,16 +39,20 @@ class Message(AbstractCore):
     _index_class = IndexedMessage
 
     @classmethod
-    def create_from_mail(cls, user, mail):
-        index = MailIndexMessage(mail)
-
+    def create_from_mail(cls, user, mail, parts=[]):
+        index = MailIndexMessage(mail, parts)
+        parts_id = [x.id for x in parts]
         message_id = user.new_message_id()
         msg = cls.create(user_id=user.id,
                          message_id=message_id,
                          date_insert=datetime.utcnow(),
                          external_id=index.message_id,
-                         thread_id=index.thread_id)
-        # XXX : dispatch attachment
+                         thread_id=index.thread_id,
+                         parts=parts_id)
+        # set message_id into parts
+        for part in parts:
+            part.users[user.id] = msg.message_id
+            part.save()
         # XXX write raw message in store using msg pkey
         # XXX index message asynchronously ?
         cls._index_class.create_index(user.id, message_id, index)
