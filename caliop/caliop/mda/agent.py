@@ -10,7 +10,7 @@ class DeliveryAgent(object):
     def __init__(self, conf):
         self.conf = conf
 
-    def process_user(self, user, mail, parts):
+    def process_user_mail(self, user, mail, parts):
         # XXX : logic here, for user rules etc
         return Message.create_from_mail(user, mail, parts)
 
@@ -22,7 +22,7 @@ class DeliveryAgent(object):
 
         messages = []
         parts = []
-        if mail.parts:
+        if mail.parts and mail.users:
             for part in mail.parts:
                 if not part.get_content_type() in self.exclude_parts:
                     part = MessagePart.create(part, mail.users)
@@ -30,7 +30,7 @@ class DeliveryAgent(object):
                     parts.append(part)
         if mail.users:
             for user in mail.users:
-                message = self.process_user(user, mail.mail, parts)
+                message = self.process_user_mail(user, mail.mail, parts)
                 if message:
                     messages.append(message)
         return messages
