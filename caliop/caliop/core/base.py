@@ -1,3 +1,6 @@
+from cqlengine import columns
+
+
 class AbstractCore(object):
     """Abstract class for all core objects"""
     _model_class = None
@@ -24,4 +27,7 @@ class AbstractCore(object):
 
     def __getattr__(self, attr):
         if attr in self.model._columns.keys():
-            return getattr(self.model, attr)
+            col = getattr(self.model, attr)
+            if isinstance(self.model._columns[attr], columns.UUID):
+                return str(col)
+            return col
