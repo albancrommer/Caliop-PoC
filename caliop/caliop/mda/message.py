@@ -8,7 +8,7 @@ from caliop.core.user import User
 log = logging.getLogger(__name__)
 
 
-class Message(object):
+class MdaMessage(object):
 
     def __init__(self, raw):
         try:

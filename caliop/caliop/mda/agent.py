@@ -1,5 +1,5 @@
 from caliop.helpers.log import log
-from caliop.mda.message import Message as Mail
+from caliop.mda.message import MdaMessage
 from caliop.core.message import Message, MessagePart
 from caliop.core.contact import ContactLookup
 
@@ -35,7 +35,7 @@ class DeliveryAgent(object):
         """
         Process a mail from buffer, to deliver it to users that can be found
         """
-        mail = Mail(buf)
+        mail = MdaMessage(buf)
 
         messages = []
         parts = []
