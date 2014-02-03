@@ -2,7 +2,9 @@
 
 "use strict";
 
-angular.module('caliop.common.entity.base', [])
+angular.module('caliop.common.entity.base', [
+    'restangular'
+])
 
 .factory('base', ['Restangular', 'string',
     function (Restangular, stringSrv) {

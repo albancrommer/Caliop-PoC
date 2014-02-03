@@ -4,25 +4,11 @@
 
 angular.module('caliop.message.entity.recipient')
 
-.factory('recipient', ['Restangular', 'string',
-    function (Restangular, stringSrv) {
+.factory('recipient', ['Restangular', 'base',
+    function (Restangular, BaseEnt) {
 
-    var Recipient = function Recipient(obj) {
-        var self = this;
-
-        angular.extend(self, obj);
-
-        // save obj struct in the object
-        angular.forEach(obj, function(value, key) {
-            key = stringSrv.toCamelCase(key);
-            self[key] = value;
-
-            // convert dates to moment objects
-            if (/^date/.test(key)) {
-                self[key] = moment(self[key]);
-            }
-        });
-    };
+    function Recipient() { BaseEnt.apply(this, arguments); }
+    Recipient.prototype = Object.create(BaseEnt.prototype);
 
     Recipient.prototype.displayName = function(obj) {
         return [this.firstName, this.lastName].join(' ');
@@ -33,18 +19,11 @@ angular.module('caliop.message.entity.recipient')
         return '/static/assets/images/avatars/' + avatar;
     };
 
-    Recipient.new_ = function(obj) {
-        return new Recipient(obj);
-    };
-
     Restangular.addElementTransformer('recipients', false, function(obj) {
-        return Recipient.new_(obj);
+        return new Recipient(obj);
     });
 
-    return {
-        new_: Recipient.new_,
-        Restangular: Restangular
-    };
+    return Recipient;
 }]);
 
 }());

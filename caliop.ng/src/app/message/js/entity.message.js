@@ -17,7 +17,7 @@ angular.module('caliop.message.entity.message')
     Message.prototype.getAuthor = function() {
         var that = this;
 
-        this.author = RecipientSrv.new_(this.author);
+        this.author = new RecipientSrv(this.author);
         return this.author;
     };
 

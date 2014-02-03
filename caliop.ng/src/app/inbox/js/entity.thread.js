@@ -19,7 +19,7 @@ angular.module('caliop.inbox.entity.thread')
 
         var recipients = [];
         angular.forEach(this.recipients, function(recipient) {
-            recipients.push(RecipentSrv.new_(recipient));
+            recipients.push(new RecipentSrv(recipient));
         });
 
         that.recipients = recipients;
