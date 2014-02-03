@@ -30,7 +30,7 @@ def includeme(config):
 
     config.add_route('users', '/api/mock/users')
     config.add_view('caliop.views.api.Users',
-        request_method=('GET',),
+        request_method=('GET', 'POST',),
         route_name='users',
         renderer='json')
 

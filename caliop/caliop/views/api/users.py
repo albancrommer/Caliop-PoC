@@ -11,6 +11,11 @@ from .api import API
 class Users(API):
     filename = 'users.json'
 
+    def post(self):
+        user = self.request.json
+        self.add_to_json(user)
+        return Response(json.dumps({'success': 'true'}))
+
     def get(self):
         users = json.loads(self.read_json())
         groups = json.loads(self.read_json(filename='groups.json'))
