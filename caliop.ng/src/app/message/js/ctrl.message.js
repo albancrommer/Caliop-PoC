@@ -50,10 +50,10 @@ angular.module('caliop.message')
  * WriteMessageCtrl
  */
 .controller('WriteMessageCtrl', ['$scope', 'user',
-    function WriteMessageCtrl($scope, userSrv) {
+    function WriteMessageCtrl($scope, UserSrv) {
 
     // retrieve the list of groups/users
-    userSrv.Restangular.all('users').getList().then(function(users) {
+    UserSrv.getList().then(function(users) {
         $scope.users = users;
 
         $scope.pickedRecipients = [];
