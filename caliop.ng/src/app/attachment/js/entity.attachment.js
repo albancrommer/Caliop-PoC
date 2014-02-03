@@ -3,29 +3,14 @@
 "use strict";
 
 angular.module('caliop.attachment.entity.attachment', [
-    // 'restangular',
     'caliop.common.service.helpers'
 ])
 
-.factory('attachment', ['string',
-    function (stringSrv) {
+.factory('attachment', ['base',
+    function (BaseEnt) {
 
-    var Attachment = function Attachment(obj) {
-        var self = this;
-
-        angular.extend(self, obj);
-
-        // save obj struct in the object
-        angular.forEach(obj, function(value, key) {
-            key = stringSrv.toCamelCase(key);
-            self[key] = value;
-
-            // convert dates to moment objects
-            if (/^date/.test(key)) {
-                self[key] = moment(self[key]);
-            }
-        });
-    };
+    function Attachment() { BaseEnt.apply(this, arguments); }
+    Attachment.prototype = Object.create(BaseEnt.prototype);
 
     /**
      * Return the icon src of the attachment.
@@ -35,19 +20,11 @@ angular.module('caliop.attachment.entity.attachment', [
         return '/static/assets/images/attachments/' + file;
     };
 
-    Attachment.new_ = function(obj) {
-        var attachment = new Attachment(obj);
-        return attachment;
-    };
-
     // Restangular.addElementTransformer('attachments', false, function(obj) {
     //     return Attachment.new_(obj);
     // });
 
-    return {
-        new_: Attachment.new_
-        // Restangular: Restangular
-    };
+    return Attachment;
 
 }]);
 

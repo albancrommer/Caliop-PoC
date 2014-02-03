@@ -4,8 +4,8 @@
 
 angular.module('caliop.entity.session')
 
-.factory('session', ['Restangular', 'string', 'base',
-    function (Restangular, stringSrv, BaseEnt) {
+.factory('session', ['Restangular', 'base',
+    function (Restangular, BaseEnt) {
 
     function Session() { BaseEnt.apply(this, arguments); }
     Session.prototype = Object.create(BaseEnt.prototype);

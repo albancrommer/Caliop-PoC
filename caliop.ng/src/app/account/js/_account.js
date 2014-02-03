@@ -13,9 +13,7 @@ angular.module('caliop.service.account', [
 
 
 angular.module('caliop.entity.session', [
-    'restangular',
-
-    'caliop.common.service.helpers'
+    'caliop.common.entity.base'
 ]);
 
 }());

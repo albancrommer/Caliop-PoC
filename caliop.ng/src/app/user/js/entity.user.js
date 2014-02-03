@@ -4,8 +4,8 @@
 
 angular.module('caliop.user.entity.user')
 
-.factory('user', ['Restangular', 'string', 'base',
-    function (Restangular, stringSrv, BaseEnt) {
+.factory('user', ['Restangular', 'base',
+    function (Restangular, BaseEnt) {
 
     function User() { BaseEnt.apply(this, arguments); }
     User.prototype = Object.create(BaseEnt.prototype);

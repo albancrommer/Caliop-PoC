@@ -13,9 +13,9 @@ angular.module('caliop.attachment', [
  * MessagesCtrl
  */
 .controller('AttachmentCtrl', ['$scope', 'extension', 'attachment',
-    function AttachmentCtrl($scope, extension, attachmentSrv) {
+    function AttachmentCtrl($scope, extension, AttachmentSrv) {
 
-    $scope.attachment = attachmentSrv.new_({extension: extension});
+    $scope.attachment = new AttachmentSrv({extension: extension});
 }]);
 
 }());
