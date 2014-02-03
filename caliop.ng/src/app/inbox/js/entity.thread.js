@@ -4,25 +4,11 @@
 
 angular.module('caliop.inbox.entity.thread')
 
-.factory('thread', ['Restangular', 'string', 'recipient', 'label',
-    function (Restangular, stringSrv, recipientSrv, labelSrv) {
+.factory('thread', ['Restangular', 'string', 'base', 'recipient', 'label',
+    function (Restangular, stringSrv, BaseEnt, RecipentSrv, LabelSrv) {
 
-    var Thread = function Thread(obj) {
-        var self = this;
-
-        angular.extend(self, obj);
-
-        // save obj struct in the object
-        angular.forEach(obj, function(value, key) {
-            key = stringSrv.toCamelCase(key);
-            self[key] = value;
-
-            // convert dates to moment objects
-            if (/^date/.test(key)) {
-                self[key] = moment(self[key]);
-            }
-        });
-    };
+    function Thread() { BaseEnt.apply(this, arguments); }
+    Thread.prototype = Object.create(BaseEnt.prototype);
 
     /**
      * Return the list of recipients
@@ -33,7 +19,7 @@ angular.module('caliop.inbox.entity.thread')
 
         var recipients = [];
         angular.forEach(this.recipients, function(recipient) {
-            recipients.push(recipientSrv.new_(recipient));
+            recipients.push(RecipentSrv.new_(recipient));
         });
 
         that.recipients = recipients;
@@ -56,7 +42,7 @@ angular.module('caliop.inbox.entity.thread')
 
         var labels = [];
         angular.forEach(this.labels, function(label) {
-            labels.push(labelSrv.new_(label));
+            labels.push(new LabelSrv(label));
         });
 
         that.labels = labels;
@@ -87,27 +73,24 @@ angular.module('caliop.inbox.entity.thread')
         return Restangular.one('threads', this.id).getList('messages');
     };
 
-    Thread.new_ = function(obj) {
-        var thread = new Thread(obj);
-        thread.getRecipients();
-        thread.getLabels();
-        thread.getSecurityColor();
-        return thread;
-    };
-
-    Thread.by_id = function(id) {
-        return Restangular.one('threads', id).get();
+    /**
+     * Return the list of threads.
+     */
+    Thread.getList = function() {
+        return Restangular.all('threads').getList();
     };
 
     Restangular.addElementTransformer('threads', false, function(obj) {
-        return Thread.new_(obj);
+        var thread = new Thread(obj);
+
+        thread.getRecipients();
+        thread.getLabels();
+        thread.getSecurityColor();
+
+        return thread;
     });
 
-    return {
-        new_: Thread.new_,
-        by_id: Thread.by_id,
-        Restangular: Restangular
-    };
+    return Thread;
 }]);
 
 }());

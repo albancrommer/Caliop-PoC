@@ -36,7 +36,7 @@ angular.module('caliop.inbox')
  * InBoxCtrl
  */
 .controller('InBoxCtrl', ['$injector', '$scope', '$state', '$filter', '$modal', 'tabs', 'thread',
-    function InBoxCtrl($injector, $scope, $state, $filter, $modal, tabsSrv, ThreadSrv) {
+    function InBoxCtrl($injector, $scope, $state, $filter, $modal, TabsSrv, ThreadSrv) {
 
     // if any thread is selected, show actions icons
     $scope.showThreadActions = function() {
@@ -49,7 +49,7 @@ angular.module('caliop.inbox')
     $scope.openThread = function(thread) {
         var stateMessages = 'app.inbox.thread';
 
-        tabsSrv.add({
+        TabsSrv.add({
             title: $filter('joinRecipients')(thread.recipients, 3),
             tooltip: $filter('joinRecipients')(thread.recipients, -1),
             state: stateMessages,
@@ -72,7 +72,7 @@ angular.module('caliop.inbox')
         });
     };
 
-    ThreadSrv.Restangular.all('threads').getList().then(function(threads) {
+    ThreadSrv.getList().then(function(threads) {
         $scope.threads = threads;
     });
 

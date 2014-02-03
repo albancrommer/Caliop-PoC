@@ -17,20 +17,16 @@ angular.module('caliop.inbox.filter', []);
 
 
 angular.module('caliop.inbox.entity.label', [
-    'restangular',
+    'caliop.common.entity.base',
 
     'caliop.common.service.helpers'
 ]);
 
 
 angular.module('caliop.inbox.entity.thread', [
-    'restangular',
+    'caliop.common.entity.base',
 
-    /* internal dependancies */
     'caliop.inbox.entity.label',
-
-    /* external dependancies */
-    'caliop.common.service.helpers',
     'caliop.message.entity.recipient'
 ]);
 

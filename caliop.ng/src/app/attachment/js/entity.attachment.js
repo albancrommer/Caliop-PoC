@@ -21,7 +21,7 @@ angular.module('caliop.attachment.entity.attachment', [
     };
 
     // Restangular.addElementTransformer('attachments', false, function(obj) {
-    //     return Attachment.new_(obj);
+    //     return new Attachment(obj);
     // });
 
     return Attachment;
