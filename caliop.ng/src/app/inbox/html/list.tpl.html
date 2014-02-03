@@ -29,7 +29,7 @@
             ng-class="{'selected': thread.selected}">
 
             <div class="col-xs-1 text-center date">
-                {{thread.date_updated | date:'medium'}}
+                {{thread.dateUpdated.format() | date:'medium'}}
             </div>
 
             <div class="col-xs-1 avatar text-center" >

@@ -7,7 +7,7 @@
         <div class="col-xs-{{11 - message.offset}} content" style="border-color: #{{message.securityColor}}">
             <div class="title">
                 {{message.author.displayName()}} -
-                <span class="date-sent">{{message.date_sent | date:'medium'}},</span>
+                <span class="date-sent">{{message.dateSent.format() | date:'medium'}},</span>
                 <span class="protocole">par {{message.displayProtocole()}}</span>
             </div>
             <div class="body" ng-bind-html="message.body"></div>
