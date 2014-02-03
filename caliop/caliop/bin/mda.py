@@ -10,6 +10,6 @@ from caliop.mda.agent import DeliveryAgent
 
 
 if __name__ == '__main__':
-    agent = DeliveryAgent(None)
+    agent = DeliveryAgent()
     data = open(sys.argv[1]).read()
     messages = agent.process(data)

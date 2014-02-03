@@ -9,9 +9,6 @@ class DeliveryAgent(object):
 
     exclude_parts = ['multipart/mixed', 'multipart/alternative']
 
-    def __init__(self, conf):
-        self.conf = conf
-
     def _resolve_user_contacts(self, user, mail):
         """Find all contacts known in the mail"""
         contacts = []
