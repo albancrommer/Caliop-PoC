@@ -57,10 +57,10 @@ angular.module('caliop.panel', [
 }])
 
 .controller('PanelUsersCtrl', ['$scope', '$state', 'resolve-tab', 'tabs', 'user',
-    function PanelCtrl($scope, $state, tab, InBoxTabsSrv, userSrv) {
+    function PanelCtrl($scope, $state, tab, InBoxTabsSrv, UserSrv) {
 
     // retrieve the list of groups/users
-    userSrv.Restangular.all('users').getList().then(function(users) {
+    UserSrv.getList().then(function(users) {
         // index users by groups
         var groups = {};
         _.map(users, function(user) {

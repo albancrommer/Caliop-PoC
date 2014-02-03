@@ -4,42 +4,29 @@
 
 angular.module('caliop.user.entity.user')
 
-.factory('user', ['Restangular', 'string',
-    function (Restangular, stringSrv) {
+.factory('user', ['Restangular', 'string', 'base',
+    function (Restangular, stringSrv, BaseEnt) {
 
-    var User = function User(obj) {
-        var self = this;
+    function User() { BaseEnt.apply(this, arguments); }
+    User.prototype = Object.create(BaseEnt.prototype);
 
-        angular.extend(self, obj);
-
-        // save obj struct in the object
-        angular.forEach(obj, function(value, key) {
-            key = stringSrv.toCamelCase(key);
-            self[key] = value;
-
-            // convert dates to moment objects
-            if (/^date/.test(key)) {
-                self[key] = moment(self[key]);
-            }
-        });
-    };
-
-    User.prototype.displayName = function(obj) {
+    /**
+     * Return user's fullname.
+     * @return {string} User's fullname.
+     */
+    User.prototype.displayName = function() {
         return [this.firstName, this.lastName].join(' ');
     };
 
-    User.new_ = function(obj) {
-        return new User(obj);
+    User.getList = function() {
+        return Restangular.all('users').getList();
     };
 
     Restangular.addElementTransformer('users', false, function(obj) {
-        return User.new_(obj);
+        return new User(obj);
     });
 
-    return {
-        new_: User.new_,
-        Restangular: Restangular
-    };
+    return User;
 }]);
 
 }());

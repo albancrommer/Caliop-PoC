@@ -7,6 +7,7 @@ angular.module('caliop.user', [
 ]);
 
 angular.module('caliop.user.entity.user', [
+    'caliop.common.entity.base'
 ]);
 
 }());
