@@ -4,25 +4,11 @@
 
 angular.module('caliop.message.entity.message')
 
-.factory('message', ['Restangular', 'string', 'recipient',
-    function (Restangular, stringSrv, recipientSrv) {
+.factory('message', ['Restangular', 'base', 'recipient',
+    function (Restangular, BaseEnt, RecipientSrv) {
 
-    var Message = function Message(obj) {
-        var self = this;
-
-        angular.extend(self, obj);
-
-        // save obj struct in the object
-        angular.forEach(obj, function(value, key) {
-            key = stringSrv.toCamelCase(key);
-            self[key] = value;
-
-            // convert dates to moment objects
-            if (/^date/.test(key)) {
-                self[key] = moment(self[key]);
-            }
-        });
-    };
+    function Message() { BaseEnt.apply(this, arguments); }
+    Message.prototype = Object.create(BaseEnt.prototype);
 
     /**
      * Return the author of the message.
@@ -31,7 +17,7 @@ angular.module('caliop.message.entity.message')
     Message.prototype.getAuthor = function() {
         var that = this;
 
-        this.author = recipientSrv.new_(this.author);
+        this.author = RecipientSrv.new_(this.author);
         return this.author;
     };
 
@@ -51,22 +37,23 @@ angular.module('caliop.message.entity.message')
         return this.protocole;
     };
 
-    Message.new_ = function(obj) {
-        var message = new Message(obj);
-        message.getAuthor();
-        message.getSecurityColor();
-        return message;
+    /**
+     * Return the list of messages for a given thread.
+     */
+    Message.getThreadList = function(threadId) {
+        return Restangular.one('threads', threadId).getList('messages');
     };
 
     Restangular.addElementTransformer('messages', false, function(obj) {
-        return Message.new_(obj);
+        var message = new Message(obj);
+
+        message.getAuthor();
+        message.getSecurityColor();
+
+        return message;
     });
 
-    return {
-        new_: Message.new_,
-        Restangular: Restangular
-    };
-
+    return Message;
 }]);
 
 }());

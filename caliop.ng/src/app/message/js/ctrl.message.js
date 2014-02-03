@@ -41,10 +41,9 @@ angular.module('caliop.message')
         return;
     }
 
-    MessageSrv.Restangular.one('threads', threadId).getList('messages')
-        .then(function(messages) {
-            $scope.messages = messages;
-        });
+    MessageSrv.getThreadList(threadId).then(function(messages) {
+        $scope.messages = messages;
+    });
 }])
 
 /**
