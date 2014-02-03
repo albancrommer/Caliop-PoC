@@ -1,0 +1,24 @@
+project_name: caliop
+project_root: /var/projects/caliop
+project_repo: https://github.com/Gandi/Caliop-PoC.git
+system_packages:
+  - sudo
+  - build-essential
+  - git
+  - nginx
+  - python-dev
+  - python-setuptools
+  - python-pycurl
+  - curl
+python_packages:
+  - pip
+  - virtualenv
+nodejs_packages:
+  - nodejs
+  - nodejs-legacy
+nodejs_modules:
+  - bower
+  - grunt
+  - grunt-cli
+initfiles:
+  - gunicorn
