@@ -1,175 +1,177 @@
 [
  {
   "recipients": [
-   1, 
-   2, 
-   4, 
+   1,
+   2,
+   4,
    5
-  ], 
-  "date_updated": "2013-10-01 14:01:21", 
-  "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", 
+  ],
+  "date_updated": "2013-10-01 14:01:21",
+  "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   "labels": [
-   1, 
+   1,
    3
-  ], 
-  "attachment": "pdf", 
-  "security": 80, 
+  ],
+  "attachment": "pdf",
+  "security": 80,
   "id": 1
- }, 
+ },
  {
   "recipients": [
    8
-  ], 
-  "date_updated": "2013-10-02 18:54:21", 
-  "text": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.", 
+  ],
+  "date_updated": "2013-10-02 18:54:21",
+  "text": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
   "labels": [
    2
-  ], 
-  "security": 80, 
+  ],
+  "security": 80,
   "id": 2
- }, 
+ },
  {
   "recipients": [
-   6, 
-   2, 
-   4, 
-   8, 
+   6,
+   2,
+   4,
+   8,
    5
-  ], 
-  "date_updated": "2013-10-04 07:10:42", 
-  "text": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.", 
+  ],
+  "date_updated": "2013-10-04 07:10:42",
+  "text": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.",
   "labels": [
-   1, 
+   1,
    3
-  ], 
-  "attachment": "w", 
-  "security": 50, 
+  ],
+  "attachment": "w",
+  "security": 50,
   "id": 3
- }, 
+ },
  {
   "recipients": [
-   5, 
+   5,
    2
-  ], 
-  "date_updated": "2013-10-07 12:46:25", 
-  "text": "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system.", 
+  ],
+  "date_updated": "2013-10-07 12:46:25",
+  "text": "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system.",
   "labels": [
    1
-  ], 
-  "security": 60, 
+  ],
+  "security": 60,
   "id": 4
- }, 
+ },
  {
   "recipients": [
-   9, 
-   4, 
-   2, 
+   9,
+   4,
+   2,
    1
-  ], 
-  "date_updated": "2013-10-09 15:24:51", 
-  "text": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate.", 
+  ],
+  "date_updated": "2013-10-09 15:24:51",
+  "text": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate.",
   "labels": [
    2
-  ], 
-  "security": 40, 
+  ],
+  "security": 40,
   "id": 5
- }, 
+ },
  {
   "recipients": [
    10
-  ], 
-  "date_updated": "2013-10-11 19:23:41", 
-  "text": "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment.", 
+  ],
+  "date_updated": "2013-10-11 19:23:41",
+  "text": "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment.",
   "labels": [
    7
-  ], 
-  "security": 95, 
+  ],
+  "security": 95,
   "id": 6
- }, 
+ },
  {
   "recipients": [
-   5, 
+   5,
    6
-  ], 
-  "date_updated": "2013-10-13 01:41:25", 
-  "text": "These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents.", 
+  ],
+  "date_updated": "2013-10-13 01:41:25",
+  "text": "These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents.",
   "labels": [
    5
-  ], 
-  "security": 30, 
+  ],
+  "security": 30,
   "id": 7
- }, 
+ },
  {
   "recipients": [
-   1, 
-   9, 
+   1,
+   9,
    4
-  ], 
-  "date_updated": "2013-10-14 21:12:26", 
-  "text": "The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains.", 
+  ],
+  "date_updated": "2013-10-14 21:12:26",
+  "text": "The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains.",
   "labels": [
-   1, 
-   4, 
+   1,
+   4,
    5
-  ], 
-  "security": 40, 
+  ],
+  "security": 40,
   "id": 8
- }, 
+ },
  {
   "recipients": [
    5
-  ], 
-  "date_updated": "2013-10-14 12:52:00", 
-  "text": "To take a trivial example, which of us ever undertakes laborious physical exercise.", 
+  ],
+  "date_updated": "2013-10-14 12:52:00",
+  "text": "To take a trivial example, which of us ever undertakes laborious physical exercise.",
   "labels": [
    6
-  ], 
-  "security": 60, 
+  ],
+  "security": 60,
   "id": 9
- }, 
+ },
  {
   "recipients": [
-   1, 
-   9, 
+   1,
+   9,
    4
-  ], 
-  "date_updated": "2013-10-14 21:12:26", 
-  "text": "The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains.", 
+  ],
+  "date_updated": "2013-10-14 21:12:26",
+  "text": "The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains.",
   "labels": [
-   1, 
+   1,
    9
-  ], 
-  "security": 70, 
+  ],
+  "security": 70,
   "id": 10
- }, 
+ },
  {
   "recipients": [
    5
-  ], 
-  "date_updated": "2013-10-14 12:52:00", 
-  "text": "To take a trivial example, which of us ever undertakes laborious physical exercise.", 
+  ],
+  "date_updated": "2013-10-14 12:52:00",
+  "text": "To take a trivial example, which of us ever undertakes laborious physical exercise.",
   "labels": [
    1
-  ], 
-  "security": 75, 
+  ],
+  "security": 75,
   "id": 11
- }, 
+ },
  {
-  "date_updated": "2014-02-04 14:10:34", 
-  "text": "aze\naze", 
-  "security": 50, 
-  "labels": [], 
+  "date_updated": "2014-02-04 14:10:34",
+  "text": "aze\naze",
+  "security": 50,
+  "labels": [],
   "recipients": [
    1
-  ]
- }, 
+  ],
+  "id": 12
+ },
  {
-  "date_updated": "2014-02-04 14:10:51", 
-  "text": "azeae", 
-  "security": 50, 
-  "labels": [], 
+  "date_updated": "2014-02-04 14:10:51",
+  "text": "azeae",
+  "security": 50,
+  "labels": [],
   "recipients": [
    1
-  ]
+  ],
+  "id": 13
  }
 ]
