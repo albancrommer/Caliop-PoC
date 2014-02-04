@@ -21,12 +21,17 @@ class Sessions(API):
             pass
 
         try:
-            if (credentials['login'] == 'bad' and credentials['password'] == 'bad'):
+            # search a user matching login=first_name and password=last_name
+            users = json.loads(self.read_json())
+
+            foundUsers = [user for user in users \
+                if user['first_name'] == credentials['login'] \
+                and user['last_name'] == credentials['password']]
+
+            if not foundUsers:
                 raise BadCredentials
 
-            # for the moment, the first user if the authed contact
-            users = json.loads(self.read_json())
-            return Response(json.dumps(users[0]))
+            return Response(json.dumps(foundUsers[0]))
 
         except (KeyError, BadCredentials):
             return Response('BadCredentials', status='403 Forbidden')
