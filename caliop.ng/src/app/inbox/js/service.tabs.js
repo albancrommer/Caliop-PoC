@@ -2,7 +2,7 @@
 
 "use strict";
 
-angular.module('caliop.inbox')
+angular.module('caliop.inbox.service.tabs')
 
 .factory('tabs', ['$cookieStore', '$state',
     function ($cookieStore, $state) {
@@ -78,14 +78,20 @@ angular.module('caliop.inbox')
          * Select an existing tab.
          */
         select: function(tab) {
+            var tabFound;
+
             _.map(this.tabs, function(tab_) {
+                var found = tab_.id == tab.id;
+                if (found) {
+                    tabFound = tab_;
+                }
                 // activate the clicked tab, deactivate others
-                tab_.active = tab_.id == tab.id;
+                tab_.active = found;
             });
 
-            if (tab.state) {
-                var params = tab.stateParams || {};
-                $state.go(tab.state, params);
+            if (tabFound && tabFound.state) {
+                var params = tabFound.stateParams || {};
+                $state.go(tabFound.state, params);
             }
 
             this.updateCookie();

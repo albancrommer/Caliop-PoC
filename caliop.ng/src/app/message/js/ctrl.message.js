@@ -49,8 +49,8 @@ angular.module('caliop.message')
 /**
  * WriteMessageCtrl
  */
-.controller('WriteMessageCtrl', ['$scope', 'user', 'thread',
-    function WriteMessageCtrl($scope, UserSrv, ThreadSrv) {
+.controller('WriteMessageCtrl', ['$scope', 'tabs', 'user', 'thread',
+    function WriteMessageCtrl($scope, TabsInboxSrv, UserSrv, ThreadSrv) {
 
     $scope.availableProtocoles = ['Caliop', 'Mail', 'XMPP'];
 
@@ -97,7 +97,8 @@ angular.module('caliop.message')
 
         // create a new thread with the message inside
         ThreadSrv.new_($scope.message).then(function(thread) {
-            console.log('thread postaid !', thread);
+            // select the inbox tab
+            TabsInboxSrv.select({id: 1});
         });
     };
 }])

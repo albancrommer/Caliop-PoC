@@ -3,14 +3,15 @@
 "use strict";
 
 angular.module('caliop.inbox', [
-    /* internal dependancies */
     'caliop.inbox.entity.thread',
     'caliop.user.filter',
 
-    /* external dependancies */
     'caliop.message',
     'caliop.attachment'
 ]);
+
+
+angular.module('caliop.inbox.service.tabs', []);
 
 
 angular.module('caliop.inbox.entity.label', [
