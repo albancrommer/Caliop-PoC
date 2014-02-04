@@ -32,8 +32,14 @@ class TestViewUsers(unittest.TestCase):
 
     def test02_post_user(self):
         """
-        Add a user to JSON file.
+        Add a user to the JSON file.
         """
+        # count user
+        request = testing.DummyRequest()
+        request.method = 'GET'
+        request.context = testing.DummyResource()
+        response = Users(request)()
+        users = json.loads(response.text)
 
         # save a new user
         request = testing.DummyRequest()
@@ -44,13 +50,13 @@ class TestViewUsers(unittest.TestCase):
             "connected": True,
             "groups": [1],
             "message": "Sample test",
-            "id": 7
+            "id": (users[-1]['id'] + 1)
         }
         request.context = testing.DummyResource()
         response = Users(request)()
 
         status = json.loads(response.text)
-        self.assertTrue('ok', status)
+        self.assertTrue('true', status)
 
         # Check than the user has been saved
         request = testing.DummyRequest()
@@ -60,7 +66,7 @@ class TestViewUsers(unittest.TestCase):
 
         users = json.loads(response.text)
 
-        self.assertGreaterEqual(len(users), 7)
+        self.assertTrue(len(users), len(users)+1)
         self.assertTrue('Foo', users[-1]['first_name'])
 
 

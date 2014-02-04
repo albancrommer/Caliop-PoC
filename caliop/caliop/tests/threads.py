@@ -39,7 +39,44 @@ class TestViewThreads(unittest.TestCase):
 
         threads = json.loads(response.text)
 
-        self.assertEqual(len(threads), 11)
+        self.assertGreaterEqual(len(threads), 10)
         self.assertTrue(
             'Lorem ipsum dolor sit amet, consectetur adipisicing elit'
             in threads[0]['text'])
+
+    def test03_post_thread(self):
+        """
+        Add a thread to the JSON file.
+        """
+        # count threads
+        request = testing.DummyRequest()
+        request.method = 'GET'
+        request.context = testing.DummyResource()
+        response = Threads(request)()
+        threads = json.loads(response.text)
+
+        # save a new thread
+        request = testing.DummyRequest()
+        request.method = 'POST'
+        request.json = {
+            "id": (threads[-1]['id'] + 1),
+            "date_updated": "2013-10-14 12:52:00",
+            "text": "To take a trivial example, which of us ever undertakes laborious physical exercise.",
+            "security": 75,
+            "recipients": [1],
+            "labels": [1],
+        }
+        response = Threads(request)()
+
+        status = json.loads(response.text)
+        self.assertTrue('true', status)
+
+        # Check than the user has been saved
+        request = testing.DummyRequest()
+        request.method = 'GET'
+        response = Threads(request)()
+        threads = json.loads(response.text)
+
+        self.assertTrue(len(threads), len(threads)+1)
+        self.assertTrue('To take a trivial example, which of us ever undertakes laborious physical exercise.',
+            threads[-1]['text'])

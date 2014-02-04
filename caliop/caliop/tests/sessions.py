@@ -28,10 +28,10 @@ class TestViewSessions(unittest.TestCase):
         json_ = json.loads(response.text)
 
         self.assertEqual(json_, {
-            u'lastName': u'Rocks',
-            u'id': 1,
-            u'firstName': u'Gandi',
-            u'date_created': u'2013-15-01 14:51:21'})
+            'last_name': 'Mineaud',
+            'id': 1,
+            'first_name': 'Alexis',
+            'date_created': '2013-15-01 14:51:21'})
 
     def test02_post_sessions_bad_credentials(self):
         """

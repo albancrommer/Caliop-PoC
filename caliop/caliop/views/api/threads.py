@@ -15,7 +15,7 @@ class Thread(API):
         self.recipients = json.loads(self.read_json(filename='recipients.json'))
         self.labels = json.loads(self.read_json(filename='labels.json'))
 
-    def augment(self, thread):
+    def _augment(self, thread):
         """
         Add recipient, labels.
         """
@@ -30,21 +30,31 @@ class Thread(API):
         thread['labels'] = thread_labels
 
     def get(self):
+        """
+        Retrieve a thread.
+        """
         thread_id = int(self.request.matchdict.get('thread_id'))
 
         threads = json.loads(self.read_json())
         thread = filter(lambda t: int(t['id']) == thread_id, threads).pop()
 
-        self.augment(thread)
+        self._augment(thread)
 
         return Response(json.dumps(thread))
-
 
 class Threads(Thread):
     def get(self):
         threads = json.loads(self.read_json())
 
         for thread in threads:
-            self.augment(thread)
+            self._augment(thread)
 
         return Response(json.dumps(threads))
+
+    def post(self):
+        """
+        Create a new empty thread.
+        """
+        thread = self.request.json
+        self.add_to_json(thread)
+        return Response(json.dumps({'success': 'true'}))

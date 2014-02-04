@@ -18,7 +18,7 @@ def includeme(config):
 
     config.add_route('threads', '/api/mock/threads')
     config.add_view('caliop.views.api.Threads',
-        request_method=('GET',),
+        request_method=('GET', 'POST',),
         route_name='threads',
         renderer='json')
 

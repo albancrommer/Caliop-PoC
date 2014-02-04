@@ -1,43 +1,63 @@
-[{
-  "id": 1,
-  "first_name": "Clément",
+[
+ {
+  "first_name": "Cl\u00e9ment",
   "last_name": "Danjou",
   "connected": true,
+  "groups": [
+   1
+  ],
   "message": "Piou piou",
-  "groups": [1]
-}, {
-  "id": 2,
+  "id": 2
+ },
+ {
   "first_name": "Vincent",
   "last_name": "Mineaud",
   "connected": false,
-  "message": "Pas là",
-  "groups": [1, 3]
-}, {
-  "id": 3,
+  "groups": [
+   1,
+   3
+  ],
+  "message": "Pas l\u00e0",
+  "id": 3
+ },
+ {
   "first_name": "Yann",
-  "last_name": "Brelière",
+  "last_name": "Breli\u00e8re",
   "connected": true,
-  "message": "Au judo (enfin peut être)",
-  "groups": [1]
-}, {
-  "id": 4,
+  "groups": [
+   1
+  ],
+  "message": "Au judo (enfin peut \u00eatre)",
+  "id": 4
+ },
+ {
   "first_name": "Laurent",
   "last_name": "Chemla",
   "connected": true,
-  "message": "Mon minet s'est barré :/",
-  "groups": [1]
-}, {
-  "id": 5,
+  "groups": [
+   1
+  ],
+  "message": "Mon minet s'est barr\u00e9 :/",
+  "id": 5
+ },
+ {
   "first_name": "Thomas",
   "last_name": "Laurent",
   "connected": false,
-  "message": "à 2 cm.",
-  "groups": [1]
-}, {
-  "id": 6,
+  "groups": [
+   1
+  ],
+  "message": "\u00e0 2 cm.",
+  "id": 6
+ },
+ {
   "first_name": "Jean",
   "last_name": "Dupond",
   "connected": true,
+  "groups": [
+   2
+  ],
   "message": "\\o_o/",
-  "groups": [2]
-}]
+  "id": 7
+ }
+]
