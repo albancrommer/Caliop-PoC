@@ -12,6 +12,9 @@ class Messages(API):
     filename = 'messages.json'
 
     def get(self):
+        """
+        Retrieve the list of messages for a given thread.
+        """
         messages = json.loads(self.read_json())
         recipients = json.loads(self.read_json(filename='recipients.json'))
 
@@ -26,3 +29,21 @@ class Messages(API):
                                        recipients).pop()
 
         return Response(json.dumps(filtered_messages))
+
+    def post(self):
+        """
+        Create a new message.
+        """
+        message = self.request.json
+
+        from pprint import pprint
+        pprint(self.request.matchdict)
+
+        message['thread_id'] = int(self.request.matchdict.get('thread_id'))
+
+        id = self.add_to_json(message)
+
+        return Response(json.dumps({
+            'success': 'true',
+            'message_id': id
+        }))
