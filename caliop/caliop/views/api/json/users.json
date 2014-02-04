@@ -1,142 +1,72 @@
 [
  {
-  "first_name": "Alexis", 
-  "last_name": "Mineaud", 
-  "connected": true, 
-  "avatar": "alexis.png", 
-  "groups": [], 
-  "message": "\u00b0<", 
+  "first_name": "Alexis",
+  "last_name": "Mineaud",
+  "connected": true,
+  "avatar": "alexis.png",
+  "groups": [],
+  "message": "\u00b0<",
   "id": 1
- }, 
+ },
  {
-  "first_name": "Cl\u00e9ment", 
-  "last_name": "Danjou", 
-  "connected": true, 
+  "first_name": "Cl\u00e9ment",
+  "last_name": "Danjou",
+  "connected": true,
   "groups": [
    1
-  ], 
-  "message": "Piou piou", 
+  ],
+  "message": "Piou piou",
   "id": 2
- }, 
+ },
  {
-  "first_name": "Vincent", 
-  "last_name": "Mineaud", 
-  "connected": false, 
+  "first_name": "Vincent",
+  "last_name": "Mineaud",
+  "connected": false,
   "groups": [
-   1, 
+   1,
    3
-  ], 
-  "message": "Pas l\u00e0", 
+  ],
+  "message": "Pas l\u00e0",
   "id": 3
- }, 
+ },
  {
-  "first_name": "Yann", 
-  "last_name": "Breli\u00e8re", 
-  "connected": true, 
+  "first_name": "Yann",
+  "last_name": "Breli\u00e8re",
+  "connected": true,
   "groups": [
    1
-  ], 
-  "message": "Au judo (enfin peut \u00eatre)", 
+  ],
+  "message": "Au judo (enfin peut \u00eatre)",
   "id": 4
- }, 
+ },
  {
-  "first_name": "Laurent", 
-  "last_name": "Chemla", 
-  "connected": true, 
+  "first_name": "Laurent",
+  "last_name": "Chemla",
+  "connected": true,
   "groups": [
    1
-  ], 
-  "message": "Mon minet s'est barr\u00e9 :/", 
+  ],
+  "message": "Mon minet s'est barr\u00e9 :/",
   "id": 5
- }, 
+ },
  {
-  "first_name": "Thomas", 
-  "last_name": "Laurent", 
-  "connected": false, 
+  "first_name": "Thomas",
+  "last_name": "Laurent",
+  "connected": false,
   "groups": [
    1
-  ], 
-  "message": "\u00e0 2 cm.", 
+  ],
+  "message": "\u00e0 2 cm.",
   "id": 6
- }, 
+ },
  {
-  "first_name": "Jean", 
-  "last_name": "Dupond", 
-  "connected": true, 
+  "first_name": "Jean",
+  "last_name": "Dupond",
+  "connected": true,
   "groups": [
    2
-  ], 
-  "message": "\\o_o/", 
+  ],
+  "message": "\\o_o/",
   "id": 7
- }, 
- {
-  "first_name": "Foo", 
-  "last_name": "Bar", 
-  "connected": true, 
-  "groups": [
-   1
-  ], 
-  "message": "Sample test", 
-  "id": 8
- }, 
- {
-  "first_name": "Foo", 
-  "last_name": "Bar", 
-  "connected": true, 
-  "groups": [
-   1
-  ], 
-  "message": "Sample test", 
-  "id": 9
- }, 
- {
-  "first_name": "Foo", 
-  "last_name": "Bar", 
-  "connected": true, 
-  "groups": [
-   1
-  ], 
-  "message": "Sample test", 
-  "id": 10
- }, 
- {
-  "first_name": "Foo", 
-  "last_name": "Bar", 
-  "connected": true, 
-  "groups": [
-   1
-  ], 
-  "message": "Sample test", 
-  "id": 11
- }, 
- {
-  "first_name": "Foo", 
-  "last_name": "Bar", 
-  "connected": true, 
-  "groups": [
-   1
-  ], 
-  "message": "Sample test", 
-  "id": 12
- }, 
- {
-  "first_name": "Foo", 
-  "last_name": "Bar", 
-  "connected": true, 
-  "groups": [
-   1
-  ], 
-  "message": "Sample test", 
-  "id": 13
- }, 
- {
-  "first_name": "Foo", 
-  "last_name": "Bar", 
-  "connected": true, 
-  "groups": [
-   1
-  ], 
-  "message": "Sample test", 
-  "id": 14
  }
 ]
