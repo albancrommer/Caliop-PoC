@@ -22,12 +22,12 @@ class TestViewSessions(unittest.TestCase):
 
         request = testing.DummyRequest()
         request.method = 'POST'
-        request.json = {'login': 'aze', 'password': 'aze'}
+        request.json = {'login': 'Alexis', 'password': 'Mineaud'}
         request.context = testing.DummyResource()
         response = Sessions(request)()
         response_text = json.loads(response.text)
 
-        self.assertEqual(len(response_text.keys()), 6)
+        self.assertEqual(response_text['first_name'], 'Alexis')
 
     def test02_post_sessions_bad_credentials(self):
         """

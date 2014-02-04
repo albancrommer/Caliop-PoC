@@ -28,7 +28,7 @@ class TestViewMessages(unittest.TestCase):
 
         messages = json.loads(response.text)
 
-        self.assertEqual(messages[0]['title'], 'Hello Caliop')
+        self.assertEqual(messages[0]['title'], 'Hello Caliop!')
 
     def test02_post_message(self):
         """

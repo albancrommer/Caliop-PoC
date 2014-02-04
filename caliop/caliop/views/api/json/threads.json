@@ -1,1 +1,12 @@
-[]
+[
+ {
+  "users": [
+   1
+  ], 
+  "date_updated": "2014-02-04 17:45:27", 
+  "text": "This is my first message.", 
+  "labels": [], 
+  "security": 50, 
+  "id": 1
+ }
+]

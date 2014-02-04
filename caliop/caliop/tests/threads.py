@@ -39,10 +39,10 @@ class TestViewThreads(unittest.TestCase):
 
         threads = json.loads(response.text)
 
-        self.assertGreaterEqual(len(threads), 10)
-        self.assertTrue(
-            'Lorem ipsum dolor sit amet, consectetur adipisicing elit'
-            in threads[0]['text'])
+        self.assertGreaterEqual(len(threads), 1)
+        self.assertEqual('This is my first message.', threads[0]['text'])
+
+
 
     def test03_post_thread(self):
         """
@@ -63,7 +63,7 @@ class TestViewThreads(unittest.TestCase):
             "date_updated": "2013-10-14 12:52:00",
             "text": "To take a trivial example, which of us ever undertakes laborious physical exercise.",
             "security": 75,
-            "recipients": [1],
+            "users": [1],
             "labels": [1],
         }
         response = Threads(request)()

@@ -1,1 +1,14 @@
-[]
+[
+ {
+  "body": "This is my first message.", 
+  "author": 1, 
+  "protocole": "Caliop", 
+  "title": "Hello Caliop!", 
+  "offset": 0, 
+  "thread_id": 1, 
+  "answer_to": false, 
+  "date_sent": "2014-02-04 17:45:27", 
+  "security": 50, 
+  "id": 1
+ }
+]
