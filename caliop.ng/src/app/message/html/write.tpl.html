@@ -3,22 +3,22 @@
         <div class="form-group">
             <label for="messageto" class="col-xs-1 control-label">À</label>
             <div class="col-xs-7">
-                <span class="badge recipient-picked" ng-repeat="recipient in message.recipients">
-                    {{recipient.displayName()}}
+                <span class="badge user-picked" ng-repeat="user in message.users">
+                    {{user.displayName()}}
                     <span
                         class="glyphicon glyphicon-remove cursor"
-                        ng-click="removeRecipient(recipient); focusInput=true"
-                        ng-model="message.recipients"></span>
+                        ng-click="removeUser(user); focusInput=true"
+                        ng-model="message.users"></span>
                 </span>
 
                 <input
                     type="text"
-                    class="form-control recipient"
+                    class="form-control user"
                     id="messageto"
                     name="messageto"
                     placeholder="Destinataire"
                     ng-model="to"
-                    focus-on="recipientRemoved"
+                    focus-on="userRemoved"
                     typeahead="user.displayName() for user in users | filter:$to | limitTo:8">&nbsp;
                 <a href="#">Cc</a>/<a href="#">Cci</a>
             </div>

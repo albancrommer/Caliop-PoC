@@ -62,7 +62,7 @@ angular.module('caliop.message')
     UserSrv.getList().then(function(users) {
         $scope.users = users;
 
-        $scope.message.recipients = [];
+        $scope.message.users = [];
         $scope.$watch('to', function(userName) {
             // remove it from the available users
             var removedUsers = _.remove($scope.users, function(user) {
@@ -70,9 +70,9 @@ angular.module('caliop.message')
             });
 
             if (removedUsers.length) {
-                // add user to recipients
-                $scope.message.recipients = _.union(
-                    $scope.message.recipients,
+                // add a recipient to the message
+                $scope.message.users = _.union(
+                    $scope.message.users,
                     removedUsers
                 );
                 $scope.to = '';
@@ -80,16 +80,16 @@ angular.module('caliop.message')
         });
     });
 
-    $scope.removeRecipient = function(recipient) {
-        var removedRecipients = _.remove($scope.pickedRecipients, function(recipient_) {
-            return recipient_.displayName() == recipient.displayName();
+    $scope.removeUser = function(user) {
+        var removedUsers = _.remove($scope.message.users, function(user_) {
+            return user_.displayName() == user.displayName();
         });
 
-        // merge the list of users with the list of removed recipients
-        $scope.users = _.union($scope.users, removedRecipients);
+        // merge the list of users with the list of removed users
+        $scope.users = _.union($scope.users, removedUsers);
 
         // focus the input by using the directive 'focusOn'
-        $scope.$broadcast('recipientRemoved');
+        $scope.$broadcast('userRemoved');
     };
 
     $scope.submitMessage = function() {
