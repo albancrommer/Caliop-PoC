@@ -4,33 +4,33 @@
 
 angular.module('caliop.inbox.entity.thread')
 
-.factory('thread', ['Restangular', '$q', 'base', 'recipient', 'label',
-    function (Restangular, $q, BaseEnt, RecipentSrv, LabelSrv) {
+.factory('thread', ['Restangular', '$q', 'base', 'auth', 'user', 'label',
+    function (Restangular, $q, BaseEnt, AuthSrv, UserSrv, LabelSrv) {
 
     function Thread() { BaseEnt.apply(this, arguments); }
     Thread.prototype = Object.create(BaseEnt.prototype);
 
     /**
-     * Return the list of recipients
-     * @return [{caliop.message.entity.recipient}]
+     * Return the list of users
+     * @return [{caliop.message.entity.user}]
      */
-    Thread.prototype.getRecipients = function() {
+    Thread.prototype.getUsers = function() {
         var that = this;
 
-        var recipients = [];
-        angular.forEach(this.recipients, function(recipient) {
-            recipients.push(new RecipentSrv(recipient));
+        var users = [];
+        angular.forEach(this.users, function(user) {
+            users.push(new UserSrv(user));
         });
 
-        that.recipients = recipients;
-        return that.recipients;
+        that.users = users;
+        return that.users;
     };
 
     /**
-     * Return the last recipient.
+     * Return the last user.
      */
-    Thread.prototype.getLastRecipient = function() {
-        return this.recipients[this.recipients.length - 1];
+    Thread.prototype.getLastUser = function() {
+        return this.users[this.users.length - 1];
     };
 
     /**
@@ -81,9 +81,7 @@ angular.module('caliop.inbox.entity.thread')
             now = moment().format("YYYY-MM-DD HH:mm:ss"),
             threadParams = {
                 "date_updated": now,
-                "recipients": _.map(message.recipients, function(recipient) {
-                    return recipient.id;
-                }),
+                "users": [AuthSrv.getContact().id],
                 "text": message.body,
                 "labels": [],
                 "security": 50 // @TODO
@@ -94,7 +92,7 @@ angular.module('caliop.inbox.entity.thread')
                 "title": message.title,
                 "body": message.body,
                 "date_sent": now,
-                "author": 1,    // for the moment, 1 == authed contact
+                "author": AuthSrv.getContact().id,
                 "security": 50, // @TODO
                 "protocole": message.protocole,
                 "answer_to": false,
@@ -126,7 +124,7 @@ angular.module('caliop.inbox.entity.thread')
     Restangular.addElementTransformer('threads', false, function(obj) {
         var thread = new Thread(obj);
 
-        thread.getRecipients();
+        thread.getUsers();
         thread.getLabels();
         thread.getSecurityColor();
 

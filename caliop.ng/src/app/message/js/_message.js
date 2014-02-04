@@ -7,14 +7,9 @@ angular.module('caliop.message.entity.message', [
 ]);
 
 
-angular.module('caliop.message.entity.recipient', [
-    'caliop.common.entity.base'
-]);
-
-
 angular.module('caliop.message', [
     'caliop.message.entity.message',
-    'caliop.inbox.filter'
+    'caliop.user.filter'
 ]);
 
 

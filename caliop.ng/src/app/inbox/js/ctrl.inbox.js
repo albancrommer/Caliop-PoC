@@ -50,8 +50,8 @@ angular.module('caliop.inbox')
         var stateMessages = 'app.inbox.thread';
 
         TabsSrv.add({
-            title: $filter('joinRecipients')(thread.recipients, 3),
-            tooltip: $filter('joinRecipients')(thread.recipients, -1),
+            title: $filter('joinUsers')(thread.users, 3),
+            tooltip: $filter('joinUsers')(thread.users, -1),
             state: stateMessages,
             stateParams: {
                 type: 'thread',

@@ -2,17 +2,17 @@
 
 "use strict";
 
-angular.module('caliop.inbox.filter')
+angular.module('caliop.user.filter')
 
 /**
- * Display the list of recipients.
- * Optionnal limit parameter to display only n recipients.
+ * Display the list of users.
+ * Optionnal limit parameter to display only n users.
  */
-.filter('joinRecipients', function () {
-    return function (recipients, limit) {
+.filter('joinUsers', function () {
+    return function (users, limit) {
         limit = limit || 4;
 
-        var names = _.map(recipients, function(r) {
+        var names = _.map(users, function(r) {
             return r.displayName();
         });
 
@@ -27,7 +27,7 @@ angular.module('caliop.inbox.filter')
 
             // display someting like '+2...'
             var moar = '+' + namesLeft.length;
-            moar = '<span class="moar-recipients">'+moar+'...</span>';
+            moar = '<span class="moar-users">'+moar+'...</span>';
             finalNames.push(moar);
         }
 

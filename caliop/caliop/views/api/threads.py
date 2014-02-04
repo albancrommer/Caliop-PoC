@@ -12,17 +12,17 @@ class Thread(API):
     filename = 'threads.json'
 
     def init(self):
-        self.recipients = json.loads(self.read_json(filename='recipients.json'))
+        self.users = json.loads(self.read_json(filename='users.json'))
         self.labels = json.loads(self.read_json(filename='labels.json'))
 
     def _augment(self, thread):
         """
-        Add recipient, labels.
+        Add users, labels.
         """
-        # link recipients
-        thread_recipients = filter(lambda r: r['id'] in thread['recipients'],
-                                   self.recipients)
-        thread['recipients'] = thread_recipients
+        # link users
+        thread_users = filter(lambda r: r['id'] in thread['users'],
+                                   self.users)
+        thread['users'] = thread_users
 
         # link labels
         thread_labels = filter(lambda l: l['id'] in thread['labels'],

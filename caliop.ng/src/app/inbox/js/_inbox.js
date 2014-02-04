@@ -5,15 +5,12 @@
 angular.module('caliop.inbox', [
     /* internal dependancies */
     'caliop.inbox.entity.thread',
-    'caliop.inbox.filter',
+    'caliop.user.filter',
 
     /* external dependancies */
     'caliop.message',
     'caliop.attachment'
 ]);
-
-
-angular.module('caliop.inbox.filter', []);
 
 
 angular.module('caliop.inbox.entity.label', [
@@ -25,9 +22,9 @@ angular.module('caliop.inbox.entity.label', [
 
 angular.module('caliop.inbox.entity.thread', [
     'caliop.common.entity.base',
-
+    'caliop.account.service.account',
     'caliop.inbox.entity.label',
-    'caliop.message.entity.recipient'
+    'caliop.user.entity.user'
 ]);
 
 

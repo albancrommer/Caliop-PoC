@@ -70,7 +70,7 @@ angular.module('caliop.message')
             });
 
             if (removedUsers.length) {
-                // add a recipient to the message
+                // add a user to the message
                 $scope.message.users = _.union(
                     $scope.message.users,
                     removedUsers

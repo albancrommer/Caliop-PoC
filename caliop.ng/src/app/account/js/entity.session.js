@@ -2,7 +2,7 @@
 
 "use strict";
 
-angular.module('caliop.entity.session')
+angular.module('caliop.account.entity.session')
 
 .factory('session', ['Restangular', 'base',
     function (Restangular, BaseEnt) {

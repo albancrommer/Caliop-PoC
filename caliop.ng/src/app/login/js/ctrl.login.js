@@ -8,7 +8,7 @@
 angular.module('caliop.login', [
     'ui.router',
 
-    'caliop.service.account'
+    'caliop.account.service.account'
 ])
 
 .config(function config($stateProvider) {

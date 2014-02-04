@@ -39,17 +39,17 @@
 
             <div class="col-xs-1 avatar text-center" >
                 <img
-                    tooltip="{{thread.getLastRecipient().displayName()}}"
+                    tooltip="{{thread.getLastUser().displayName()}}"
                     class="img-circle"
-                    ng-src="{{thread.getLastRecipient().getAvatarSrc()}}"
+                    ng-src="{{thread.getLastUser().getAvatarSrc()}}"
                     alt="avatar" />
             </div>
 
             <div class="col-xs-8 text" ng-click="openThread(thread)">
-                <div class="recipients">
+                <div class="users">
                     <span
-                        tooltip="{{thread.recipients | joinRecipients:-1 }}"
-                        ng-bind-html="thread.recipients | joinRecipients:3">
+                        tooltip="{{thread.users | joinUsers:-1 }}"
+                        ng-bind-html="thread.users | joinUsers:3">
                     </span>
                 </div>
 
@@ -61,7 +61,7 @@
                         {{label.label}}
                     </span>
                     <span class="badge">
-                        {{thread.recipients.length}}
+                        {{thread.users.length}}
                     </span> {{thread.title}}
                 </div>
 

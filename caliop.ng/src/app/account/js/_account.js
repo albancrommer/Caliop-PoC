@@ -3,16 +3,16 @@
 "use strict";
 
 angular.module('caliop.account', [
-    'caliop.service.account'
+    'caliop.account.service.account'
 ]);
 
 
-angular.module('caliop.service.account', [
-    'caliop.entity.session'
+angular.module('caliop.account.service.account', [
+    'caliop.account.entity.session'
 ]);
 
 
-angular.module('caliop.entity.session', [
+angular.module('caliop.account.entity.session', [
     'caliop.common.entity.base'
 ]);
 

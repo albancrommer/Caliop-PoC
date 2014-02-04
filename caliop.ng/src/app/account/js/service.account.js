@@ -2,7 +2,7 @@
 
 "use strict";
 
-angular.module('caliop.service.account')
+angular.module('caliop.account.service.account')
 
 .factory('auth', ['$cookieStore', '$q', 'session',
     function ($cookieStore, $q, SessionSrv) {

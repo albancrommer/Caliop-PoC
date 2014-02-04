@@ -4,20 +4,20 @@
 
 angular.module('caliop.message.entity.message')
 
-.factory('message', ['Restangular', 'base', 'recipient',
-    function (Restangular, BaseEnt, RecipientSrv) {
+.factory('message', ['Restangular', 'base', 'user',
+    function (Restangular, BaseEnt, UserSrv) {
 
     function Message() { BaseEnt.apply(this, arguments); }
     Message.prototype = Object.create(BaseEnt.prototype);
 
     /**
      * Return the author of the message.
-     * @return {caliop.service.entity.recipient}
+     * @return {caliop.service.entity.user}
      */
     Message.prototype.getAuthor = function() {
         var that = this;
 
-        this.author = new RecipientSrv(this.author);
+        this.author = new UserSrv(this.author);
         return this.author;
     };
 

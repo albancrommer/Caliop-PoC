@@ -16,7 +16,7 @@ class Messages(API):
         Retrieve the list of messages for a given thread.
         """
         messages = json.loads(self.read_json())
-        recipients = json.loads(self.read_json(filename='recipients.json'))
+        users = json.loads(self.read_json(filename='users.json'))
 
         thread_id = int(self.request.matchdict.get('thread_id'))
 
@@ -26,7 +26,7 @@ class Messages(API):
         for message in filtered_messages:
             # link author
             message['author'] = filter(lambda r: r['id'] == message['author'],
-                                       recipients).pop()
+                                       users).pop()
 
         return Response(json.dumps(filtered_messages))
 
@@ -35,10 +35,6 @@ class Messages(API):
         Create a new message.
         """
         message = self.request.json
-
-        from pprint import pprint
-        pprint(self.request.matchdict)
-
         message['thread_id'] = int(self.request.matchdict.get('thread_id'))
 
         id = self.add_to_json(message)

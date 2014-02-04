@@ -18,6 +18,11 @@ angular.module('caliop.user.entity.user')
         return [this.firstName, this.lastName].join(' ');
     };
 
+    User.prototype.getAvatarSrc = function(obj) {
+        var avatar = this.avatar || 'avatar.png';
+        return '/static/assets/images/avatars/' + avatar;
+    };
+
     User.getList = function() {
         return Restangular.all('users').getList();
     };
