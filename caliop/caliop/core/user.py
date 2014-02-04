@@ -45,3 +45,7 @@ class User(AbstractCore):
         counter.model.thread_id += 1
         counter.save()
         return counter.thread_id
+
+    def get_thread_id(self, external_id):
+        # XXX : lookup external thread_id to internal one
+        return self.new_thread_id()

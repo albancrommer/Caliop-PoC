@@ -43,11 +43,13 @@ class Message(AbstractCore):
         index = MailIndexMessage(mail, parts, contacts)
         parts_id = [x.id for x in parts]
         message_id = user.new_message_id()
+        thread_id = user.get_thread_id(index.thread_id)
         msg = cls.create(user_id=user.id,
                          message_id=message_id,
+                         thread_id=thread_id,
                          date_insert=datetime.utcnow(),
-                         external_id=index.message_id,
-                         thread_id=index.thread_id,
+                         external_message_id=index.message_id,
+                         external_thread_id=index.thread_id,
                          parts=parts_id)
         # set message_id into parts
         for part in parts:

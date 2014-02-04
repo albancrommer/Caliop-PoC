@@ -36,7 +36,8 @@ class Message(Model):
     message_id = columns.Integer(primary_key=True)  # counter.message_id
     thread_id = columns.Integer()                   # counter.thread_id
     date_insert = columns.DateTime()
-    external_id = columns.Text()
+    external_message_id = columns.Text()
+    external_thread_id = columns.Text()
     parts = columns.List(columns.UUID)
 
 
