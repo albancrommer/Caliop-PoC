@@ -35,8 +35,8 @@ angular.module('caliop.inbox')
 /**
  * InBoxCtrl
  */
-.controller('InBoxCtrl', ['$injector', '$scope', '$state', '$filter', '$modal', 'tabs', 'thread',
-    function InBoxCtrl($injector, $scope, $state, $filter, $modal, TabsSrv, ThreadSrv) {
+.controller('InBoxCtrl', ['$scope', '$state', '$filter', '$modal', 'tabs', 'thread',
+    function InBoxCtrl($scope, $state, $filter, $modal, TabsSrv, ThreadSrv) {
 
     // if any thread is selected, show actions icons
     $scope.showThreadActions = function() {

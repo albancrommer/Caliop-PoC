@@ -87,29 +87,88 @@ angular.module('caliop.inbox.entity.thread')
                 "security": 50 // @TODO
             };
 
-        Restangular.all('threads').post(threadParams).then(function(thread) {
-            var messageParams = {
-                "title": message.title,
-                "body": message.body,
-                "date_sent": now,
-                "author": AuthSrv.getContact().id,
-                "security": 50, // @TODO
-                "protocole": message.protocole,
-                "answer_to": false,
-                "offset": 0,
-                "thread_id": thread.threadId
+        Restangular
+            .all('threads')
+            .post(threadParams)
+            .then(function(thread) {
+                var messageParams = {
+                    "title": message.title,
+                    "body": message.body,
+                    "date_sent": now,
+                    "author": AuthSrv.getContact().id,
+                    "security": 50, // @TODO
+                    "protocole": message.protocole,
+                    "answer_to": false,
+                    "offset": 0,
+                    "thread_id": thread.threadId
+                };
+
+                Restangular
+                    .one('threads', thread.threadId)
+                    .all('messages')
+                    .post(messageParams)
+                    .then(function() {
+                        deferred.resolve(threadParams);
+                    }, function() {
+                        deferred.reject();
+                    });
+            }, function() {
+                deferred.reject();
+            }
+        );
+
+        return deferred.promise;
+    };
+
+    /**
+     * Add a message in the thread.
+     * @return [{caliop.message.entity.message}]
+     */
+    Thread.newMessage = function(threadId, message) {
+        var deferred = $q.defer(),
+            now = moment().format("YYYY-MM-DD HH:mm:ss"),
+            threadParams = {
+                "date_updated": now,
+                // "users": [AuthSrv.getContact().id],
+                "text": message.body,
+                // "labels": [],
+                "security": 50 // @TODO
             };
 
-            Restangular
-                .one('threads', thread.threadId)
-                .all('messages')
-                .post(messageParams)
-                .then(function() {
-                    deferred.resolve(threadParams);
-                }, function() {
-                    deferred.reject();
-                });
-        });
+        // update the existing thread
+        Restangular
+            .one('threads', threadId)
+            .customPUT(threadParams)
+            .then(function(thread) {
+                var messageParams = {
+                    "title": message.title,
+                    "body": message.body,
+                    "date_sent": now,
+                    "author": AuthSrv.getContact().id,
+                    "security": 50, // @TODO
+                    "protocole": 'Mail', // @TODO
+                    "answer_to": false,
+                    "offset": 0,
+                    "thread_id": threadId
+                };
+
+                // add the new message
+                Restangular
+                    .one('threads', threadId)
+                    .all('messages')
+                    .post(messageParams)
+                    .then(function() {
+                        // merge the message and the author object
+                        deferred.resolve(angular.extend(messageParams, {
+                            author: AuthSrv.getContact()
+                        }));
+                    }, function() {
+                        deferred.reject();
+                    });
+            }, function() {
+                deferred.reject();
+            }
+        );
 
         return deferred.promise;
     };

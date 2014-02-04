@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import json
 
 from pyramid.response import Response
+from pyramid.httpexceptions import HTTPNotFound
 
 from .api import API
 
@@ -42,6 +43,19 @@ class Thread(API):
 
         return Response(json.dumps(thread))
 
+    def put(self):
+        """
+        Update an existing thread.
+        """
+        thread_id = int(self.request.matchdict.get('thread_id'))
+        thread = self.request.json
+        thread_data = self.update_to_json(thread_id, thread)
+
+        if not thread_data:
+            return HTTPNotFound()
+        else:
+            return Response(json.dumps(thread_data))
+
 class Threads(Thread):
     def get(self):
         threads = json.loads(self.read_json())
@@ -57,6 +71,7 @@ class Threads(Thread):
         """
         thread = self.request.json
         id = self.add_to_json(thread)
+
         return Response(json.dumps({
             'success': 'true',
             'thread_id': id

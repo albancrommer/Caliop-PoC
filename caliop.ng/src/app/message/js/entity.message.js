@@ -44,13 +44,20 @@ angular.module('caliop.message.entity.message')
         return Restangular.one('threads', threadId).getList('messages');
     };
 
-    Restangular.addElementTransformer('messages', false, function(obj) {
+    /**
+     * Instanciate a new message.
+     */
+    Message.new_ = function(obj) {
         var message = new Message(obj);
 
         message.getAuthor();
         message.getSecurityColor();
 
         return message;
+    };
+
+    Restangular.addElementTransformer('messages', false, function(obj) {
+        return Message.new_(obj);
     });
 
     return Message;

@@ -31,19 +31,29 @@ angular.module('caliop.message')
 /**
  * MessagesCtrl
  */
-.controller('MessagesCtrl', ['$scope', '$state', '$stateParams', 'message',
-    function MessagesCtrl($scope, $state, $stateParams, MessageSrv) {
+.controller('MessagesCtrl', ['$scope', 'tabs', '$stateParams', 'message', 'thread',
+    function MessagesCtrl($scope, TabsInboxSrv, $stateParams, MessageSrv, ThreadSrv) {
 
     var threadId = $stateParams.id;
 
     if (!threadId) {
-        $state.go('app.inbox');
+        // select the inbox tab
+        TabsInboxSrv.select({id: 1});
         return;
     }
 
     MessageSrv.getThreadList(threadId).then(function(messages) {
         $scope.messages = messages;
     });
+
+    $scope.submitMessage = function() {
+        ThreadSrv.newMessage(threadId, $scope.message).then(function(message) {
+            // push the new message in the scope
+            $scope.messages.push(MessageSrv.new_(message));
+            // delete the textarea
+            $scope.message.body = '';
+        });
+    };
 }])
 
 /**

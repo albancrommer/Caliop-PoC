@@ -4,7 +4,7 @@ import os
 import json
 
 from pyramid.response import Response
-from pyramid.httpexceptions import HTTPMethodNotAllowed
+from pyramid.httpexceptions import HTTPMethodNotAllowed, HTTPNotFound
 
 
 class API(object):
@@ -56,6 +56,30 @@ class API(object):
             json.dump(entries, jsonfile, indent=True)
 
         return entry['id']
+
+    def update_to_json(self, id, entry):
+        """
+        Update an entry of the json file.
+        """
+        entries = json.loads(self.read_json())
+        foundEntries = [e for e in entries if int(e['id']) == id]
+
+        if not foundEntries:
+            return False
+
+        # remove the old dict
+        entry_ = foundEntries[0]
+        entries.remove(entry_)
+
+        # add the new one
+        entry_.update(entry)
+        entries.append(entry_)
+
+        with open(self.get_path(), 'w') as jsonfile:
+            jsonfile.truncate()
+            json.dump(entries, jsonfile, indent=True)
+
+        return entry_
 
     def __call__(self):
         """
