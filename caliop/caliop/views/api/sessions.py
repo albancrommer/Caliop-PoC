@@ -9,7 +9,7 @@ from .api import API
 
 
 class Sessions(API):
-    filename = 'contact.json'
+    filename = 'users.json'
 
     def post(self):
         """
@@ -24,7 +24,9 @@ class Sessions(API):
             if (credentials['login'] == 'bad' and credentials['password'] == 'bad'):
                 raise BadCredentials
 
-            return Response(self.read_json())
+            # for the moment, the first user if the authed contact
+            users = json.loads(self.read_json())
+            return Response(json.dumps(users[0]))
 
         except (KeyError, BadCredentials):
             return Response('BadCredentials', status='403 Forbidden')
