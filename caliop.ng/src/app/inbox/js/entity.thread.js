@@ -4,8 +4,8 @@
 
 angular.module('caliop.inbox.entity.thread')
 
-.factory('thread', ['Restangular', 'string', 'base', 'recipient', 'label',
-    function (Restangular, stringSrv, BaseEnt, RecipentSrv, LabelSrv) {
+.factory('thread', ['Restangular', '$q', 'base', 'recipient', 'label',
+    function (Restangular, $q, BaseEnt, RecipentSrv, LabelSrv) {
 
     function Thread() { BaseEnt.apply(this, arguments); }
     Thread.prototype = Object.create(BaseEnt.prototype);
@@ -71,6 +71,49 @@ angular.module('caliop.inbox.entity.thread')
      */
     Thread.prototype.getMessages = function() {
         return Restangular.one('threads', this.id).getList('messages');
+    };
+
+    /**
+     * Do a POST query to create a new thread.
+     */
+    Thread.new_ = function(message) {
+        var deferred = $q.defer(),
+            now = moment().format("YYYY-MM-DD HH:mm:ss"),
+            threadParams = {
+                "date_updated": now,
+                "recipients": _.map(message.recipients, function(recipient) {
+                    return recipient.id;
+                }),
+                "text": message.body,
+                "labels": [],
+                "security": 50 // @TODO
+            };
+
+        Restangular.all('threads').post(threadParams).then(function(thread) {
+            var messageParams = {
+                "title": message.title,
+                "body": message.body,
+                "date_sent": now,
+                "author": 1,    // for the moment, 1 == authed contact
+                "security": 50, // @TODO
+                "protocole": message.protocole,
+                "answer_to": false,
+                "offset": 0,
+                "thread_id": thread.threadId
+            };
+
+            Restangular
+                .one('threads', thread.threadId)
+                .all('messages')
+                .post(messageParams)
+                .then(function() {
+                    deferred.resolve(threadParams);
+                }, function() {
+                    deferred.reject();
+                });
+        });
+
+        return deferred.promise;
     };
 
     /**

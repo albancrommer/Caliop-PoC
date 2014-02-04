@@ -49,14 +49,20 @@ angular.module('caliop.message')
 /**
  * WriteMessageCtrl
  */
-.controller('WriteMessageCtrl', ['$scope', 'user',
-    function WriteMessageCtrl($scope, UserSrv) {
+.controller('WriteMessageCtrl', ['$scope', 'user', 'thread',
+    function WriteMessageCtrl($scope, UserSrv, ThreadSrv) {
+
+    $scope.availableProtocoles = ['Caliop', 'Mail', 'XMPP'];
+
+    $scope.message = {
+        protocole: $scope.availableProtocoles[0]
+    };
 
     // retrieve the list of groups/users
     UserSrv.getList().then(function(users) {
         $scope.users = users;
 
-        $scope.pickedRecipients = [];
+        $scope.message.recipients = [];
         $scope.$watch('to', function(userName) {
             // remove it from the available users
             var removedUsers = _.remove($scope.users, function(user) {
@@ -65,7 +71,10 @@ angular.module('caliop.message')
 
             if (removedUsers.length) {
                 // add user to recipients
-                $scope.pickedRecipients = _.union($scope.pickedRecipients, removedUsers);
+                $scope.message.recipients = _.union(
+                    $scope.message.recipients,
+                    removedUsers
+                );
                 $scope.to = '';
             }
         });
@@ -81,6 +90,15 @@ angular.module('caliop.message')
 
         // focus the input by using the directive 'focusOn'
         $scope.$broadcast('recipientRemoved');
+    };
+
+    $scope.submitMessage = function() {
+        // @TODO Check inputs/validations etc.
+
+        // create a new thread with the message inside
+        ThreadSrv.new_($scope.message).then(function(thread) {
+            console.log('thread postaid !', thread);
+        });
     };
 }])
 

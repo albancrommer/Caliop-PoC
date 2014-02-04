@@ -25,7 +25,7 @@
         <li
             class="row"
             style="border-color: #{{thread.securityColor}}"
-            ng-repeat="thread in threads"
+            ng-repeat="thread in threads | orderBy:'dateUpdated':true"
             ng-class="{'selected': thread.selected}">
 
             <div class="col-xs-1 text-center date">
