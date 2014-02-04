@@ -48,13 +48,14 @@ class API(object):
         Return a fake ID by counting the number of items in the JSON struct.
         """
         entries = json.loads(self.read_json())
+        entry['id'] = len(entries) + 1
         entries.append(entry)
 
         with open(self.get_path(), 'w') as jsonfile:
             jsonfile.truncate()
             json.dump(entries, jsonfile, indent=True)
 
-        return len(entries)
+        return entry['id']
 
     def __call__(self):
         """
