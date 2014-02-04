@@ -45,6 +45,7 @@ class API(object):
     def add_to_json(self, entry):
         """
         Push an entry at the end of the json file.
+        Return a fake ID by counting the number of items in the JSON struct.
         """
         entries = json.loads(self.read_json())
         entries.append(entry)
@@ -52,6 +53,8 @@ class API(object):
         with open(self.get_path(), 'w') as jsonfile:
             jsonfile.truncate()
             json.dump(entries, jsonfile, indent=True)
+
+        return len(entries)
 
     def __call__(self):
         """

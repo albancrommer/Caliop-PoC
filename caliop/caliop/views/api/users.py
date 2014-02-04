@@ -13,8 +13,11 @@ class Users(API):
 
     def post(self):
         user = self.request.json
-        self.add_to_json(user)
-        return Response(json.dumps({'success': 'true'}))
+        id = self.add_to_json(user)
+        return Response(json.dumps({
+            'success': 'true',
+            'user_id': id
+        }))
 
     def get(self):
         users = json.loads(self.read_json())

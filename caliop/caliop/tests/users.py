@@ -55,8 +55,9 @@ class TestViewUsers(unittest.TestCase):
         request.context = testing.DummyResource()
         response = Users(request)()
 
-        status = json.loads(response.text)
-        self.assertTrue('true', status)
+        response_text = json.loads(response.text)
+        self.assertTrue(response_text['success'], 'true')
+        self.assertTrue(response_text['user_id'], len(users) +1)
 
         # Check than the user has been saved
         request = testing.DummyRequest()

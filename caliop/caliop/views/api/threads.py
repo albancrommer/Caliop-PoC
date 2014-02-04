@@ -56,5 +56,8 @@ class Threads(Thread):
         Create a new empty thread.
         """
         thread = self.request.json
-        self.add_to_json(thread)
-        return Response(json.dumps({'success': 'true'}))
+        id = self.add_to_json(thread)
+        return Response(json.dumps({
+            'success': 'true',
+            'thread_id': id
+        }))

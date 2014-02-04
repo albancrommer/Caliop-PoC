@@ -68,8 +68,9 @@ class TestViewThreads(unittest.TestCase):
         }
         response = Threads(request)()
 
-        status = json.loads(response.text)
-        self.assertTrue('true', status)
+        response_text = json.loads(response.text)
+        self.assertTrue(response_text['success'], 'true')
+        self.assertTrue(response_text['thread_id'], len(threads) +1)
 
         # Check than the user has been saved
         request = testing.DummyRequest()
