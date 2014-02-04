@@ -1,12 +1,13 @@
 from caliop.store.base import MailIndexMessage, UserIndex
 from caliop.store.backends.cassandra import (
     User, Counter, Message, MessagePart, Contact, ContactLookup,
-    Event, RRule)
+    ThreadLookup, Event, RRule)
 from caliop.store.backends.es import IndexedMessage, IndexedContact
 
 # XXX make a backend factory stuff
 
 ALL = [User, Counter, Message, MessagePart,
-       Contact, ContactLookup, Event, RRule,
+       Contact, ContactLookup, ThreadLookup,
+       Event, RRule,
        MailIndexMessage, UserIndex,
        IndexedMessage, IndexedContact]
