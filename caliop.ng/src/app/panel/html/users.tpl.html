@@ -34,13 +34,15 @@
             ({{group.group.connectedUsersCount}}/{{group.users.length}})
 
             <div collapse="group.group.isCollapsed">
-                <ul class="">
+                <ul class="users">
                     <li class="" ng-repeat="user in group.users">
                         <span
                             class="connected-status glyphicon glyphicon-ok-sign"
                             ng-class="user.connected ? 'on' : 'off'">
                         </span>
-                        {{user.displayName()}}
+                        <span tooltip="{{user.message}}">
+                            <a href="">{{user.displayName()}}</a>
+                        </span>
                     </li>
                 </ul>
             </div>
