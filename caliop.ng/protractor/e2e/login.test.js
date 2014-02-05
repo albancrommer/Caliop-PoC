@@ -1,36 +1,46 @@
+module.exports = function (request, response) {
+
 describe('Login and redirect to the inbox', function() {
     'use strict';
-
     var execSync = require('exec-sync');
     execSync('git checkout ../caliop/caliop/views/api/json/*');
+    var loginPage = require('./login.page.js')();
+    var cred = {login: 'Alexis', password: 'Mineaud'};
 
-    it('should complete the inputs', function() {
-      browser.get('/#/');
-      var login = 'Alexis';
-      var password = 'Mineaud';
-      element(by.model('credentials.login')).sendKeys(login);
-      element(by.model('credentials.password')).sendKeys(password);
-
-      element(by.model('credentials.password')).getAttribute('value').then(function (data) {
-        expect(data).toEqual(password);
-      });
-      element(by.model('credentials.login')).getAttribute('value').then(function (data) {
-        expect(data).toEqual(login);
-      });
+    it('should load login page', function() {
+        loginPage.goLogin();
+        expect(browser.getCurrentUrl()).toEqual(loginPage.loginURL);
     });
 
-  it('should submit the form', function() {
-    element(by.id('submit')).click();
-    expect(browser.isElementPresent(by.binding('messages.error'))).toBe(false);
-  });
+    it('should filling form', function() {
+        loginPage.fillingAllForm(cred);
 
-  it('should redirect to the inbox page', function() {
-    expect(browser.getCurrentUrl()).toEqual('http://localhost:6543/#/inbox');
-  });
+        loginPage.getLoginForm().then(function (value) {
+            expect(cred.login).toEqual(value);
+        });
 
-  it('should create a cookie', function() {
-    browser.manage().getCookie('session').then(function(cookie) {
-        expect(cookie.value).toMatch(/connected/);
+        loginPage.getPasswordForm().then(function (value) {
+            expect(cred.password).toEqual(value);
+        });
     });
-  });
+
+    it('should submit the form', function() {
+        loginPage.submitForm();
+        loginPage.hasError().then(function (bool) {
+            expect(bool).toBe(false);
+        });
+    });
+
+    it('should redirect to the inbox page', function() {
+        expect(browser.getCurrentUrl()).toEqual(loginPage.inboxURL);
+    });
+
+    it('should create a cookie', function() {
+        loginPage.getCookies().then(function (cookies) {
+              expect(cookies.value).toMatch(/connected/);
+        });
+    });
+
 });
+
+};
