@@ -42,6 +42,3 @@ class Sessions(API):
         """
         return Response(json.dumps({'status': 'logout'}))
 
-
-class ContactInfo(API):
-    filename = 'contact.json'
