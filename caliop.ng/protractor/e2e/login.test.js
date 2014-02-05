@@ -21,8 +21,6 @@ describe('Login and redirect to the inbox', function() {
 
   it('should create a cookie', function() {
     browser.manage().getCookie('session').then(function(cookie) {
-        console.log(cookie);
-
         expect(cookie.value).toMatch(/connected/);
     });
   });
