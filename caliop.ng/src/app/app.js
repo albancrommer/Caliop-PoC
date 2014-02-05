@@ -26,7 +26,9 @@ angular.module('caliop', [
     'caliop.panel'
 ])
 
-.config(function myAppConfig($urlRouterProvider, $stateProvider, $tooltipProvider) {
+.config(['$urlRouterProvider', '$stateProvider', '$tooltipProvider', '$httpProvider',
+    function myAppConfig($urlRouterProvider, $stateProvider, $tooltipProvider, $httpProvider) {
+
     $urlRouterProvider.otherwise('/login');
 
     $stateProvider

@@ -4,7 +4,9 @@
 
 angular.module('caliop.inbox')
 
-.config(function config($stateProvider) {
+.config(['$stateProvider',
+    function config($stateProvider) {
+
     $stateProvider
         .state('app.inbox', {
             url: 'inbox',
@@ -30,7 +32,7 @@ angular.module('caliop.inbox')
                 }
             }
         });
-})
+}])
 
 /**
  * InBoxCtrl

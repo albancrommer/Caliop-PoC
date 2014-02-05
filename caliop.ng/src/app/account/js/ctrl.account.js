@@ -4,7 +4,9 @@
 
 angular.module('caliop.account')
 
-.config(function config($stateProvider) {
+.config(['$stateProvider',
+    function config($stateProvider) {
+
     $stateProvider
         .state('app.account', {
             url: 'account',
@@ -34,7 +36,7 @@ angular.module('caliop.account')
                 }
             }
         });
-})
+}])
 
 /**
  * AccountCtrl

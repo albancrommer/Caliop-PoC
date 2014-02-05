@@ -11,7 +11,9 @@ angular.module('caliop.login', [
     'caliop.account.service.account'
 ])
 
-.config(function config($stateProvider) {
+.config(['$stateProvider',
+    function config($stateProvider) {
+
     $stateProvider
         .state('app.login', {
             url: 'login',
@@ -47,7 +49,7 @@ angular.module('caliop.login', [
                 }
             }
         });
-})
+}])
 
 /**
  * LoginCtrl

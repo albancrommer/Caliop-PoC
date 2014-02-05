@@ -12,9 +12,6 @@ angular.module('caliop.panel', [
     'caliop.user'
 ])
 
-.config(function config($stateProvider) {
-})
-
 .controller('PanelCtrl', ['$scope', '$state', '$controller',
     function PanelCtrl($scope, $state, $controller) {
 

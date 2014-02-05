@@ -4,7 +4,9 @@
 
 angular.module('caliop.message')
 
-.config(function config($stateProvider) {
+.config(['$stateProvider',
+    function config($stateProvider) {
+
     $stateProvider
         .state('app.inbox.thread', {
             url: '/thread/:id/messages',
@@ -26,7 +28,7 @@ angular.module('caliop.message')
                 }
             }
         });
-})
+}])
 
 /**
  * MessagesCtrl
