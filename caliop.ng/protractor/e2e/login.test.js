@@ -1,4 +1,6 @@
 describe('Login and redirect to the inbox', function() {
+    'use strict';
+
     var execSync = require('exec-sync');
     execSync('git checkout ../caliop/caliop/views/api/json/*');
 
