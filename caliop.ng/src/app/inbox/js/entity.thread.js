@@ -79,9 +79,16 @@ angular.module('caliop.inbox.entity.thread')
     Thread.new_ = function(message) {
         var deferred = $q.defer(),
             now = moment().format("YYYY-MM-DD HH:mm:ss"),
+            // unify the union of the auth contact + all selected users
+            usersId = _.uniq(
+                _.union(
+                    _.map(message.users, function(user) { return user.id; }),
+                    [AuthSrv.getContact().id]
+                )
+            ),
             threadParams = {
                 "date_updated": now,
-                "users": [AuthSrv.getContact().id],
+                "users": usersId,
                 "text": message.body,
                 "labels": [],
                 "security": 50 // @TODO
