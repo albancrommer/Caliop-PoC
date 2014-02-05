@@ -56,6 +56,9 @@ caliop.ng/bin/
 caliop.ng/node_modules/
 caliop.ng/vendor/
 
+# Protractor reports
+caliop.ng/protractor/xmlreports/
+
 # Pyramid app
 caliop/development.ini
 caliop/production.ini

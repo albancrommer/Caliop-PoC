@@ -1,6 +1,6 @@
 describe('Login and redirect to the inbox', function() {
   it('should complete the inputs', function() {
-    browser.get('http://localhost:6543/#/');
+    browser.get('/#/');
 
     element(by.model('credentials.login')).sendKeys('Alexis');
     element(by.model('credentials.password')).sendKeys('Mineaud');
