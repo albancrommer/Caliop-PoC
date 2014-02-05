@@ -83,6 +83,11 @@ angular.module('caliop', [
         if (current.name != 'app.login' && !contact) {
             $state.go('app.login');
         }
+
+        // if authed, redirect to the inbox
+        if (current.name == 'app' && contact) {
+            $state.go('app.inbox');
+        }
     });
 
     // display route state for debug (@TODO use configSrv ?)
