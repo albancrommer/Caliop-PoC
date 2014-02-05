@@ -6,7 +6,8 @@
   "avatar": "alexis.png",
   "groups": [],
   "message": "\u00b0<",
-  "id": 1
+  "id": 1,
+  "token": "azerty"
  },
  {
   "first_name": "Cl\u00e9ment",
@@ -16,7 +17,8 @@
    1
   ],
   "message": "Piou piou",
-  "id": 2
+  "id": 2,
+  "token": "qwerty"
  },
  {
   "first_name": "Vincent",
@@ -27,7 +29,8 @@
    3
   ],
   "message": "Pas l\u00e0",
-  "id": 3
+  "id": 3,
+  "token": "loupiote"
  },
  {
   "first_name": "Yann",
