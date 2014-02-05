@@ -55,20 +55,22 @@ angular.module('caliop', [
     $tooltipProvider.options({
         popupDelay: 250
     });
-})
+}])
 
 .run(['$rootScope', 'config', 'auth', '$state', 'Restangular',
-    function run($rootScope, configSrv, authSrv, $state, restangularPvdr) {
+    function run($rootScope, configSrv, AuthSrv, $state, RestangularPrvd) {
 
     // use mocks or not
     var useMocks = configSrv.get('useMocks') || 1;
     var baseUrl = useMocks ? '/api/mock' : '/api';
-    restangularPvdr.setBaseUrl(baseUrl);
+    RestangularPrvd.setBaseUrl(baseUrl);
 
     // if a user is connected, save the contact in the rootScope
-    var contact = authSrv.getContact();
+    // and set his token in the default header of any Restangular queries
+    var contact = AuthSrv.getContact();
     if (contact) {
         $rootScope.authContact = contact;
+        AuthSrv.configureRestangularHeaders();
     }
     else {
         $state.go('app.login');

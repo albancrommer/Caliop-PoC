@@ -8,6 +8,7 @@ angular.module('caliop.account', [
 
 
 angular.module('caliop.account.service.account', [
+    'restangular',
     'caliop.account.entity.session'
 ]);
 

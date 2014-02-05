@@ -62,7 +62,7 @@ angular.module('caliop.login', [
     $scope.messages = {};
 
     $scope.login = function() {
-        //if login successful, retrieve the contact asynchronously
+        // if login ok, save the token
         authSrv.login($scope.credentials).then(function(contact) {
             $rootScope.authContact = contact;
             $state.go('app.inbox');
