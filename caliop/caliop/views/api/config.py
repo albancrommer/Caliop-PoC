@@ -40,5 +40,18 @@ def includeme(config):
         route_name='users',
         renderer='json')
 
+    config.add_route('labels', '/api/mock/labels')
+    config.add_view('caliop.views.api.Labels',
+        request_method=('GET',),
+        route_name='labels',
+        renderer='json')
+
+    config.add_route('label', '/api/mock/labels/{label_id}')
+    config.add_view('caliop.views.api.Label',
+        request_method=('GET',),
+        route_name='label',
+        renderer='json')
+
+
 
 
