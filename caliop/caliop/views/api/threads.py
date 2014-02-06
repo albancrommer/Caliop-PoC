@@ -60,6 +60,10 @@ class Threads(Thread):
     def get(self):
         threads = json.loads(self.read_json())
 
+        # keep only threads of the logged user
+        threads = [thread for thread in threads
+                    if self.user['id'] in thread['users']]
+
         for thread in threads:
             self._augment(thread)
 

@@ -13,6 +13,15 @@ class API(object):
 
     def __init__(self, request):
         self.request = request
+
+        # get the user from the token passed in the request header
+        token = self.request.headers.get('X-Auth-Token')
+        if token:
+            users = json.loads(self.read_json(filename='users.json'))
+            users = [user for user in users if user.get('token') == token]
+            if users:
+                self.user = users.pop()
+
         self.init()
 
     def init(self):
