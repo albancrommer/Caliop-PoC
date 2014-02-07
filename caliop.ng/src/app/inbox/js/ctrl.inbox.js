@@ -18,7 +18,7 @@ angular.module('caliop.inbox')
                 // ui-view="main" of 2columns.tpl.html
                 'main@app.inbox': {
                     templateUrl: 'inbox/html/layout.tpl.html',
-                    controller: 'TabsManagementCtrl'
+                    controller: 'InBoxLayoutCtrl'
                 },
                 // ui-view="tabContent" of inbox/html/layout.tpl.html
                 'tabContent@app.inbox': {
@@ -32,6 +32,53 @@ angular.module('caliop.inbox')
                 }
             }
         });
+}])
+
+/**
+ * InBoxLayoutCtrl
+ */
+.controller('InBoxLayoutCtrl', ['$rootScope', '$scope', 'tabs', 'filter',
+    function TabsManagementCtrl($rootScope, $scope, tabsSrv, FilterSrv) {
+
+    /**
+     * Watch the tabs list in the service.
+     */
+    $scope.$watch(function() {
+        return tabsSrv.tabs;
+    }, function(tabs) {
+        $scope.tabs = tabs;
+    });
+
+    /**
+     * Load the content of a tab.
+     */
+    $scope.loadContent = function(tab) {
+        tabsSrv.select(tab);
+    };
+
+    /**
+     * Close a tab.
+     */
+    $scope.closeTab = function(tab) {
+        tabsSrv.close(tab);
+    };
+
+    /**
+     * Initialize a shared variable between this controller and its children
+     * which allows to refresh labels in the filter and to reload threads list
+     * when being updated.
+     */
+    $scope.filter = {
+        labels: []
+    };
+
+    /**
+     * Remove a label from the filter.
+     */
+    $scope.removeFilterLabel = function(label) {
+        FilterSrv.removeLabel(label);
+        $scope.filter.labels = FilterSrv.labels;
+    };
 }])
 
 /**
