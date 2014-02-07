@@ -7,10 +7,12 @@ angular.module('caliop.inbox')
 /**
  * TabsManagementCtrl
  */
-.controller('TabsManagementCtrl', ['$scope', 'tabs',
-    function TabsManagementCtrl($scope, tabsSrv) {
+.controller('TabsManagementCtrl', ['$rootScope', '$scope', 'tabs', 'filter',
+    function TabsManagementCtrl($rootScope, $scope, tabsSrv, FilterSrv) {
 
-    // watch the tabs list in the service
+    /**
+     * Watch the tabs list in the service.
+     */
     $scope.$watch(function() {
         return tabsSrv.tabs;
     }, function(tabs) {
@@ -29,6 +31,25 @@ angular.module('caliop.inbox')
      */
     $scope.closeTab = function(tab) {
         tabsSrv.close(tab);
+    };
+
+    /* @TODO Move the code below to a FilterCtrl + ui-views */
+
+    /**
+     * Initialize a shared variable between this controller and its children
+     * which allows to refresh labels in the filter and to reload threads list
+     * when being updated.
+     */
+    $scope.filter = {
+        labels: []
+    };
+
+    /**
+     * Remove a label from the filter.
+     */
+    $scope.removeFilterLabel = function(label) {
+        FilterSrv.removeLabel(label);
+        $scope.filter.labels = FilterSrv.labels;
     };
 }]);
 

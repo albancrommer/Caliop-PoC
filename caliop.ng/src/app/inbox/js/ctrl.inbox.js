@@ -37,17 +37,17 @@ angular.module('caliop.inbox')
 /**
  * InBoxCtrl
  */
-.controller('InBoxCtrl', ['$scope', '$state', '$filter', '$modal', 'tabs', 'thread',
-    function InBoxCtrl($scope, $state, $filter, $modal, TabsSrv, ThreadSrv) {
+.controller('InBoxCtrl', [
+    '$rootScope', '$scope', '$state', '$filter', '$modal',
+    'tabs', 'thread', 'label', 'filter',
 
-    // if any thread is selected, show actions icons
-    $scope.showThreadActions = function() {
-        return _.filter($scope.threads, function(thread) {
-            return thread.selected;
-        }).length > 0;
-    };
+    function InBoxCtrl(
+        $rootScope, $scope, $state, $filter, $modal,
+        TabsSrv, ThreadSrv, LabelSrv, FilterSrv) {
 
-    // open the thread
+    /**
+     * Go inside a thread to list messages.
+     */
     $scope.openThread = function(thread) {
         var stateMessages = 'app.inbox.thread';
 
@@ -62,6 +62,9 @@ angular.module('caliop.inbox')
         });
     };
 
+    /**
+     * Open a modalbow to download the attachment.
+     */
     $scope.openAttachment = function(extension) {
         var modalInstance = $modal.open({
             templateUrl: 'attachment/html/download.tpl.html',
@@ -74,15 +77,54 @@ angular.module('caliop.inbox')
         });
     };
 
-    ThreadSrv.getList().then(function(threads) {
-        $scope.threads = threads;
-    });
+    /**
+     * Show actions icons if a (or more) thread has been selected.
+     */
+    $scope.showThreadActions = function() {
+        return _.filter($scope.threads, function(thread) {
+            return thread.selected;
+        }).length > 0;
+    };
 
-    // select all/none threads
+    /**
+     * Add a label to the filters.
+     */
+    $scope.filterByLabel = function(labelId) {
+        LabelSrv.byId(labelId).then(function(label) {
+            FilterSrv.addLabel(label);
+            $scope.filter.labels = FilterSrv.labels;
+        });
+    };
+
+    /**
+     * Select/unselect all threads.
+     */
     $scope.$watch('selectAllThreads', function(checked) {
         angular.forEach($scope.threads, function(thread) {
             thread.selected = checked;
         });
+    });
+
+    /**
+     * When filter changes, reload the list of threads with the selected labels.
+     */
+    $scope.$watch('filter.labels', function(labels) {
+        var params = {
+            label: _.map(labels, function(label) {
+                return label.id;
+            })
+        };
+
+        ThreadSrv.getList(params).then(function(threads) {
+            $scope.threads = threads;
+        });
+    }, true);
+
+    /**
+     * Load threads.
+     */
+    ThreadSrv.getList().then(function(threads) {
+        $scope.threads = threads;
     });
 }]);
 

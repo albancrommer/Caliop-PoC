@@ -4,6 +4,7 @@
 
 angular.module('caliop.inbox', [
     'caliop.inbox.entity.thread',
+    'caliop.inbox.service.filter',
     'caliop.user.filter',
 
     'caliop.message',
@@ -12,6 +13,9 @@ angular.module('caliop.inbox', [
 
 
 angular.module('caliop.inbox.service.tabs', []);
+
+
+angular.module('caliop.inbox.service.filter', []);
 
 
 angular.module('caliop.inbox.entity.label', [

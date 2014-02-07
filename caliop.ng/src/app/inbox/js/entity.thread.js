@@ -184,7 +184,7 @@ angular.module('caliop.inbox.entity.thread')
      * Return the list of threads.
      */
     Thread.getList = function() {
-        return Restangular.all('threads').getList();
+        return Restangular.all('threads').getList.apply(null, arguments);
     };
 
     Restangular.addElementTransformer('threads', false, function(obj) {

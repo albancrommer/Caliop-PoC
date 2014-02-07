@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from __future__ import absolute_import, unicode_literals
 
 import json
@@ -22,12 +24,12 @@ class Thread(API):
         """
         # link users
         thread_users = filter(lambda r: r['id'] in thread['users'],
-                                   self.users)
+                                    self.users)
         thread['users'] = thread_users
 
         # link labels
         thread_labels = filter(lambda l: l['id'] in thread['labels'],
-                                   self.labels)
+                                    self.labels)
         thread['labels'] = thread_labels
 
     def get(self):
@@ -56,6 +58,7 @@ class Thread(API):
         else:
             return Response(json.dumps(thread_data))
 
+
 class Threads(Thread):
     def get(self):
         threads = json.loads(self.read_json())
@@ -63,6 +66,14 @@ class Threads(Thread):
         # keep only threads of the logged user
         threads = [thread for thread in threads
                     if self.user['id'] in thread['users']]
+
+        # filter by labels
+        labels_id = [int(id_) for id_ in self.request.GET.getall('label')]
+        if labels_id:
+            threads = [thread for thread in threads
+                # if intersection == number of labels
+                if len(set(labels_id).intersection(
+                    set(thread['labels']))) == len(labels_id)]
 
         for thread in threads:
             self._augment(thread)
