@@ -16,21 +16,21 @@ class Thread(API):
 
     def init(self):
         self.users = json.loads(self.read_json(filename='users.json'))
-        self.labels = json.loads(self.read_json(filename='labels.json'))
+        self.tags = json.loads(self.read_json(filename='tags.json'))
 
     def _augment(self, thread):
         """
-        Add users, labels.
+        Add users, tags.
         """
         # link users
         thread_users = filter(lambda r: r['id'] in thread['users'],
                                     self.users)
         thread['users'] = thread_users
 
-        # link labels
-        thread_labels = filter(lambda l: l['id'] in thread['labels'],
-                                    self.labels)
-        thread['labels'] = thread_labels
+        # link tags
+        thread_tags = filter(lambda l: l['id'] in thread['tags'],
+                                    self.tags)
+        thread['tags'] = thread_tags
 
     def get(self):
         """
@@ -67,13 +67,13 @@ class Threads(Thread):
         threads = [thread for thread in threads
                     if self.user['id'] in thread['users']]
 
-        # filter by labels
-        labels_id = [int(id_) for id_ in self.request.GET.getall('label')]
-        if labels_id:
+        # filter by tags
+        tags_id = [int(id_) for id_ in self.request.GET.getall('tag')]
+        if tags_id:
             threads = [thread for thread in threads
-                # if intersection == number of labels
-                if len(set(labels_id).intersection(
-                    set(thread['labels']))) == len(labels_id)]
+                # if intersection == number of tags
+                if len(set(tags_id).intersection(
+                    set(thread['tags']))) == len(tags_id)]
 
         for thread in threads:
             self._augment(thread)

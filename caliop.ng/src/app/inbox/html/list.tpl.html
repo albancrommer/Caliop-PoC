@@ -3,8 +3,6 @@
         Aujourd'hui 24/12/2013 :
         <a href="#">Discussions récentes <span class="badge">12</span></a>
         <a href="#">non-lues <span class="badge">2</span></a>
-        <!-- TODO count thread today -->
-        <!-- TODO count thread today unread -->
     </span>
 
     <span class="col-xs-1 thread-actions">
@@ -54,13 +52,13 @@
                     </span>
                 </div>
 
-                <div class="labels">
+                <div class="tags">
                     <span
-                        class="label label-default"
-                        style="color: {{label.color}}; background: {{label.background}}"
-                        ng-repeat="label in thread.labels"
-                        ng-click="filterByLabel(label.id); $event.stopPropagation()">
-                        {{label.label}}
+                        class="tag label label-default"
+                        style="color: {{tag.color}}; background: {{tag.background}}"
+                        ng-repeat="tag in thread.tags"
+                        ng-click="filterByTag(tag.id); $event.stopPropagation()">
+                        {{tag.label}}
                     </span>
                     <span class="badge">
                         {{thread.users.length}}

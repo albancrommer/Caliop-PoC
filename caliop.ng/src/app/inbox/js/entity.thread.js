@@ -4,8 +4,8 @@
 
 angular.module('caliop.inbox.entity.thread')
 
-.factory('thread', ['Restangular', '$q', 'base', 'auth', 'user', 'label',
-    function (Restangular, $q, BaseEnt, AuthSrv, UserSrv, LabelSrv) {
+.factory('thread', ['Restangular', '$q', 'base', 'auth', 'user', 'tag',
+    function (Restangular, $q, BaseEnt, AuthSrv, UserSrv, TagSrv) {
 
     function Thread() { BaseEnt.apply(this, arguments); }
     Thread.prototype = Object.create(BaseEnt.prototype);
@@ -34,19 +34,19 @@ angular.module('caliop.inbox.entity.thread')
     };
 
     /**
-     * Return the list of labels
-     * @return [{caliop.inbox.entity.label}]
+     * Return the list of tags
+     * @return [{caliop.inbox.entity.tag}]
      */
-    Thread.prototype.getLabels = function() {
+    Thread.prototype.getTags = function() {
         var that = this;
 
-        var labels = [];
-        angular.forEach(this.labels, function(label) {
-            labels.push(new LabelSrv(label));
+        var tags = [];
+        angular.forEach(this.tags, function(tag) {
+            tags.push(new TagSrv(tag));
         });
 
-        that.labels = labels;
-        return that.labels;
+        that.tags = tags;
+        return that.tags;
     };
 
     /**
@@ -90,7 +90,7 @@ angular.module('caliop.inbox.entity.thread')
                 "date_updated": now,
                 "users": usersId,
                 "text": message.body,
-                "labels": [],
+                "tags": [],
                 "security": 50 // @TODO
             };
 
@@ -138,7 +138,7 @@ angular.module('caliop.inbox.entity.thread')
                 "date_updated": now,
                 // "users": [AuthSrv.getContact().id],
                 "text": message.body,
-                // "labels": [],
+                // "tags": [],
                 "security": 50 // @TODO
             };
 
@@ -191,7 +191,7 @@ angular.module('caliop.inbox.entity.thread')
         var thread = new Thread(obj);
 
         thread.getUsers();
-        thread.getLabels();
+        thread.getTags();
         thread.getSecurityColor();
 
         return thread;

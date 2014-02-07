@@ -40,16 +40,16 @@ def includeme(config):
         route_name='users',
         renderer='json')
 
-    config.add_route('labels', '/api/mock/labels')
-    config.add_view('caliop.views.api.Labels',
+    config.add_route('tagById', '/api/mock/tags/by_id/{tag_id}')
+    config.add_view('caliop.views.api.TagById',
         request_method=('GET',),
-        route_name='labels',
+        route_name='tagById',
         renderer='json')
 
-    config.add_route('label', '/api/mock/labels/{label_id}')
-    config.add_view('caliop.views.api.Label',
+    config.add_route('tagByLabel', '/api/mock/tags/by_label/{tag_label}')
+    config.add_view('caliop.views.api.TagByLabel',
         request_method=('GET',),
-        route_name='label',
+        route_name='tagByLabel',
         renderer='json')
 
 

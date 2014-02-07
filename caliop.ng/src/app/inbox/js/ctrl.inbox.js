@@ -37,14 +37,19 @@ angular.module('caliop.inbox')
 /**
  * InBoxLayoutCtrl
  */
-.controller('InBoxLayoutCtrl', ['$rootScope', '$scope', 'tabs', 'filter',
-    function TabsManagementCtrl($rootScope, $scope, tabsSrv, FilterSrv) {
+.controller('InBoxLayoutCtrl', [
+    '$scope',
+    'tabs', 'filter', 'tag',
+
+    function InBoxLayoutCtrl(
+        $scope,
+        TabsSrv, FilterSrv) {
 
     /**
      * Watch the tabs list in the service.
      */
     $scope.$watch(function() {
-        return tabsSrv.tabs;
+        return TabsSrv.tabs;
     }, function(tabs) {
         $scope.tabs = tabs;
     });
@@ -53,31 +58,31 @@ angular.module('caliop.inbox')
      * Load the content of a tab.
      */
     $scope.loadContent = function(tab) {
-        tabsSrv.select(tab);
+        TabsSrv.select(tab);
     };
 
     /**
      * Close a tab.
      */
     $scope.closeTab = function(tab) {
-        tabsSrv.close(tab);
+        TabsSrv.close(tab);
     };
 
     /**
      * Initialize a shared variable between this controller and its children
-     * which allows to refresh labels in the filter and to reload threads list
-     * when being updated.
+     * which allows to refresh the filter query.
      */
-    $scope.filter = {
-        labels: []
-    };
+    $scope.filter = {query: ''};
 
     /**
-     * Remove a label from the filter.
+     * When submitting the filter form, refresh the query.
+     * The watchers in the child controller will observe the filter service
+     * and reload threads.
      */
-    $scope.removeFilterLabel = function(label) {
-        FilterSrv.removeLabel(label);
-        $scope.filter.labels = FilterSrv.labels;
+    $scope.submitFilter = function() {
+        FilterSrv.parseQuery($scope.filter.query).then(function() {
+            $scope.filter.query = FilterSrv.makeQuery();
+        });
     };
 }])
 
@@ -85,12 +90,12 @@ angular.module('caliop.inbox')
  * InBoxCtrl
  */
 .controller('InBoxCtrl', [
-    '$rootScope', '$scope', '$state', '$filter', '$modal',
-    'tabs', 'thread', 'label', 'filter',
+    '$scope', '$state', '$filter', '$modal',
+    'tabs', 'thread', 'tag', 'filter',
 
     function InBoxCtrl(
-        $rootScope, $scope, $state, $filter, $modal,
-        TabsSrv, ThreadSrv, LabelSrv, FilterSrv) {
+        $scope, $state, $filter, $modal,
+        TabsSrv, ThreadSrv, TagSrv, FilterSrv) {
 
     /**
      * Go inside a thread to list messages.
@@ -134,16 +139,6 @@ angular.module('caliop.inbox')
     };
 
     /**
-     * Add a label to the filters.
-     */
-    $scope.filterByLabel = function(labelId) {
-        LabelSrv.byId(labelId).then(function(label) {
-            FilterSrv.addLabel(label);
-            $scope.filter.labels = FilterSrv.labels;
-        });
-    };
-
-    /**
      * Select/unselect all threads.
      */
     $scope.$watch('selectAllThreads', function(checked) {
@@ -153,19 +148,34 @@ angular.module('caliop.inbox')
     });
 
     /**
-     * When filter changes, reload the list of threads with the selected labels.
+     * Add a tag to the filters.
      */
-    $scope.$watch('filter.labels', function(labels) {
-        var params = {
-            label: _.map(labels, function(label) {
-                return label.id;
-            })
-        };
+    $scope.filterByTag = function(tagId) {
+        TagSrv.byId(tagId).then(function(tag) {
+            FilterSrv.addTag(tag);
+        });
+    };
 
-        ThreadSrv.getList(params).then(function(threads) {
+    /**
+     * When adding/removing tags,
+     *  - update filter query,
+     *  - reload the list of threads.
+     */
+    $scope.$watch(function() {
+        return FilterSrv.tags.length;
+    }, function(tags) {
+        // update the filter query
+        $scope.filter.query = FilterSrv.makeQuery();
+
+        // make query parameters to reload threads
+        ThreadSrv.getList({
+            tag: _.map(FilterSrv.tags, function(tag) {
+                return tag.id;
+            })
+        }).then(function(threads) {
             $scope.threads = threads;
         });
-    }, true);
+    });
 
     /**
      * Load threads.

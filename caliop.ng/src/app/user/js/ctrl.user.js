@@ -17,7 +17,7 @@ angular.module('caliop.user')
                 // ui-view="main" of 2columns.tpl.html
                 'main@app.user': {
                     templateUrl: 'inbox/html/layout.tpl.html',
-                    controller: 'TabsManagementCtrl'
+                    controller: 'InBoxLayoutCtrl'
                 },
                 // ui-view="tabContent" of inbox/html/layout.tpl.html
                 'tabContent@app.user': {

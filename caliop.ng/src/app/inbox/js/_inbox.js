@@ -15,10 +15,12 @@ angular.module('caliop.inbox', [
 angular.module('caliop.inbox.service.tabs', []);
 
 
-angular.module('caliop.inbox.service.filter', []);
+angular.module('caliop.inbox.service.filter', [
+    'caliop.inbox.entity.tag',
+]);
 
 
-angular.module('caliop.inbox.entity.label', [
+angular.module('caliop.inbox.entity.tag', [
     'caliop.common.entity.base',
 
     'caliop.common.service.helpers'
@@ -28,7 +30,7 @@ angular.module('caliop.inbox.entity.label', [
 angular.module('caliop.inbox.entity.thread', [
     'caliop.common.entity.base',
     'caliop.account.service.account',
-    'caliop.inbox.entity.label',
+    'caliop.inbox.entity.tag',
     'caliop.user.entity.user'
 ]);
 
