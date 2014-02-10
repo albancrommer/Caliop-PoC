@@ -1,9 +1,9 @@
 [
  {
   "body": "This is my first message.", 
-  "author": 1, 
-  "protocole": "Caliop", 
   "title": "Hello Caliop!", 
+  "protocole": "Caliop", 
+  "author": 1, 
   "thread_id": 1, 
   "offset": 0, 
   "date_sent": "2014-02-04 17:45:27", 
@@ -13,9 +13,9 @@
  }, 
  {
   "body": "This is my second message.", 
-  "title": "This is my second message.", 
-  "protocole": "Caliop", 
   "author": 1, 
+  "protocole": "Caliop", 
+  "title": "This is my second message.", 
   "thread_id": 2, 
   "offset": 0, 
   "date_sent": "2014-02-07 18:48:14", 
@@ -25,14 +25,25 @@
  }, 
  {
   "body": "This is my third message.", 
-  "author": 1, 
-  "protocole": "Caliop", 
   "title": "This is my third message.", 
-  "offset": 0, 
+  "protocole": "Caliop", 
+  "author": 1, 
   "thread_id": 3, 
-  "answer_to": false, 
+  "offset": 0, 
   "date_sent": "2014-02-07 18:48:37", 
   "security": 50, 
+  "answer_to": false, 
   "id": 3
+ }, 
+ {
+  "body": "yeah!", 
+  "author": 5, 
+  "protocole": "Mail", 
+  "offset": 0, 
+  "thread_id": 1, 
+  "answer_to": false, 
+  "date_sent": "2014-02-10 16:55:02", 
+  "security": 50, 
+  "id": 4
  }
 ]

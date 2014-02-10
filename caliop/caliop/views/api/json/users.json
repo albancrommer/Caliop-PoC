@@ -40,7 +40,8 @@
    1
   ],
   "message": "Au judo (enfin peut \u00eatre)",
-  "id": 4
+  "id": 4,
+  "token": "judoka"
  },
  {
   "first_name": "Laurent",
@@ -50,7 +51,9 @@
    1
   ],
   "message": "Mon minet s'est barr\u00e9 :/",
-  "id": 5
+  "avatar": "laurent.png",
+  "id": 5,
+  "token": "minet"
  },
  {
   "first_name": "Thomas",
@@ -60,7 +63,8 @@
    1
   ],
   "message": "\u00e0 2 cm.",
-  "id": 6
+  "id": 6,
+  "token": "2cm"
  },
  {
   "first_name": "Jean",
@@ -70,6 +74,7 @@
    2
   ],
   "message": "\\o_o/",
-  "id": 7
+  "id": 7,
+  "token": "souslesponts"
  }
 ]

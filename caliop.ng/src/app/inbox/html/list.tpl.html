@@ -51,6 +51,14 @@
             </div>
 
             <div class="col-xs-8 text">
+                <div class="nb-messages">
+                    <span class="badge">{{thread.nbMessages}}</span>
+                </div>
+
+                <div class="title">
+                    {{thread.title}}
+                </div>
+
                 <div class="users">
                     <span
                         tooltip="{{thread.users | joinUsers:-1 }}"
@@ -66,9 +74,6 @@
                         ng-click="filterByTag(tag.id); $event.stopPropagation()">
                         {{tag.label}}
                     </span>
-                    <span class="badge">
-                        {{thread.users.length}}
-                    </span> {{thread.title}}
                 </div>
 
                 <div class="text text-muted">{{thread.text}}</div>

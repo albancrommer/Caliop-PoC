@@ -1,19 +1,6 @@
 [
  {
   "users": [
-   1
-  ],
-  "tags": [
-   1
-  ],
-  "date_updated": "2014-02-04 17:45:27",
-  "text": "This is my first message.",
-  "security": 50,
-  "unread": 0,
-  "id": 1
- },
- {
-  "users": [
    2,
    1
   ],
@@ -21,7 +8,8 @@
   "date_updated": "2014-02-07 18:48:37",
   "text": "This is my third message.",
   "security": 50,
-  "unread": 1,
+  "unread": 0,
+  "nb_messages": 1,
   "id": 3
  },
  {
@@ -37,6 +25,22 @@
   "text": "This is my second message.",
   "security": 50,
   "unread": 0,
+  "nb_messages": 1,
   "id": 2
+ },
+ {
+  "users": [
+   1,
+   5
+  ],
+  "tags": [
+   1
+  ],
+  "date_updated": "2014-02-10 16:55:02",
+  "text": "yeah!",
+  "security": 50,
+  "unread": 1,
+  "nb_messages": 2,
+  "id": 1
  }
 ]
