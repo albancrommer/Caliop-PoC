@@ -1,8 +1,14 @@
-<header class="threads-list-header" ng-show="threads.length">
+<header class="threads-list-header" ng-show="threads.list.length">
     <span class="col-xs-10">
-        Aujourd'hui 24/12/2013 :
-        <a href="#">Discussions récentes <span class="badge">12</span></a>
-        <a href="#">non-lues <span class="badge">2</span></a>
+        <a href="">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <strong>1</strong>-<strong>{{threads.list.length}}</strong> sur <strong>{{threads.list.length}}</strong>
+         -
+        <strong>{{threads.unread}}</strong> non-lues
+        <a href="">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
     </span>
 
     <span class="col-xs-1 thread-actions">
@@ -20,7 +26,7 @@
 </header>
 
 <section>
-    <div class="col-xs-12" ng-if="!threads.length">
+    <div class="col-xs-12" ng-if="!threads.list.length">
         Aucune conversation n'a été trouvée.
     </div>
 
@@ -28,8 +34,8 @@
         <li
             class="row"
             style="border-color: #{{thread.securityColor}}"
-            ng-repeat="thread in threads | orderBy:'dateUpdated':true"
-            ng-class="{'selected': thread.selected}"
+            ng-repeat="thread in threads.list | orderBy:'dateUpdated':true"
+            ng-class="{'selected': thread.selected, 'unread': thread.unread}"
             ng-click="openThread(thread)">
 
             <div class="col-xs-1 text-center date">

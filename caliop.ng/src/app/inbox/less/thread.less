@@ -8,13 +8,15 @@
 @attachmentSize: 57px;
 
 header.threads-list-header {
-    padding: 5px 0 25px 0;
+    padding: 5px 0 30px 0;
 
     span.thread-actions {
         span.glyphicon {
             margin: 0 3px;
         }
     }
+
+    border-bottom: 1px solid #ddd;
 }
 
 ul.threads-list {
@@ -73,6 +75,11 @@ ul.threads-list {
 
         span.tag {
             margin: 0 2px;
+        }
+
+        &.unread {
+            font-weight: bold;
+            color: black;
         }
     }
 }

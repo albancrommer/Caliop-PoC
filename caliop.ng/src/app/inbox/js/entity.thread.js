@@ -74,6 +74,15 @@ angular.module('caliop.inbox.entity.thread')
     };
 
     /**
+     * Flag the thread as read.
+     */
+    Thread.prototype.setRead = function() {
+        Restangular
+            .one('threads', this.id)
+            .customPUT({unread: 0});
+    };
+
+    /**
      * Do a POST query to create a new thread.
      */
     Thread.new_ = function(message) {

@@ -97,6 +97,9 @@ angular.module('caliop.inbox')
         $scope, $state, $filter, $modal,
         TabsSrv, ThreadSrv, TagSrv, FilterSrv) {
 
+    // init
+    $scope.threads = {};
+
     /**
      * Go inside a thread to list messages.
      */
@@ -112,6 +115,9 @@ angular.module('caliop.inbox')
                 id: thread.id
             }
         });
+
+        // set the thread as read
+        thread.setRead();
     };
 
     /**
@@ -167,22 +173,32 @@ angular.module('caliop.inbox')
         // update the filter query
         $scope.filter.query = FilterSrv.makeQuery();
 
-        // make query parameters to reload threads
-        ThreadSrv.getList({
-            tag: _.map(FilterSrv.tags, function(tag) {
-                return tag.id;
-            })
-        }).then(function(threads) {
-            $scope.threads = threads;
-        });
+        var params = {tag: _.map(FilterSrv.tags, function(tag) {
+            return tag.id;
+        })};
+
+        $scope.reloadThreads(params);
     });
+
+    /**
+     * Reload threads with optional search params
+     */
+    $scope.reloadThreads = function(params) {
+        // make query parameters to reload threads
+        ThreadSrv.getList(params).then(function(threads) {
+            $scope.threads.list = threads;
+
+            // count unread threads
+            $scope.threads.unread = _.filter($scope.threads.list, function(thread) {
+                return thread.unread == 1;
+            }).length;
+        });
+    };
 
     /**
      * Load threads.
      */
-    ThreadSrv.getList().then(function(threads) {
-        $scope.threads = threads;
-    });
+    $scope.reloadThreads();
 }]);
 
 }());
