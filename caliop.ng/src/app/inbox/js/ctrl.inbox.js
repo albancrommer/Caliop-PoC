@@ -173,9 +173,13 @@ angular.module('caliop.inbox')
         // update the filter query
         $scope.filter.query = FilterSrv.makeQuery();
 
-        var params = {tag: _.map(FilterSrv.tags, function(tag) {
-            return tag.id;
-        })};
+        // filter by tags
+        var params = {};
+        if (FilterSrv.tags.length) {
+            params = {tag: _.map(FilterSrv.tags, function(tag) {
+                return tag.id;
+            })};
+        }
 
         $scope.reloadThreads(params);
     });
@@ -194,11 +198,6 @@ angular.module('caliop.inbox')
             }).length;
         });
     };
-
-    /**
-     * Load threads.
-     */
-    $scope.reloadThreads();
 }]);
 
 }());
