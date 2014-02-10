@@ -74,6 +74,14 @@ angular.module('caliop.inbox.entity.thread')
     };
 
     /**
+     * Return true is the thread is flagged as 'unread' and if the authed
+     * contact is not the last who has replied.
+     */
+    Thread.prototype.isUnread = function() {
+        return this.unread && this.getLastUser().id != AuthSrv.getContact().id;
+    };
+
+    /**
      * Flag the thread as read.
      */
     Thread.prototype.setRead = function() {

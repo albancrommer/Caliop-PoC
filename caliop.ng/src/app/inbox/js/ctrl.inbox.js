@@ -190,7 +190,7 @@ angular.module('caliop.inbox')
 
             // count unread threads
             $scope.threads.unread = _.filter($scope.threads.list, function(thread) {
-                return thread.unread == 1;
+                return thread.isUnread();
             }).length;
         });
     };
