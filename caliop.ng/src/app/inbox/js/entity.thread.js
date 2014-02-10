@@ -167,6 +167,7 @@ angular.module('caliop.inbox.entity.thread')
                     "protocole": 'Mail', // @TODO
                     "answer_to": false,
                     "offset": 0,
+                    "unread": 1,
                     "thread_id": threadId
                 };
 
