@@ -77,9 +77,11 @@ angular.module('caliop.inbox.entity.thread')
      * Flag the thread as read.
      */
     Thread.prototype.setRead = function() {
-        Restangular
-            .one('threads', this.id)
-            .customPUT({unread: 0});
+        if (thread.unread) {
+            Restangular
+                .one('threads', this.id)
+                .customPUT({unread: 0});
+        }
     };
 
     /**
