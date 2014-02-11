@@ -14,3 +14,21 @@ ul.nav-tabs {
 .cursor {
     cursor: pointer;
 }
+
+.icon {
+    position: relative;
+
+    &:before {
+        content: '';
+        display: block;
+        width: 14px;
+        height: 14px;
+        background-image: url(/static/assets/images/glyphicons-halflings.png);
+        // background-position: -456px 0;
+        position: absolute;
+        top: 9px;
+        left: 10px;
+        opacity: .5;
+        z-index: 500;
+    }
+}

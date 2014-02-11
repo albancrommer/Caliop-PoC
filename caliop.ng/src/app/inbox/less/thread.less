@@ -8,11 +8,37 @@
 @attachmentSize: 57px;
 
 header.threads-list-header {
-    padding: 5px 0 30px 0;
+    padding: 0 0 10px 0;
+    @headerheight: 40px;
 
-    span.thread-actions {
-        span.glyphicon {
-            margin: 0 3px;
+    > div {
+        .inlineblock();
+        height: @headerheight;
+        line-height: @headerheight;
+
+        button {
+            margin-top: -4px;
+        }
+
+        &.thread-actions {
+            float: right;
+
+            button {
+                width: 40px;
+                height: 34px;
+
+                &.icon-remove {
+                    &:before {
+                        background-position: -456px 0;
+                    }
+                }
+
+                &.icon-tags {
+                    &:before {
+                        background-position: -24px -48px;
+                    }
+                }
+            }
         }
     }
 
@@ -25,7 +51,6 @@ section.threads-list {
             min-height: @threadHeight;
             clear: both;
             padding: @threadMargin 0;
-            // margin: 0;
             border-left: 8px solid black;
             .transition();
             cursor: pointer;
@@ -43,6 +68,7 @@ section.threads-list {
             }
 
             input[type=checkbox] {
+                float: right;
                 margin-top: 24px;
             }
 

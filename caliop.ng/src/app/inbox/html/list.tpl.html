@@ -1,5 +1,5 @@
 <header class="threads-list-header" ng-show="threads.list.length">
-    <span class="col-xs-9">
+    <div>
         <a href="">
             <span class="glyphicon glyphicon-chevron-left"></span>
         </a>
@@ -9,20 +9,14 @@
         <a href="">
             <span class="glyphicon glyphicon-chevron-right"></span>
         </a>
-    </span>
+    </div>
 
-    <span class="col-xs-2 thread-actions">
+    <div class="thread-actions">
         <span ng-show="showThreadActions()">
-            <span class="glyphicon glyphicon-star"></span>
-            <span class="glyphicon glyphicon-share"></span>
-            <span class="glyphicon glyphicon-print"></span>
-            <span class="glyphicon glyphicon-trash"></span>
+            <button class="btn btn-sm btn-default icon icon-tags" ng-click=""></button>
+            <button class="btn btn-sm btn-default icon icon-remove" ng-click=""></button>
         </span>
-    </span>
-
-    <span class="col-xs-1">
-        <input type="checkbox" ng-model="selectAllThreads" />
-    </span>
+    </div>
 </header>
 
 <section overflowed topOffset="60" class="threads-list">
