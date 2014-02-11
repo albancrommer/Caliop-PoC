@@ -21,7 +21,6 @@ angular.module('caliop', [
 
     /* components */
     'caliop.header',
-    'caliop.footer',
     'caliop.user',
     'caliop.inbox',
     'caliop.account',
@@ -47,11 +46,6 @@ angular.module('caliop', [
                 'layout': {
                     templateUrl: 'common/html/fullpage.tpl.html',
                     controller: 'AppCtrl'
-                },
-                // ui-view="footer" of index.tpl.html
-                'footer': {
-                    templateUrl: 'footer/html/footer.tpl.html',
-                    controller: 'FooterCtrl'
                 }
             }
         });

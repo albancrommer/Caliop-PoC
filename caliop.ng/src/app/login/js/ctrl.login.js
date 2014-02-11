@@ -30,9 +30,6 @@ angular.module('caliop.login', [
                 'main@app.login': {
                     templateUrl: 'login/html/login.tpl.html',
                     controller: 'LoginCtrl'
-                },
-                'footer@': {
-                    template: ''
                 }
             }
         })
