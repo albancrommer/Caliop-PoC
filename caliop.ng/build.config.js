@@ -87,7 +87,9 @@ module.exports = {
       'vendor/moment/min/lang.min.js',
 
       'vendor/angular-bootstrap/ui-bootstrap.min.js',
-      'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js'
+      'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
+
+      'vendor/jquery/jquery.js'
     ],
     css: [
     ],

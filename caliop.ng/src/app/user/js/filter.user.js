@@ -27,7 +27,7 @@ angular.module('caliop.user.filter')
 
             // display someting like '+2...'
             var moar = '+' + namesLeft.length;
-            moar = '<span class="moar-users">'+moar+'...</span>';
+            moar = '<span class="filter-join-users_moar-users">'+moar+'...</span>';
             finalNames.push(moar);
         }
 

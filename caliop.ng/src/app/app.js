@@ -16,6 +16,9 @@ angular.module('caliop', [
     /* services */
     'caliop.common.service.config',
 
+    /* directives */
+    'caliop.directive',
+
     /* components */
     'caliop.header',
     'caliop.footer',

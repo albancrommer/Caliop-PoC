@@ -19,69 +19,78 @@ header.threads-list-header {
     border-bottom: 1px solid #ddd;
 }
 
-ul.threads-list {
-    > li.row {
-        min-height: @threadHeight;
-        clear: both;
-        padding: @threadMargin 0;
-        margin: 0;
-        border-left: 8px solid black;
-        .transition();
-        cursor: pointer;
+section.threads-list {
+    ul {
+        li {
+            min-height: @threadHeight;
+            clear: both;
+            padding: @threadMargin 0;
+            // margin: 0;
+            border-left: 8px solid black;
+            .transition();
+            cursor: pointer;
 
-        &.selected {
-            background: #d9dcf9 !important;
-        }
-
-        &:first-child {
-            margin-top: 12px;
-        }
-
-        &:nth-child(even) {
-            background-color: #EDEDED;
-        }
-
-        input[type=checkbox] {
-            margin-top: 24px;
-        }
-
-        div.date {
-            margin-top: 10px;
-        }
-
-        div.avatar {
-            img {
-                margin-top: 2px;
-                max-width: @avatarSize;
-                max-height: @avatarSize;
+            &.selected {
+                background: #d9dcf9 !important;
             }
-        }
 
-        div.avatar,
-        div.nb-messages,
-        div.title,
-        div.users,
-        div.tags,
-        div.text,
-        div.attachments {
-            .inlineblock();
-        }
-
-        div.attachments {
-            img {
-                cursor: pointer;
-                max-width: @attachmentSize;
-                max-height: @attachmentSize;
+            &:first-child {
+                margin-top: 12px;
             }
-        }
 
-        span.tag {
-            margin: 0 2px;
-        }
+            &:nth-child(even) {
+                background-color: #EDEDED;
+            }
 
-        &.unread {
-            font-weight: bold;
-            color: black;
+            input[type=checkbox] {
+                margin-top: 24px;
+            }
+
+            div.date {
+                margin-top: 10px;
+            }
+
+            div.avatar {
+                img {
+                    margin-top: 2px;
+                    max-width: @avatarSize;
+                    max-height: @avatarSize;
+                }
+            }
+
+            div.avatar,
+            div.nb-messages,
+            div.title,
+            div.users,
+            div.tags,
+            div.text,
+            div.attachments {
+                .inlineblock();
+            }
+
+            div.tags {
+                .add-label {
+                    font-size: 0.7em;
+                    color: @defaultTxtColor;
+                }
+            }
+
+            div.attachments {
+                img {
+                    cursor: pointer;
+                    max-width: @attachmentSize;
+                    max-height: @attachmentSize;
+                }
+            }
+
+            span.tag {
+                margin: 0 2px;
+            }
+
+            &.unread {
+                font-weight: bold;
+                color: black;
+            }
         }
     }
 }

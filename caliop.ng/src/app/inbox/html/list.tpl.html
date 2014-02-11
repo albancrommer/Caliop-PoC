@@ -1,5 +1,5 @@
 <header class="threads-list-header" ng-show="threads.list.length">
-    <span class="col-xs-10">
+    <span class="col-xs-9">
         <a href="">
             <span class="glyphicon glyphicon-chevron-left"></span>
         </a>
@@ -11,7 +11,7 @@
         </a>
     </span>
 
-    <span class="col-xs-1 thread-actions">
+    <span class="col-xs-2 thread-actions">
         <span ng-show="showThreadActions()">
             <span class="glyphicon glyphicon-star"></span>
             <span class="glyphicon glyphicon-share"></span>
@@ -25,14 +25,13 @@
     </span>
 </header>
 
-<section>
+<section overflowed topOffset="60" class="threads-list">
     <div class="col-xs-12" ng-if="!threads.list.length">
         Aucune conversation n'a été trouvée.
     </div>
 
     <ul class="list-unstyled threads-list">
         <li
-            class="row"
             style="border-color: #{{thread.securityColor}}"
             ng-repeat="thread in threads.list | orderBy:'dateUpdated':true"
             ng-class="{'selected': thread.selected, 'unread': thread.isUnread()}"
