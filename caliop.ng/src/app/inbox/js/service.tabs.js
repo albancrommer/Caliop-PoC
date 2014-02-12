@@ -2,7 +2,7 @@
 
 "use strict";
 
-angular.module('caliop.inbox.service.tabs')
+angular.module('caliop.inbox.service.tabs', [])
 
 .factory('tabs', ['$cookieStore', '$state',
     function ($cookieStore, $state) {

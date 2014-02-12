@@ -2,7 +2,15 @@
 
 "use strict";
 
-angular.module('caliop.inbox')
+angular.module('caliop.inbox', [
+    'caliop.inbox.entity.thread',
+    'caliop.inbox.service.filter',
+    'caliop.user.filter',
+    'caliop.inbox.directive',
+
+    'caliop.message',
+    'caliop.attachment'
+])
 
 .config(['$stateProvider',
     function config($stateProvider) {
@@ -139,16 +147,28 @@ angular.module('caliop.inbox')
      * Show actions icons if a (or more) thread has been selected.
      */
     $scope.showThreadActions = function() {
-        return _.filter($scope.threads, function(thread) {
+        return _.filter($scope.threads.list, function(thread) {
             return thread.selected;
         }).length > 0;
+    };
+
+    /**
+     * Tags selector popover.
+     */
+    $scope.openTagSelector = function() {
+        TagSrv.getList().then(function(tags) {
+            $scope.tagSelector = $scope.tagSelector || {};
+            $scope.tagSelector.tags = tags;
+
+            console.log($scope.tagSelector.tags);
+        });
     };
 
     /**
      * Select/unselect all threads.
      */
     $scope.$watch('selectAllThreads', function(checked) {
-        angular.forEach($scope.threads, function(thread) {
+        angular.forEach($scope.threads.list, function(thread) {
             thread.selected = checked;
         });
     });

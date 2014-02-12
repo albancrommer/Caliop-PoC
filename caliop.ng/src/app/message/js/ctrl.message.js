@@ -2,7 +2,11 @@
 
 "use strict";
 
-angular.module('caliop.message')
+angular.module('caliop.message', [
+    'caliop.inbox.service.tabs',
+    'caliop.message.entity.message',
+    'caliop.user.filter'
+])
 
 .config(['$stateProvider',
     function config($stateProvider) {

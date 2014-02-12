@@ -2,7 +2,9 @@
 
 "use strict";
 
-angular.module('caliop.inbox.service.filter')
+angular.module('caliop.inbox.service.filter', [
+    'caliop.inbox.entity.tag'
+])
 
 .factory('filter', ['tag', '$q',
     function (TagSrv, $q) {

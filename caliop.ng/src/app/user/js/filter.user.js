@@ -2,7 +2,7 @@
 
 "use strict";
 
-angular.module('caliop.user.filter')
+angular.module('caliop.user.filter', [])
 
 /**
  * Display the list of users.

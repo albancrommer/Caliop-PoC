@@ -2,7 +2,9 @@
 
 "use strict";
 
-angular.module('caliop.user')
+angular.module('caliop.user', [
+    'caliop.user.entity.user'
+])
 
 .config(function config($stateProvider) {
     $stateProvider

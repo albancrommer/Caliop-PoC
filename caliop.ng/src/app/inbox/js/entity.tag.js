@@ -2,7 +2,11 @@
 
 "use strict";
 
-angular.module('caliop.inbox.entity.tag')
+angular.module('caliop.inbox.entity.tag', [
+    'caliop.common.entity.base',
+
+    'caliop.common.service.helpers'
+])
 
 .factory('tag', ['Restangular', 'base',
     function (Restangular, BaseEnt) {
@@ -22,6 +26,14 @@ angular.module('caliop.inbox.entity.tag')
      */
     Tag.byLabel = function(label) {
         return Restangular.all('tags').one('by_label', label).get();
+    };
+
+    /**
+     * Return the list of tags.
+     * @TODO Filter by user.
+     */
+    Tag.getList = function(tagId) {
+        return Restangular.all('tags').getList();
     };
 
     Restangular.addElementTransformer('tags', false, function(obj) {

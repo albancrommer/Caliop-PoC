@@ -2,7 +2,9 @@
 
 "use strict";
 
-angular.module('caliop.message.entity.message')
+angular.module('caliop.message.entity.message', [
+    'caliop.common.entity.base'
+])
 
 .factory('message', ['Restangular', 'base', 'user',
     function (Restangular, BaseEnt, UserSrv) {

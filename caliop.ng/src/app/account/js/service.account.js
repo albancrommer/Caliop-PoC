@@ -2,7 +2,10 @@
 
 "use strict";
 
-angular.module('caliop.account.service.account')
+angular.module('caliop.account.service.account', [
+    'restangular',
+    'caliop.account.entity.session'
+])
 
 .factory('auth', ['$cookieStore', '$q', 'session', 'Restangular',
     function ($cookieStore, $q, SessionSrv, RestangularPrvd) {

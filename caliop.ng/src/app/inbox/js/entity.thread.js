@@ -2,7 +2,12 @@
 
 "use strict";
 
-angular.module('caliop.inbox.entity.thread')
+angular.module('caliop.inbox.entity.thread', [
+    'caliop.common.entity.base',
+    'caliop.account.service.account',
+    'caliop.inbox.entity.tag',
+    'caliop.user.entity.user'
+])
 
 .factory('thread', ['Restangular', '$q', 'base', 'auth', 'user', 'tag',
     function (Restangular, $q, BaseEnt, AuthSrv, UserSrv, TagSrv) {

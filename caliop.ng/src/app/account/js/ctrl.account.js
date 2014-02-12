@@ -2,7 +2,9 @@
 
 "use strict";
 
-angular.module('caliop.account')
+angular.module('caliop.account', [
+    'caliop.account.service.account'
+])
 
 .config(['$stateProvider',
     function config($stateProvider) {

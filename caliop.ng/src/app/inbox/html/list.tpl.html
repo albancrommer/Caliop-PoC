@@ -12,10 +12,29 @@
     </div>
 
     <div class="thread-actions">
-        <span ng-show="showThreadActions()">
-            <button class="btn btn-sm btn-default icon icon-tags" ng-click=""></button>
-            <button class="btn btn-sm btn-default icon icon-remove" ng-click=""></button>
-        </span>
+        <div ng-show="!showThreadActions()">
+            <div class="button-container tags-selector">
+                <button
+                    class="btn btn-default icon icon-tags"
+                    ng-click="tagSelector.show=!tagSelector.show; openTagSelector(); tagSelector.search=''">
+                </button>
+                <div class="row custom-popover" ng-show="tagSelector.show">
+                    <input type="text" class="form-control" ng-model="tagSelector.search" />
+
+                    <div class="tags">
+                        <div class="tag" ng-repeat="tag in tagSelector.tags | filter:{label:tagSelector.search}">
+                            <input type="checkbox" ng-model="tag.selected" />
+                            <tag
+                                tag="tag"
+                                ng-click="tag.selected=!tag.selected"></tag>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-container">
+                <button class="btn btn-default icon icon-remove" ng-click=""></button>
+            </div>
+        </div>
     </div>
 </header>
 
@@ -60,13 +79,10 @@
                 </div>
 
                 <div class="tags">
-                    <span
-                        class="tag label label-default"
-                        style="color: {{tag.color}}; background: {{tag.background}}"
+                    <tag
+                        tag="tag"
                         ng-repeat="tag in thread.tags"
-                        ng-click="filterByTag(tag.id); $event.stopPropagation()">
-                        {{tag.label}}
-                    </span>
+                        ng-click="filterByTag(tag.id); $event.stopPropagation()"></tag>
                 </div>
 
                 <div class="text text-muted">{{thread.text}}</div>

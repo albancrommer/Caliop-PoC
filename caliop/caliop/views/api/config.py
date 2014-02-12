@@ -40,6 +40,12 @@ def includeme(config):
         route_name='users',
         renderer='json')
 
+    config.add_route('tags', '/api/mock/tags')
+    config.add_view('caliop.views.api.Tags',
+        request_method=('GET',),
+        route_name='tags',
+        renderer='json')
+
     config.add_route('tagById', '/api/mock/tags/by_id/{tag_id}')
     config.add_view('caliop.views.api.TagById',
         request_method=('GET',),

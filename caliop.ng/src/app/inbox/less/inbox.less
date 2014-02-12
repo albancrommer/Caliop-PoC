@@ -6,12 +6,6 @@ div.inbox-header {
         margin-bottom: 15px;
 
         form.form-search {
-            position: relative;
-
-            &.form-search:before {
-                background-position: -48px 0;
-            }
-
             input.search-query {
                 padding-left: 26px !important;
             }
@@ -37,6 +31,72 @@ div.inbox-header {
 
         div.tab-content {
             padding: 5px 0;
+        }
+    }
+}
+
+header.threads-list-header {
+    padding: 0 0 2px 0;
+    @headerheight: 40px;
+    border-bottom: 1px solid #ddd;
+
+    > div {
+        .inlineblock();
+        height: @headerheight;
+        line-height: @headerheight;
+
+        button {
+            margin-top: -4px;
+        }
+
+        &.thread-actions {
+            @thread-actions-buttons-width: 40px;
+            @thread-actions-buttons-height: 34px;
+            float: right;
+
+            button {
+                width: @thread-actions-buttons-width;
+                height: @thread-actions-buttons-height;
+            }
+
+            div.button-container {
+                .inlineblock();
+
+                &.tags-selector {
+                    width: @thread-actions-buttons-width;
+                    position: relative;
+
+                    div.custom-popover {
+                        display: hidden;
+                        position: absolute;
+                        z-index: 1000;
+                        top: @thread-actions-buttons-height + 2px;
+                        right: 14px;
+                        width: 200px;
+                        max-height: 200px;
+                        background: white;
+                        .box-sizing();
+                        padding: 5px 10px;
+                        border: 1px solid #ddd;
+                        .drop-shadow(@x-axis: 0, @y-axis: 1px, @blur: 2px, @alpha: 0.5);
+                        .rounded(@radius: 4px);
+                        overflow: auto;
+
+                        div.tags {
+                            margin: 5px 0 0 0;
+
+                            div.tag {
+                                height: 22px;
+                                line-height: 22px;
+
+                                input[type=checkbox] {
+                                    vertical-align: sub;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
