@@ -73,13 +73,13 @@ class API(object):
         Update an entry of the json file.
         """
         entries = json.loads(self.read_json())
-        foundEntries = [e for e in entries if int(e['id']) == id]
+        found_entries = [e for e in entries if int(e['id']) == id]
 
-        if not foundEntries:
+        if not found_entries:
             return False
 
         # remove the old dict
-        entry_ = foundEntries[0]
+        entry_ = found_entries[0]
         entries.remove(entry_)
 
         # add the new one

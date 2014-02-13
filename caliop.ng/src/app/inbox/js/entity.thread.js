@@ -55,6 +55,13 @@ angular.module('caliop.inbox.entity.thread', [
     };
 
     /**
+     * Add tag(s) to the thread.
+     */
+    Thread.prototype.addTags = function(tagsId) {
+        this.all('tags').customPOST(tagsId);
+    };
+
+    /**
      * Return the security color.
      */
     Thread.prototype.getSecurityColor = function() {
@@ -83,7 +90,8 @@ angular.module('caliop.inbox.entity.thread', [
      * contact is not the last who has replied.
      */
     Thread.prototype.isUnread = function() {
-        return this.unread && this.getLastUser().id != AuthSrv.getContact().id;
+        // @TODO TOFIX
+        return this.unread;// && this.getLastUser().id != AuthSrv.getContact().id;
     };
 
     /**
@@ -95,6 +103,17 @@ angular.module('caliop.inbox.entity.thread', [
                 .one('threads', this.id)
                 .customPUT({unread: 0});
         }
+    };
+
+    /**
+     * Set tags to threads
+     * @TODO Check rights server side
+     */
+    Thread.setTags = function(threadsId, tagsIds) {
+        return Restangular.all('threads').customPUT({
+            threads: threadsId,
+            tags: tagsIds
+        }, '_tags');
     };
 
     /**
@@ -115,7 +134,9 @@ angular.module('caliop.inbox.entity.thread', [
                 "users": usersId,
                 "text": message.body,
                 "tags": [],
-                "security": 50 // @TODO
+                "security": 50, // @TODO
+                "unread": 1,
+                "nb_messages": 1
             };
 
         Restangular
@@ -181,6 +202,7 @@ angular.module('caliop.inbox.entity.thread', [
                     "answer_to": false,
                     "offset": 0,
                     "unread": 1,
+                    //@TODO update nb_messages
                     "thread_id": threadId
                 };
 
@@ -210,6 +232,19 @@ angular.module('caliop.inbox.entity.thread', [
      */
     Thread.getList = function() {
         return Restangular.all('threads').getList.apply(null, arguments);
+    };
+
+    /**
+     * Create a thread from a GET query for a given id.
+     */
+    Thread.byId = function(threadId) {
+        var deferred = $q.defer();
+
+        Restangular.one('threads', threadId).get().then(function(thread) {
+            deferred.resolve(new Thread(thread));
+        });
+
+        return deferred.promise;
     };
 
     Restangular.addElementTransformer('threads', false, function(obj) {

@@ -11,7 +11,7 @@ angular.module('caliop.directive', [])
     return function(scope, element, attrs) {
         var $el = $(element),
             // offset() ignores blocks padding, so we hardore here an offset value
-            topOffset = parseInt(attrs.topoffset),
+            topOffset = parseInt(attrs.topoffset, 10),
             elementTopOffset = $el.offset().top,
             timeout;
 
@@ -32,6 +32,26 @@ angular.module('caliop.directive', [])
         });
 
         setHeight();
+    };
+})
+
+/**
+ * Handle the prop value of a checkbox (none, indetermediate, checked).
+ */
+.directive('checkedStatus', function() {
+    return function(scope, element, attrs) {
+        var state = parseFloat(attrs.checkedStatus),
+            $el = $(element);
+
+        if (state === 0) {
+            $el.prop('checked', false);
+        }
+        else if (state == 1) {
+            $el.prop('checked', true);
+        }
+        else {
+            $el.prop('indeterminate', true);
+        }
     };
 });
 

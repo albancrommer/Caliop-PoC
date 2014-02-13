@@ -12,21 +12,19 @@
     </div>
 
     <div class="thread-actions">
-        <div ng-show="!showThreadActions()">
-            <div class="button-container tags-selector">
+        <div ng-show="showThreadActions()">
+            <div class="button-container tags-selector" ng-controller="TagSelectorCtrl">
                 <button
                     class="btn btn-default icon icon-tags"
-                    ng-click="tagSelector.show=!tagSelector.show; openTagSelector(); tagSelector.search=''">
+                    ng-click="show=!show; openTagSelector(); search=''">
                 </button>
-                <div class="row custom-popover" ng-show="tagSelector.show">
-                    <input type="text" class="form-control" ng-model="tagSelector.search" />
+                <div class="row custom-popover" ng-show="show">
+                    <input type="text" class="form-control" ng-model="search" placeholder="Chercher un tag" />
 
                     <div class="tags">
-                        <div class="tag" ng-repeat="tag in tagSelector.tags | filter:{label:tagSelector.search}">
-                            <input type="checkbox" ng-model="tag.selected" />
-                            <tag
-                                tag="tag"
-                                ng-click="tag.selected=!tag.selected"></tag>
+                        <div class="tag" ng-repeat="tag in tags | orderBy:'label' | filter:{label:search}">
+                            <input type="checkbox" ng-click="setTags(tag)" checked-status="{{tag.isSelected}}" />
+                            <tag tag="tag"></tag>
                         </div>
                     </div>
                 </div>
@@ -81,7 +79,7 @@
                 <div class="tags">
                     <tag
                         tag="tag"
-                        ng-repeat="tag in thread.tags"
+                        ng-repeat="tag in thread.tags | orderBy:'label'"
                         ng-click="filterByTag(tag.id); $event.stopPropagation()"></tag>
                 </div>
 

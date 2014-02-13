@@ -22,9 +22,15 @@ def includeme(config):
         route_name='threads',
         renderer='json')
 
+    config.add_route('tagsToThreads', '/api/mock/threads/_tags')
+    config.add_view('caliop.views.api.TagsToThreads',
+        request_method=('PUT',),
+        route_name='tagsToThreads',
+        renderer='json')
+
     config.add_route('thread', '/api/mock/threads/{thread_id}')
     config.add_view('caliop.views.api.Thread',
-        request_method=('PUT',),
+        request_method=('GET', 'PUT',),
         route_name='thread',
         renderer='json')
 

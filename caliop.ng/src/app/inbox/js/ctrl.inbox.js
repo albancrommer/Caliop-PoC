@@ -94,6 +94,105 @@ angular.module('caliop.inbox', [
     };
 }])
 
+.controller('TagSelectorCtrl', ['$scope', 'tag', 'thread',
+    function TagSelectorCtrl($scope, TagSrv, ThreadSrv) {
+
+    /**
+     * Tags selector popover.
+     */
+    $scope.openTagSelector = function() {
+        var selectedThreads = $scope.getSelectedThreads();
+
+        // stack threads by tag
+        var threadsByTags = {};
+        _.forEach(selectedThreads, function(thread) {
+            _.forEach(thread.tags, function(tag) {
+                if (!threadsByTags[tag.id]) {
+                    threadsByTags[tag.id] = [];
+                }
+                threadsByTags[tag.id].push(thread);
+            });
+        });
+
+        // for each tag, compare the number of tags and the number of selected tags
+        // to know which checkbox status to display (none, indetermediate, checked)
+        TagSrv.getList().then(function(tags) {
+            _.forEach(tags, function(tag) {
+                if (!threadsByTags[tag.id] || threadsByTags[tag.id].length === 0) {
+                    tag.isSelected = 0;
+                }
+                else if (threadsByTags[tag.id].length == selectedThreads.length) {
+                    tag.isSelected = 1;
+                }
+                else {
+                    // indetermediate
+                    tag.isSelected = 0.5;
+                }
+            });
+
+            $scope.tags = tags;
+        });
+    };
+
+    /**
+     * Add or remove tags to thread(s).
+     */
+    $scope.setTags = function(tag) {
+        var selectedThreads = $scope.getSelectedThreads();
+
+        // inverse the status of the selected tags
+        _.forEach($scope.tags, function(tag_) {
+            if (tag_.id == tag.id) {
+                // if indetermediate, a click enable the checkbox
+                if (tag.isSelected == 0.5) {
+                    tag.isSelected = true;
+                }
+                else {
+                    tag_.isSelected = !tag_.isSelected;
+                }
+
+                // stop loop
+                return false;
+            }
+        });
+
+        var threadsId = _.map(selectedThreads, function(thread) {
+            return thread.id;
+        });
+
+        // group tags by set/unset keys, corresponding to the queries to make
+        var tagsIdMapping = _.reduce($scope.tags, function(result, tag) {
+            var action = tag.isSelected ? 'set' : 'unset';
+
+            // do nothing for indetermediate state
+            if (tag.isSelected != 0.5) {
+                if (!result[action]) {
+                    result[action] = [];
+                }
+
+                result[action].push(tag.id);
+            }
+            return result;
+        }, {});
+
+        // set tags and refresh the threads
+        ThreadSrv.setTags(threadsId, tagsIdMapping['set']).then(function() {
+            // index stuff
+            var threadsById = _.groupBy(selectedThreads, 'id');
+            var tagsById = _.groupBy($scope.tags, 'id');
+
+            _.forEach(selectedThreads, function(thread) {
+                var threadTags = [];
+                _.forEach(tagsIdMapping['set'], function(tagId) {
+                    threadTags.push(tagsById[tagId][0]);
+                });
+                threadsById[thread.id][0].tags = threadTags;
+            });
+        });
+    };
+
+}])
+
 /**
  * InBoxCtrl
  */
@@ -144,24 +243,19 @@ angular.module('caliop.inbox', [
     };
 
     /**
-     * Show actions icons if a (or more) thread has been selected.
+     * Return the selected threads.
      */
-    $scope.showThreadActions = function() {
+    $scope.getSelectedThreads = function() {
         return _.filter($scope.threads.list, function(thread) {
             return thread.selected;
-        }).length > 0;
+        });
     };
 
     /**
-     * Tags selector popover.
+     * Show actions icons if a (or more) thread has been selected.
      */
-    $scope.openTagSelector = function() {
-        TagSrv.getList().then(function(tags) {
-            $scope.tagSelector = $scope.tagSelector || {};
-            $scope.tagSelector.tags = tags;
-
-            console.log($scope.tagSelector.tags);
-        });
+    $scope.showThreadActions = function() {
+        return $scope.getSelectedThreads().length > 0;
     };
 
     /**

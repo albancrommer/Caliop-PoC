@@ -91,3 +91,29 @@ class Threads(Thread):
             'success': 'true',
             'thread_id': id
         }))
+
+
+class TagsToThreads(API):
+    filename = 'threads.json'
+
+    def put(self):
+        """
+        Add tags to threads.
+        """
+        json_ = self.request.json
+        threads = json.loads(self.read_json(filename='threads.json'))
+
+        for thread_id in json_['threads']:
+            threads_ = [t for t in threads if t['id'] == thread_id]
+
+            if len(threads_):
+                thread = threads_[0]
+                thread['tags'] = json_['tags'] if 'tags' in json_ else []
+                self.update_to_json(thread_id, thread)
+
+        return Response(json.dumps({
+            'success': 'true'
+        }))
+
+
+
