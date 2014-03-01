@@ -39,11 +39,10 @@ class Message(AbstractCore):
     _index_class = IndexedMessage
 
     @classmethod
-    def create_from_mail(cls, user, mail, parts=[], contacts=[]):
+    def create_from_mail(cls, user, mail, parts, contacts, thread_id):
         index = MailIndexMessage(mail, parts, contacts)
         parts_id = [x.id for x in parts]
         message_id = user.new_message_id()
-        thread_id = user.get_thread_id(index.thread_id)
         msg = cls.create(user_id=user.id,
                          message_id=message_id,
                          thread_id=thread_id,
