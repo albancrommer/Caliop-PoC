@@ -59,6 +59,7 @@ class Message(Model):
     external_message_id = columns.Text()
     external_thread_id = columns.Text()
     parts = columns.List(columns.UUID)
+    tags = columns.List(columns.Text)
 
 
 class MessagePart(Model):

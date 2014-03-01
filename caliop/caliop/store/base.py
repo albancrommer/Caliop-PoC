@@ -103,12 +103,13 @@ class BaseIndexMessage(AbstractIndex):
 class MailIndexMessage(BaseIndexMessage):
     """Get a mail message object, and parse it to make an index"""
 
-    def __init__(self, mail, parts, contacts):
+    def __init__(self, mail, parts, tags, contacts):
         if not isinstance(mail, mailMessage):
             raise Exception('Invalid mail')
         self._parse_mail(mail)
         self._parse_parts(parts)
         self.contacts = [x.contact_id for x in contacts]
+        self.tags = tags
 
     def _parse_mail(self, mail):
         self.subject = mail.get('Subject')
@@ -126,7 +127,6 @@ class MailIndexMessage(BaseIndexMessage):
             # XXX: extract first text slug
             self.slug = None
         self.size = len(mail.get_payload())
-        self.tags = ['MAIL', 'INBOX']
         self.markers = ['U']
 
     def _parse_parts(self, parts):
