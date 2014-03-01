@@ -34,8 +34,21 @@ class ContactLookup(Model):
 class ThreadLookup(Model):
     """Reverse index of external thread_id to internal one"""
     user_id = columns.Text(primary_key=True)
-    id = columns.Text(primary_key=True)     # external thread id
+    external_id = columns.Text(primary_key=True)
     thread_id = columns.Integer()
+
+
+class Thread(Model):
+    # XXX threading simplest model, not efficient in many ways.
+    user_id = columns.Text(primary_key=True)
+    thread_id = columns.Integer(primary_key=True)  # counter.thread_id
+    date_insert = columns.DateTime()
+    date_update = columns.DateTime(index=True)
+    slug = columns.Text()
+    # map involved contacts with count of presence
+    contacts = columns.Map(columns.Text, columns.Integer)
+    # map tags to a thread
+    tags = columns.Map(columns.Text, columns.Integer)
 
 
 class Message(Model):
