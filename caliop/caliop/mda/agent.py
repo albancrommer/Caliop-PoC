@@ -1,6 +1,7 @@
 from caliop.helpers.log import log
 from caliop.mda.message import MdaMessage
 from caliop.core.message import Message, MessagePart
+from caliop.core.thread import Thread
 from caliop.core.contact import ContactLookup
 
 
@@ -26,7 +27,10 @@ class DeliveryAgent(object):
         # XXX : logic here, for user rules etc
         contacts = self._resolve_user_contacts(user, mail)
         log.debug('Found %d contacts' % len(contacts))
-        return Message.create_from_mail(user, mail.mail, parts, contacts)
+        msg = mail.mail
+        thread = Thread.from_mail(user, msg, contacts)
+        return Message.create_from_mail(user, msg, parts, contacts,
+                                        thread.thread_id)
 
     def process(self, buf):
         """
