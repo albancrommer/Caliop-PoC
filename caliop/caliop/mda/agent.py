@@ -4,6 +4,10 @@ from caliop.core.message import Message, MessagePart
 from caliop.core.thread import Thread
 from caliop.core.contact import ContactLookup
 
+import random
+RANDOM_TAGS = ['WORK', 'PERSONAL', 'INBOX', 'SPAM',
+               'IMPORTANT', 'URGENT']
+
 
 class DeliveryAgent(object):
     """Main logic for delivery of a mail message"""
@@ -23,13 +27,21 @@ class DeliveryAgent(object):
                 pass
         return contacts
 
+    def _get_tags(self, user, mail):
+        # XXX: real logic needed
+        tags = ['MAIL']
+        tags.extend(random.sample(RANDOM_TAGS, 2))
+        return tags
+
     def process_user_mail(self, user, mail, parts):
         # XXX : logic here, for user rules etc
         contacts = self._resolve_user_contacts(user, mail)
         log.debug('Found %d contacts' % len(contacts))
         msg = mail.mail
-        thread = Thread.from_mail(user, msg, contacts)
-        return Message.create_from_mail(user, msg, parts, contacts,
+        tags = self._get_tags(user, mail)
+        thread = Thread.from_mail(user, msg, contacts, tags)
+        return Message.create_from_mail(user, msg, parts,
+                                        contacts, tags,
                                         thread.thread_id)
 
     def process(self, buf):

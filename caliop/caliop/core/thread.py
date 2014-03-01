@@ -26,7 +26,7 @@ class Thread(AbstractCore):
     _model_class = ModelThread
 
     @classmethod
-    def from_mail(cls, user, mail, contacts=[]):
+    def from_mail(cls, user, mail, contacts, tags):
         external_id = mail.get('Thread-ID')
         lookup = None
         if external_id:
@@ -38,7 +38,8 @@ class Thread(AbstractCore):
             log.debug('Get thread %s' % thread.thread_id)
         else:
             new_id = user.new_thread_id()
-            thread = cls.create(user_id=user.id, thread_id=new_id)
+            thread = cls.create(user_id=user.id, thread_id=new_id,
+                                date_insert=datetime.utcnow())
             log.debug('Created thread %s' % thread.thread_id)
         # Set attributes on thread
         # XXX : bad design
@@ -50,7 +51,13 @@ class Thread(AbstractCore):
             else:
                 current = thread.model.contacts[contact.id]
             thread.model.contacts[contact.id] = current + 1
-        # XXX tags
-        thread.model.date_update = datetime.now()
+        for tag in tags:
+            if not tag in thread.model.tags:
+                current = 0
+            else:
+                current = thread.model.tags[tag]
+            thread.model.tags[tag] = current + 1
+
+        thread.model.date_update = datetime.utcnow()
         thread.save()
         return thread

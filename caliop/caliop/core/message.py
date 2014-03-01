@@ -39,8 +39,8 @@ class Message(AbstractCore):
     _index_class = IndexedMessage
 
     @classmethod
-    def create_from_mail(cls, user, mail, parts, contacts, thread_id):
-        index = MailIndexMessage(mail, parts, contacts)
+    def create_from_mail(cls, user, mail, parts, contacts, tags, thread_id):
+        index = MailIndexMessage(mail, parts, tags, contacts)
         parts_id = [x.id for x in parts]
         message_id = user.new_message_id()
         msg = cls.create(user_id=user.id,
@@ -49,7 +49,8 @@ class Message(AbstractCore):
                          date_insert=datetime.utcnow(),
                          external_message_id=index.message_id,
                          external_thread_id=index.thread_id,
-                         parts=parts_id)
+                         parts=parts_id,
+                         tags=tags)
         # set message_id into parts
         for part in parts:
             part.users[user.id] = msg.message_id
