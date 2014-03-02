@@ -44,8 +44,13 @@ class IndexedMessage(BaseIndexMessage, TagMixin):
     type = 'messages'
 
 
-class IndexedContact(BaseIndexMessage, TagMixin):
+class IndexedContact(AbstractIndex, TagMixin):
     """Contact from index server with helpers methods"""
+
+    def __init__(self, data):
+        # Index everything
+        for k, v in data.iteritems():
+            setattr(self, k, v)
 
     type = 'contacts'
 
