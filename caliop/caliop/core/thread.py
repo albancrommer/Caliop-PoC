@@ -73,3 +73,10 @@ class Thread(AbstractCore):
             log.debug('Create index for thread %s' % thread.thread_id)
 
         return thread
+
+    @classmethod
+    def by_user(cls, user, filters=None, sort=None, limit=None):
+        """Fetch indexed threads for main view"""
+        if not filters:
+            filters = {'tags': 'INBOX'}
+        return cls._index_class.filter(user.id, filters)
