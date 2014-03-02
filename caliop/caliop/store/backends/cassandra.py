@@ -39,16 +39,10 @@ class ThreadLookup(Model):
 
 
 class Thread(Model):
-    # XXX threading simplest model, not efficient in many ways.
+    # XXX threading simplest model, most data are only in index
     user_id = columns.Text(primary_key=True)
     thread_id = columns.Integer(primary_key=True)  # counter.thread_id
     date_insert = columns.DateTime()
-    date_update = columns.DateTime(index=True)
-    slug = columns.Text()
-    # map involved contacts with count of presence
-    contacts = columns.Map(columns.Text, columns.Integer)
-    # map tags to a thread
-    tags = columns.Map(columns.Text, columns.Integer)
 
 
 class Message(Model):

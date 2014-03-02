@@ -1,4 +1,4 @@
-from caliop.store.base import BaseIndexMessage
+from caliop.store.base import AbstractIndex, BaseIndexMessage
 
 
 class TagMixin(object):
@@ -48,3 +48,12 @@ class IndexedContact(BaseIndexMessage, TagMixin):
     """Contact from index server with helpers methods"""
 
     type = 'contacts'
+
+
+class IndexedThread(AbstractIndex, TagMixin):
+    """Thread from index server"""
+
+    columns = ['thread_id', 'date_insert', 'date_update',
+               'slug', 'tags']
+
+    type = 'threads'
