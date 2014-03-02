@@ -18,8 +18,10 @@ class MdaMessage(object):
             raise
         # Get recipients
         addrs = [self.mail.get('To', [])]
-        addrs.extend(self.mail.get('Cc', []))
-        addrs.extend(self.mail.get('Bcc', []))
+        if self.mail.get('Cc'):
+            addrs.append(self.mail.get('Cc').split(','))
+        if self.mail.get('Bcc'):
+            addrs.append(self.mail.get('Bcc').split(','))
         self.recipients = [clean_email_address(x) for x in addrs]
         self.from_ = clean_email_address(self.mail.get('From'))
         self.users = self._resolve_users()
