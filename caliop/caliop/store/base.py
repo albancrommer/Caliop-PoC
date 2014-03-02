@@ -97,7 +97,8 @@ class BaseIndexMessage(AbstractIndex):
     """Base class to store a message in an index store"""
     columns = ['subject', 'from_', 'to', 'cc', 'bcc',
                'date', 'message_id', 'thread_id', 'slug', 'size',
-               'tags', 'markers', 'parts', 'contacts']
+               'tags', 'markers', 'parts', 'contacts',
+               'security_level']
 
     def __init__(self, message):
         for col in self.columns:
@@ -107,10 +108,11 @@ class BaseIndexMessage(AbstractIndex):
 class MailIndexMessage(BaseIndexMessage):
     """Get a mail message object, and parse it to make an index"""
 
-    def __init__(self, thread_id, mail, parts, tags, contacts):
+    def __init__(self, thread_id, mail, parts, tags, contacts, security_level):
         if not isinstance(mail, mailMessage):
             raise Exception('Invalid mail')
         self.thread_id = thread_id
+        self.security_level = security_level
         self._parse_mail(mail)
         self._parse_parts(parts)
         self.contacts = [x.contact_id for x in contacts]
