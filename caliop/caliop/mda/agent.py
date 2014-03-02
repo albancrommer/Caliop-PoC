@@ -18,13 +18,10 @@ class DeliveryAgent(object):
         """Find all contacts known in the mail"""
         contacts = []
         for addr in mail.all_recipients():
-            log.debug('Try to resolve contact %s' % addr)
-            try:
+            if addr != user.id:
+                log.debug('Try to resolve contact %s' % addr)
                 contact = ContactLookup.get(user, addr)
                 contacts.append(contact)
-            except:
-                # XXX filter only not found
-                pass
         return contacts
 
     def _get_tags(self, user, mail):
