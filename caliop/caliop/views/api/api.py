@@ -1,10 +1,23 @@
 from __future__ import absolute_import, unicode_literals
 
-
 import os
 import json
 
 from pyramid.response import Response
+
+# XXX a better context management
+from cqlengine import connection
+from caliop.config import Configuration
+Configuration.load(
+    '/Users/mric/Desktop/caliop/Caliop-PoC/caliop/tmp/conf.yaml',
+    'global')
+connection.setup(['127.0.0.1:9160'])
+
+from caliop.helpers.log import log
+
+from caliop.core.user import User
+from caliop.core.thread import Thread as UserThread
+from caliop.core.message import Message as UserMessage
 
 
 class Api(object):
@@ -28,55 +41,30 @@ class Api(object):
         path = self.get_path(filename=filename)
 
         stream = open(path)
-        json = stream.read()
+        json_ = stream.read()
         stream.close()
 
-        return json
+        return json_
 
     def __call__(self):
         return Response(self.read_json())
 
 
 class Thread(Api):
-    filename = 'threads.json'
-
-    def init(self):
-        self.recipients = json.loads(self.read_json(filename='recipients.json'))
-        self.labels = json.loads(self.read_json(filename='labels.json'))
-
-    def augment(self, thread):
-        """
-        Add recipient, labels.
-        """
-
-        # link recipients
-        thread_recipients = filter(lambda r: r['id'] in thread['recipients'],
-                                   self.recipients)
-        thread['recipients'] = thread_recipients
-
-        # link labels
-        thread_labels = filter(lambda l: l['id'] in thread['labels'],
-                                   self.labels)
-        thread['labels'] = thread_labels
 
     def __call__(self):
+        user = User.get('root@freebee9')
         thread_id = int(self.request.matchdict.get('thread_id'))
-
-        threads = json.loads(self.read_json())
-        thread = filter(lambda t: int(t['id']) == thread_id, threads).pop()
-
-        self.augment(thread)
-
+        thread = UserThread.by_id(user, thread_id)
+        log.debug('Got thread %r' % thread)
         return Response(json.dumps(thread))
 
 
 class Threads(Thread):
     def __call__(self):
-        threads = json.loads(self.read_json())
-
-        for thread in threads:
-            self.augment(thread)
-
+        # XXX : user request session
+        user = User.get('root@freebee9')
+        threads = UserThread.by_user(user)
         return Response(json.dumps(threads))
 
 
@@ -84,22 +72,10 @@ class ThreadMessages(Api):
     filename = 'messages.json'
 
     def __call__(self):
-        from pprint import pprint
-
-        messages = json.loads(self.read_json())
-        recipients = json.loads(self.read_json(filename='recipients.json'))
-
+        user = User.get('root@freebee9')
         thread_id = int(self.request.matchdict.get('thread_id'))
-
-        # grep messages of the wanted thread
-        filtered_messages = filter(lambda m: m['thread_id'] == thread_id, messages)
-
-        for message in filtered_messages:
-            # link author
-            message['author'] = filter(lambda r: r['id'] == message['author'],
-                                       recipients).pop()
-
-        return Response(json.dumps(filtered_messages))
+        messages = UserMessage.by_thread_id(user, thread_id)
+        return Response(json.dumps(messages))
 
 
 class Messages(Api):
