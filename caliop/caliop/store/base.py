@@ -16,16 +16,20 @@ class AbstractIndex(object):
     type = None
 
     def __init__(self, data):
+        # XXX : tofix
+        if '_source' in data:
+            data = data['_source']
         for col in self.columns:
             setattr(self, col, data.get(col, None))
 
     @classmethod
     def get(cls, user_id, uid):
-        route = "%s/%s/%s/%s" % (cls.index_server_url, user_id, cls.type, id)
+        route = "%s/%s/%s/%s" % (cls.index_server_url, user_id, cls.type, uid)
         res = requests.get(route)
         if res.status_code == 200:
-            return cls(res.json())
-        raise Exception('Index %s/%s/%s not found' % (user_id, cls.type, id))
+            data = res.json()
+            return cls(data) if data else None
+        raise Exception('Index %s/%s/%s not found' % (user_id, cls.type, uid))
 
     def refresh(self):
         self.get(self.user_id, self.uid)
@@ -103,9 +107,10 @@ class BaseIndexMessage(AbstractIndex):
 class MailIndexMessage(BaseIndexMessage):
     """Get a mail message object, and parse it to make an index"""
 
-    def __init__(self, mail, parts, tags, contacts):
+    def __init__(self, thread_id, mail, parts, tags, contacts):
         if not isinstance(mail, mailMessage):
             raise Exception('Invalid mail')
+        self.thread_id = thread_id
         self._parse_mail(mail)
         self._parse_parts(parts)
         self.contacts = [x.contact_id for x in contacts]
@@ -120,7 +125,7 @@ class MailIndexMessage(BaseIndexMessage):
         self.bcc = mail.get('Bcc')
         self.date = parse_date(mail.get('Date'))
         self.message_id = mail.get('Message-Id')
-        self.thread_id = mail.get('Thread-Id')
+        #self.thread_id = mail.get('Thread-Id')
         if not mail.is_multipart():
             self.slug = mail.get_payload()[:200]
         else:
