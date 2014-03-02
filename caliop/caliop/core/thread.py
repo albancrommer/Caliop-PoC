@@ -8,6 +8,18 @@ from caliop.store import (ThreadLookup as ModelThreadLookup,
                           Thread as ModelThread,
                           IndexedThread)
 
+# XXX temporary
+import random
+
+TAGS_LABELS = {
+    'INBOX': 8,
+    'IMPORTANT': 5,
+    'SPAM': 6,
+    'WORK': 1,
+    'PERSONAL': 2,
+    'URGENT': 9
+}
+
 
 class ThreadLookup(AbstractCore):
 
@@ -75,8 +87,32 @@ class Thread(AbstractCore):
         return thread
 
     @classmethod
+    def to_api(self, thread):
+        data = {
+            'id': thread.thread_id,
+            'date_updated': thread.date_update,
+            'text': thread.slug,
+            'recipients': thread.contacts,
+            'labels': [TAGS_LABELS.get(x, 1) for x in thread.tags],
+            'security': random.randint(20, 100),
+        }
+        return data
+
+    @classmethod
     def by_user(cls, user, filters=None, sort=None, limit=None):
         """Fetch indexed threads for main view"""
         if not filters:
-            filters = {'tags': 'INBOX'}
-        return cls._index_class.filter(user.id, filters)
+            # filters = {'tags': 'INBOX'}
+            filters = {'tags': '*'}
+        threads = cls._index_class.filter(user.id, filters)
+        # XXX : make output compatible for current API
+        results = []
+        for thr in threads:
+            results.append(cls.to_api(thr))
+        return results
+
+    @classmethod
+    def by_id(cls, user, thread_id):
+        thread = cls._index_class.get(user.id, thread_id)
+        log.debug('Have thread %r' % thread.to_dict())
+        return cls.to_api(thread)
