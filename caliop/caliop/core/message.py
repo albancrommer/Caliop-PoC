@@ -39,8 +39,10 @@ class Message(AbstractCore):
     _index_class = IndexedMessage
 
     @classmethod
-    def create_from_mail(cls, user, mail, parts, contacts, tags, thread_id):
-        index = MailIndexMessage(mail, parts, tags, contacts)
+    def create_from_mail(cls, user, mail, parts, contacts, tags, thread_id,
+                         security_level):
+        index = MailIndexMessage(thread_id, mail, parts, tags, contacts,
+                                 security_level)
         parts_id = [x.id for x in parts]
         message_id = user.new_message_id()
         msg = cls.create(user_id=user.id,
@@ -68,6 +70,22 @@ class Message(AbstractCore):
         return messages
 
     @classmethod
+    def to_api(cls, message):
+        data = {
+            "id": message.message_id,
+            "title": message.subject,
+            "body": message.slug,
+            "date_sent": message.date,
+            "protocole": "email",
+            # TOFIX
+            "security": 50,
+            "author": 2,
+            "thread_id": message.thread_id
+        }
+        return data
+
+    @classmethod
     def by_thread_id(cls, user, thread_id, sort=None):
         params = {'thread_id': thread_id}
-        return cls._index_class.filter(user.id, params)
+        messages = cls._index_class.filter(user.id, params)
+        return [cls.to_api(x) for x in messages]
