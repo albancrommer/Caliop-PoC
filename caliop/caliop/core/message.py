@@ -50,7 +50,7 @@ class Message(AbstractCore):
                          thread_id=thread_id,
                          date_insert=datetime.utcnow(),
                          external_message_id=index.message_id,
-                         external_thread_id=index.thread_id,
+                         external_thread_id=index.external_thread_id,
                          parts=parts_id,
                          tags=tags)
         # set message_id into parts

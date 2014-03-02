@@ -127,7 +127,7 @@ class MailIndexMessage(BaseIndexMessage):
         self.bcc = mail.get('Bcc')
         self.date = parse_date(mail.get('Date'))
         self.message_id = mail.get('Message-Id')
-        #self.thread_id = mail.get('Thread-Id')
+        self.external_thread_id = mail.get('Thread-Id')
         if not mail.is_multipart():
             self.slug = mail.get_payload()[:200]
         else:
