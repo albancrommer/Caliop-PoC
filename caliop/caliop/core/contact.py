@@ -10,8 +10,12 @@ class ContactLookup(AbstractCore):
 
     @classmethod
     def get(cls, user, value):
-        obj = cls._model_class.get(user_id=user.id, value=value)
-        return cls(obj)
+        # XXX : use NotFound
+        try:
+            obj = cls._model_class.get(user_id=user.id, value=value)
+            return cls(obj)
+        except:
+            return None
 
 
 class Contact(AbstractCore):
