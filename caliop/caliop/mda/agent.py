@@ -39,10 +39,12 @@ class DeliveryAgent(object):
         log.debug('Found %d contacts' % len(contacts))
         msg = mail.mail
         tags = self._get_tags(user, mail)
+        security_level = random.randint(20, 100)
         thread = Thread.from_mail(user, msg, contacts, tags)
         return Message.create_from_mail(user, msg, parts,
                                         contacts, tags,
-                                        thread.thread_id)
+                                        thread.thread_id,
+                                        security_level)
 
     def process(self, buf):
         """
