@@ -1,0 +1,17 @@
+index_server:
+    url: http://localhost:9200
+logging:
+    version: 1
+    handlers:
+      console:
+        class : logging.StreamHandler
+        level   : DEBUG
+        formatter: detailed
+        stream  : ext://sys.stdout
+    formatters:
+      detailed:
+        format: "%(asctime)s %(module)-10s line:%(lineno)-4d %(levelname)-8s %(message)s"
+    loggers:
+      caliop:
+        level: DEBUG
+        handlers: [console]
