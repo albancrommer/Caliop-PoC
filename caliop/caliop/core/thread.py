@@ -43,25 +43,30 @@ class Thread(AbstractCore):
     def from_mail(cls, user, mail, contacts, tags):
         # XXX split into create and update methods
         # XXX concurrency will have to be considered correctly
-        external_id = mail.get('Thread-ID')
+        external_id = mail.get('Thread-ID', mail.get('In-Reply-To'))
         lookup = None
         if external_id:
             log.debug('Lookup thread %s for %s' % (external_id, user.id))
             lookup = ThreadLookup.get(user, external_id)
+        payload = mail.get_payload()
+        charsets = mail.get_charsets()
+        if charsets and charsets[0] != 'utf-8':
+            log.debug('Decode payload with charset %s' % charsets[0])
+            payload = payload.decode(charsets[0]).encode('utf-8')
         if lookup:
             # Existing thread
-            thread = cls.get(user_id=user.id, thread_id=lookup.thread_id)
+            thread = cls.by_id(user.id, lookup.thread_id)
             log.debug('Get thread %s' % thread.thread_id)
             index = cls._index_class.get(user.id, thread.thread_id)
             if not index:
                 log.error('Index not found for thread %s' % thread.thread_id)
                 raise Exception
             index_data = {
-                'slug': mail.get_payload()[:200],
+                'slug': payload[:200],
                 'date_update': datetime.utcnow(),
             }
             if contacts:
-                index_data.update({'contact': [x.id for x in contacts]})
+                index_data.update({'contacts': [x.id for x in contacts]})
             if tags:
                 index_data.update({'tags': tags})
             index.update(index_data)
@@ -71,12 +76,15 @@ class Thread(AbstractCore):
             new_id = user.new_thread_id()
             thread = cls.create(user_id=user.id, thread_id=new_id,
                                 date_insert=datetime.utcnow())
+            lookup = ThreadLookup.create(user_id=user.id,
+                                         external_id=external_id,
+                                         thread_id=new_id)
             log.debug('Created thread %s' % thread.thread_id)
             index_data = {
                 'thread_id': thread.thread_id,
                 'date_insert': thread.date_insert,
                 'date_update': datetime.utcnow(),
-                'slug': mail.get_payload()[:200],
+                'slug': payload[:200],
                 'contacts': [x.id for x in contacts],
             }
             if tags:
