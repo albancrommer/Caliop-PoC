@@ -96,7 +96,7 @@ class UserIndex(AbstractIndex):
 class BaseIndexMessage(AbstractIndex):
     """Base class to store a message in an index store"""
     columns = ['subject', 'from_', 'to', 'cc', 'bcc',
-               'date', 'message_id', 'thread_id', 'slug', 'size',
+               'date', 'message_id', 'thread_id', 'text', 'size',
                'tags', 'markers', 'parts', 'contacts',
                'security_level']
 
@@ -129,10 +129,10 @@ class MailIndexMessage(BaseIndexMessage):
         self.message_id = mail.get('Message-Id')
         self.external_thread_id = mail.get('Thread-Id')
         if not mail.is_multipart():
-            self.slug = mail.get_payload()[:200]
+            self.text = mail.get_payload()
         else:
-            # XXX: extract first text slug
-            self.slug = None
+            # XXX: extract text parts content
+            self.text = None
         self.size = len(mail.get_payload())
         self.markers = ['U']
 

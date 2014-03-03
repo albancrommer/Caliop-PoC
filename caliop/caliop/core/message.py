@@ -74,7 +74,7 @@ class Message(AbstractCore):
         data = {
             "id": message.message_id,
             "title": message.subject,
-            "body": message.slug,
+            "body": message.text,
             "date_sent": message.date,
             "protocole": "email",
             # TOFIX
