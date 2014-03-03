@@ -10,6 +10,8 @@ log = logging.getLogger(__name__)
 
 class MdaMessage(object):
 
+    recipient_headers = ['To', 'Cc', 'Bcc', 'X-Original-To']
+
     def __init__(self, raw):
         try:
             self.mail = Rfc2822(raw)
@@ -17,11 +19,13 @@ class MdaMessage(object):
             log.error('Parse message failed %s' % exc)
             raise
         # Get recipients
-        addrs = [self.mail.get('To', [])]
-        if self.mail.get('Cc'):
-            addrs.append(self.mail.get('Cc').split(','))
-        if self.mail.get('Bcc'):
-            addrs.append(self.mail.get('Bcc').split(','))
+        addrs = []
+        for header in self.recipient_headers:
+            if self.mail.get(header):
+                if ',' in self.mail.get(header):
+                    addrs.extend(self.mail.get(header).split(','))
+                else:
+                    addrs.append(self.mail.get(header))
         self.recipients = [clean_email_address(x) for x in addrs]
         self.from_ = clean_email_address(self.mail.get('From'))
         self.users = self._resolve_users()
@@ -50,4 +54,8 @@ class MdaMessage(object):
         """Multipart message, extract parts"""
         if not self.mail.is_multipart():
             return []
-        return [x for x in self.mail.walk()]
+        parts = []
+        for p in self.mail.walk():
+            if not p.is_multipart():
+                parts.append(p)
+        return parts
