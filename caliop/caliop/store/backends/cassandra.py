@@ -67,6 +67,14 @@ class MessagePart(Model):
     users = columns.Map(columns.Text, columns.Integer)
 
 
+class MessageLookup(Model):
+    """Reverse index for external message id"""
+    user_id = columns.Text(primary_key=True)
+    external_id = columns.Text(primary_key=True)
+    message_id = columns.Integer()
+    thread_id = columns.Integer()
+
+
 class RRule(Model):
     """Recurrence Rule"""
     user_id = columns.Text(primary_key=True)    # partition key
