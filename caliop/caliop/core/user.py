@@ -24,7 +24,7 @@ class User(AbstractCore):
         Counter.create(user_id=user.id)
         # Create index
         UserIndex.create(user)
-        return cls(user)
+        return user
 
     @classmethod
     def authenticate(cls, uid, password):
@@ -55,13 +55,13 @@ class User(AbstractCore):
 class UserMessage(object):
     """Class to use for creating thread and message in store"""
 
-    def __init__(self, user, message, security_level, contacts, tags):
+    def __init__(self, user, message, security_level, contacts, tags, parts):
         self.user = user
         self.message = message
         self.security_level = security_level
         self.contacts = contacts
         self.tags = tags
+        self.parts = parts
         self.external_message_id = self.message.message_id
         self.external_thread_id = self.message.thread_id
         self.contact_from = ContactLookup.get(user, message.from_)
-        self.text = self.message.text
