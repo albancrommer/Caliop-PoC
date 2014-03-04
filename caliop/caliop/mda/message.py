@@ -2,13 +2,14 @@ import logging
 from mailbox import Message as Rfc2822
 
 from caliop.helpers.format import clean_email_address
+from caliop.core.log import log
 from caliop.core.user import User
 
 
-log = logging.getLogger(__name__)
-
-
 class MdaMessage(object):
+    """Got a mail in raw rfc2822 format, parse it to
+    resolve all recipients emails, users and parts
+    """
 
     recipient_headers = ['To', 'Cc', 'Bcc', 'X-Original-To']
 
@@ -18,7 +19,21 @@ class MdaMessage(object):
         except Exception, exc:
             log.error('Parse message failed %s' % exc)
             raise
-        # Get recipients
+        if self.mail.defects:
+            # XXX what to do ?
+            log.warn('Defects on parsed mail %r' % self.mail.defects)
+        self.recipients = self._extract_recipients()
+        self.users = self._resolve_users()
+        if self.users:
+            self.parts = self._extract_parts()
+        else:
+            self.parts = []
+        self.from_ = clean_email_address(self.mail.get('From'))
+        # will be converted as external_id
+        self.message_id = self.mail.get('Message-Id')
+        self.thread_id = self.mail.get('In-Reply-To')
+
+    def _extract_recipients(self):
         addrs = []
         for header in self.recipient_headers:
             if self.mail.get(header):
@@ -26,13 +41,7 @@ class MdaMessage(object):
                     addrs.extend(self.mail.get(header).split(','))
                 else:
                     addrs.append(self.mail.get(header))
-        self.recipients = [clean_email_address(x) for x in addrs]
-        self.from_ = clean_email_address(self.mail.get('From'))
-        self.users = self._resolve_users()
-        if self.users:
-            self.parts = self._extract_parts()
-        else:
-            self.parts = []
+        return [clean_email_address(x) for x in addrs]
 
     def all_recipients(self):
         return self.recipients + [self.from_]
