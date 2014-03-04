@@ -65,3 +65,8 @@ class UserMessage(object):
         self.external_message_id = self.message.message_id
         self.external_thread_id = self.message.thread_id
         self.contact_from = ContactLookup.get(user, message.from_)
+        self.text = message.text
+        self.date = message.date
+        self.mail = message.mail
+        self.size = message.size
+        self.headers = message.headers

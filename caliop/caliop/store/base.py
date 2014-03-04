@@ -123,9 +123,9 @@ class MailIndexMessage(BaseIndexMessage):
         self.subject = message.mail.get('Subject')
         self.from_ = message.contact_from
         self.date = message.date
-        self.text = message.mail.text
+        self.text = message.text
         self.size = message.size
-        self.headers = message.mail.headers
+        self.headers = message.headers
         self.markers = ['U']
 
     def _parse_parts(self, parts):

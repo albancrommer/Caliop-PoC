@@ -36,6 +36,7 @@ class MdaMessage(object):
         # will be converted as external_id
         self.message_id = self.mail.get('Message-Id')
         self.thread_id = self.mail.get('In-Reply-To')
+        self.size = len(self.mail.get_payload())
 
     def _extract_recipients(self):
         addrs = []
