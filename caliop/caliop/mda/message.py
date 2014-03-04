@@ -1,7 +1,9 @@
 from mailbox import Message as Rfc2822
+from dateutil.parser import parse as parse_date
 from itertools import groupby
+
 from caliop.helpers.format import clean_email_address
-from caliop.core.log import log
+from caliop.helpers.log import log
 from caliop.core.user import User
 
 
@@ -28,7 +30,9 @@ class MdaMessage(object):
             self.parts = self._extract_parts()
         else:
             self.parts = []
+        self.text = self._decode_text_payload()
         self.from_ = clean_email_address(self.mail.get('From'))
+        self.date = parse_date(self.mail.get('Date'))
         # will be converted as external_id
         self.message_id = self.mail.get('Message-Id')
         self.thread_id = self.mail.get('In-Reply-To')
@@ -81,3 +85,14 @@ class MdaMessage(object):
             if not p.is_multipart():
                 parts.append(p)
         return parts
+
+    def _decode_text_payload(self):
+        """Decode all text payloads, be care about charset"""
+        text_payloads = []
+        for part in self.mail.walk():
+            if part.get_content_maintype() == 'multipart':
+                continue
+            log.debug('Part is %s type' % part.get_content_type())
+            if 'text' in part.get_content_type():
+                text_payloads.append(part.get_payload(decode=True))
+        return '\n'.join(text_payloads)
