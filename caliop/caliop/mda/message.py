@@ -94,5 +94,14 @@ class MdaMessage(object):
                 continue
             log.debug('Part is %s type' % part.get_content_type())
             if 'text' in part.get_content_type():
-                text_payloads.append(part.get_payload(decode=True))
+                charsets = part.get_charsets()
+                if len(charsets) > 1:
+                    raise Exception('Too many charset %r for %s' %
+                                    (charsets, part.get_payload()))
+                if charsets[0] != 'utf-8':
+                    text = part.get_payload().decode(charsets[0]). \
+                        encode('utf-8')
+                else:
+                    text = part.get_payload()
+                text_payloads.append(text)
         return '\n'.join(text_payloads)
