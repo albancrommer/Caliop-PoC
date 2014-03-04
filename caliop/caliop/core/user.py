@@ -1,6 +1,7 @@
 import bcrypt
 
 from caliop.core.base import AbstractCore
+from caliop.core.contact import ContactLookup
 from caliop.store import User as ModelUser, Counter as ModelCounter, UserIndex
 
 
@@ -49,3 +50,18 @@ class User(AbstractCore):
     def get_thread_id(self, external_id):
         # XXX : lookup external thread_id to internal one
         return self.new_thread_id()
+
+
+class UserMessage(object):
+    """Class to use for creating thread and message in store"""
+
+    def __init__(self, user, message, security_level, contacts, tags):
+        self.user = user
+        self.message = message
+        self.security_level = security_level
+        self.contacts = contacts
+        self.tags = tags
+        self.external_message_id = self.message.message_id
+        self.external_thread_id = self.message.thread_id
+        self.contact_from = ContactLookup.get(user, message.from_)
+        self.text = self.message.text
