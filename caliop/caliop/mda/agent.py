@@ -37,7 +37,8 @@ class DeliveryAgent(object):
         log.debug('Found %d contacts' % len(contacts))
         tags = self._get_tags(user, msg)
         security_level = random.randint(20, 100)
-        user_msg = UserMessage(user, msg, security_level, contacts, tags)
+        user_msg = UserMessage(user, msg, security_level,
+                               contacts, tags, parts)
         thread = Thread.from_user_message(user_msg)
         return Message.from_user_message(user_msg, thread.thread_id)
 
