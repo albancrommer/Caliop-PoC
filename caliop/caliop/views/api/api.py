@@ -9,7 +9,7 @@ from pyramid.response import Response
 from cqlengine import connection
 from caliop.config import Configuration
 Configuration.load(
-    '/Users/mric/Desktop/caliop/Caliop-PoC/caliop/tmp/conf.yaml',
+    '/home/mric/dev/Caliop-PoC/caliop/sandbox/conf.yaml',
     'global')
 connection.setup(['127.0.0.1:9160'])
 
@@ -53,7 +53,7 @@ class Api(object):
 class Thread(Api):
 
     def __call__(self):
-        user = User.get('root@freebee9')
+        user = User.get(self.request.session['user'])
         thread_id = int(self.request.matchdict.get('thread_id'))
         thread = UserThread.by_id(user, thread_id)
         log.debug('Got thread %r' % thread)
@@ -63,7 +63,7 @@ class Thread(Api):
 class Threads(Thread):
     def __call__(self):
         # XXX : user request session
-        user = User.get('root@freebee9')
+        user = User.get(self.request.session['user'])
         threads = UserThread.by_user(user)
         return Response(json.dumps(threads))
 
@@ -72,7 +72,7 @@ class ThreadMessages(Api):
     filename = 'messages.json'
 
     def __call__(self):
-        user = User.get('root@freebee9')
+        user = User.get(self.request.session['user'])
         thread_id = int(self.request.matchdict.get('thread_id'))
         messages = UserMessage.by_thread_id(user, thread_id)
         return Response(json.dumps(messages))
@@ -92,12 +92,15 @@ class ContactLogin(Api):
             pass
 
         try:
-            if (credentials['login'] == 'bad' and credentials['password'] == 'bad'):
-                raise BadCredentials
+            user = User.authenticate(credentials['login'],
+                                     credentials['password'])
+            self.request.session['user'] = user.id
+            return Response(json.dumps(user.to_api()))
 
-            return Response(self.read_json())
-
-        except (KeyError, BadCredentials):
+        except (KeyError, BadCredentials, Exception), exc:
+            # XXX raise correct exception in authenticate
+            log.error('Authentication failed for %s : %r' %
+                      (credentials['login'], exc))
             return Response('BadCredentials', status='403 Forbidden')
 
 

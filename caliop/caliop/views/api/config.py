@@ -3,13 +3,16 @@
 from __future__ import unicode_literals
 
 from pyramid_jinja2 import renderer_factory
+# XXX : use a real session factory
+from pyramid.session import UnencryptedCookieSessionFactoryConfig
 
 
 def includeme(config):
     """
     Serve a static JSON based REST API.
     """
-
+    my_session_factory = UnencryptedCookieSessionFactoryConfig('itsaseekreet')
+    config.set_session_factory(my_session_factory)
     config.add_route('threads', '/api/mock/threads')
     config.add_view('caliop.views.api.Threads', route_name='threads', renderer='json')
 
