@@ -1,6 +1,5 @@
-import logging
 from mailbox import Message as Rfc2822
-
+from itertools import groupby
 from caliop.helpers.format import clean_email_address
 from caliop.core.log import log
 from caliop.core.user import User
@@ -23,6 +22,7 @@ class MdaMessage(object):
             # XXX what to do ?
             log.warn('Defects on parsed mail %r' % self.mail.defects)
         self.recipients = self._extract_recipients()
+        self.headers = self._extract_headers()
         self.users = self._resolve_users()
         if self.users:
             self.parts = self._extract_parts()
@@ -42,6 +42,19 @@ class MdaMessage(object):
                 else:
                     addrs.append(self.mail.get(header))
         return [clean_email_address(x) for x in addrs]
+
+    def _extract_headers(self):
+        """Duplicate on headers exists, group them by name
+        with a related list of values"""
+        def keyfunc(item):
+            return item[0]
+
+        # Group multiple value for same headers into a dict of list
+        headers = {}
+        data = sorted(self.mail.items(), key=keyfunc)
+        for k, g in groupby(data, key=keyfunc):
+            headers[k] = [x[1] for x in g]
+        return headers
 
     def all_recipients(self):
         return self.recipients + [self.from_]
