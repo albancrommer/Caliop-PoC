@@ -1,9 +1,9 @@
-from dateutil.parser import parse as parse_date
-from email.message import Message as mailMessage
+from datetime import datetime
 
 import requests
 
 from caliop.config import Configuration
+from caliop.helpers.log import log
 from caliop.helpers.json import to_json
 
 
@@ -95,10 +95,11 @@ class UserIndex(AbstractIndex):
 
 class BaseIndexMessage(AbstractIndex):
     """Base class to store a message in an index store"""
-    columns = ['subject', 'from_', 'to', 'cc', 'bcc',
-               'date', 'message_id', 'thread_id', 'text', 'size',
+    columns = ['message_id', 'thread_id', 'security_level',
+               'subject', 'from_', 'date', 'date_insert',
+               'text', 'size', 'headers',
                'tags', 'markers', 'parts', 'contacts',
-               'security_level']
+               ]
 
     def __init__(self, message):
         for col in self.columns:
@@ -106,34 +107,25 @@ class BaseIndexMessage(AbstractIndex):
 
 
 class MailIndexMessage(BaseIndexMessage):
-    """Get a mail message object, and parse it to make an index"""
+    """Get a user message object, and parse it to make an index"""
 
-    def __init__(self, thread_id, mail, parts, tags, contacts, security_level):
-        if not isinstance(mail, mailMessage):
-            raise Exception('Invalid mail')
+    def __init__(self, message, thread_id, message_id):
+        self.message_id = message_id
         self.thread_id = thread_id
-        self.security_level = security_level
-        self._parse_mail(mail)
-        self._parse_parts(parts)
-        self.contacts = [x.contact_id for x in contacts]
-        self.tags = tags
+        self.security_level = message.security_level
+        self.date_insert = datetime.utcnow()
+        self._parse_message(message)
+        self._parse_parts(message.parts)
+        self.contacts = [x.contact_id for x in message.contacts]
+        self.tags = message.tags
 
-    def _parse_mail(self, mail):
-        self.subject = mail.get('Subject')
-        self.headers = dict((k, v) for k, v in mail.items())
-        self.from_ = mail.get('From')
-        self.to = mail.get('To')
-        self.cc = mail.get('CC')
-        self.bcc = mail.get('Bcc')
-        self.date = parse_date(mail.get('Date'))
-        self.message_id = mail.get('Message-Id')
-        self.external_thread_id = mail.get('Thread-Id')
-        if not mail.is_multipart():
-            self.text = mail.get_payload()
-        else:
-            # XXX: extract text parts content
-            self.text = None
-        self.size = len(mail.get_payload())
+    def _parse_message(self, message):
+        self.subject = message.mail.get('Subject')
+        self.from_ = message.contact_from
+        self.date = message.date
+        self.text = message.mail.text
+        self.size = message.size
+        self.headers = message.mail.headers
         self.markers = ['U']
 
     def _parse_parts(self, parts):

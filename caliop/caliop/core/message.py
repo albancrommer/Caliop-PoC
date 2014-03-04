@@ -39,28 +39,26 @@ class Message(AbstractCore):
     _index_class = IndexedMessage
 
     @classmethod
-    def create_from_mail(cls, user, mail, parts, contacts, tags, thread_id,
-                         security_level):
-        index = MailIndexMessage(thread_id, mail, parts, tags, contacts,
-                                 security_level)
-        parts_id = [x.id for x in parts]
-        message_id = user.new_message_id()
-        msg = cls.create(user_id=user.id,
+    def from_user_message(cls, message, thread_id):
+        parts_id = [x.id for x in message.parts]
+        message_id = message.user.new_message_id()
+        msg = cls.create(user_id=message.user.id,
                          message_id=message_id,
                          thread_id=thread_id,
                          date_insert=datetime.utcnow(),
-                         external_message_id=index.message_id,
-                         external_thread_id=index.external_thread_id,
+                         external_message_id=message.external_message_id,
+                         external_thread_id=message.external_thread_id,
                          parts=parts_id,
-                         tags=tags)
+                         tags=message.tags)
         # set message_id into parts
-        for part in parts:
-            part.users[user.id] = msg.message_id
+        for part in message.parts:
+            part.users[message.user.id] = msg.message_id
             part.save()
         # XXX write raw message in store using msg pkey
         # XXX index message asynchronously ?
-        cls._index_class.create_index(user.id, message_id, index)
-        log.debug('Indexing message %s:%d' % (user.id, message_id))
+        index = MailIndexMessage(message, thread_id, message_id)
+        cls._index_class.create_index(message.user.id, message_id, index)
+        log.debug('Indexing message %s:%d' % (message.user.id, message_id))
         return msg
 
     @classmethod

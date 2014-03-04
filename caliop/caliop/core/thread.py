@@ -40,43 +40,41 @@ class Thread(AbstractCore):
     _index_class = IndexedThread
 
     @classmethod
-    def from_mail(cls, user, mail, contacts, tags):
+    def from_user_message(cls, message):
         # XXX split into create and update methods
         # XXX concurrency will have to be considered correctly
-        external_id = mail.get('Thread-ID', mail.get('In-Reply-To'))
+        external_id = message.external_thread_id
         lookup = None
         if external_id:
-            log.debug('Lookup thread %s for %s' % (external_id, user.id))
-            lookup = ThreadLookup.get(user, external_id)
-        payload = mail.get_payload()
-        charsets = mail.get_charsets()
-        if charsets and charsets[0] != 'utf-8':
-            log.debug('Decode payload with charset %s' % charsets[0])
-            payload = payload.decode(charsets[0]).encode('utf-8')
+            log.debug('Lookup thread %s for %s' %
+                      (external_id, message.user.id))
+            lookup = ThreadLookup.get(message.user, external_id)
         if lookup:
             # Existing thread
-            thread = cls.by_id(user.id, lookup.thread_id)
+            thread = cls.by_id(message.user, lookup.thread_id)
             log.debug('Get thread %s' % thread.thread_id)
-            index = cls._index_class.get(user.id, thread.thread_id)
+            index = cls._index_class.get(message.user.id, thread.thread_id)
             if not index:
                 log.error('Index not found for thread %s' % thread.thread_id)
                 raise Exception
             index_data = {
-                'slug': payload[:200],
+                'slug': message.text[:200],
                 'date_update': datetime.utcnow(),
             }
-            if contacts:
-                index_data.update({'contacts': [x.id for x in contacts]})
-            if tags:
-                index_data.update({'tags': tags})
+            if message.contacts:
+                index_data.update({
+                    'contacts': [x.id for x in message.contacts]
+                })
+            if message.tags:
+                index_data.update({'tags': message.tags})
             index.update(index_data)
             log.debug('Update index for thread %s' % thread.thread_id)
         else:
             # Create new thread
-            new_id = user.new_thread_id()
-            thread = cls.create(user_id=user.id, thread_id=new_id,
+            new_id = message.user.new_thread_id()
+            thread = cls.create(user_id=message.user.id, thread_id=new_id,
                                 date_insert=datetime.utcnow())
-            lookup = ThreadLookup.create(user_id=user.id,
+            lookup = ThreadLookup.create(user_id=message.user.id,
                                          external_id=external_id,
                                          thread_id=new_id)
             log.debug('Created thread %s' % thread.thread_id)
@@ -84,12 +82,13 @@ class Thread(AbstractCore):
                 'thread_id': thread.thread_id,
                 'date_insert': thread.date_insert,
                 'date_update': datetime.utcnow(),
-                'slug': payload[:200],
-                'contacts': [x.id for x in contacts],
+                'slug': message.text[:200],
+                'contacts': [x.id for x in message.contacts],
             }
-            if tags:
-                index_data.update({'tags': tags})
-            cls._index_class.create(user.id, thread.thread_id, index_data)
+            if message.tags:
+                index_data.update({'tags': message.tags})
+            cls._index_class.create(message.user.id, thread.thread_id,
+                                    index_data)
             log.debug('Create index for thread %s' % thread.thread_id)
 
         return thread

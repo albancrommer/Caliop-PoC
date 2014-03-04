@@ -1,5 +1,6 @@
 from caliop.helpers.log import log
 from caliop.mda.message import MdaMessage
+from caliop.core.user import UserMessage
 from caliop.core.message import Message, MessagePart
 from caliop.core.thread import Thread
 from caliop.core.contact import ContactLookup
@@ -14,10 +15,10 @@ class DeliveryAgent(object):
 
     exclude_parts = ['multipart/mixed', 'multipart/alternative']
 
-    def _resolve_user_contacts(self, user, mail):
+    def _resolve_user_contacts(self, user, msg):
         """Find all contacts known in the mail"""
         contacts = []
-        for addr in mail.all_recipients():
+        for addr in msg.all_recipients():
             if addr != user.id:
                 log.debug('Try to resolve contact %s' % addr)
                 contact = ContactLookup.get(user, addr)
@@ -30,38 +31,35 @@ class DeliveryAgent(object):
         tags.extend(random.sample(RANDOM_TAGS, 2))
         return tags
 
-    def process_user_mail(self, user, mail, parts):
+    def process_user_mail(self, user, msg, parts):
         # XXX : logic here, for user rules etc
-        contacts = self._resolve_user_contacts(user, mail)
+        contacts = self._resolve_user_contacts(user, msg)
         log.debug('Found %d contacts' % len(contacts))
-        msg = mail.mail
-        tags = self._get_tags(user, mail)
+        tags = self._get_tags(user, msg)
         security_level = random.randint(20, 100)
-        thread = Thread.from_mail(user, msg, contacts, tags)
-        return Message.create_from_mail(user, msg, parts,
-                                        contacts, tags,
-                                        thread.thread_id,
-                                        security_level)
+        user_msg = UserMessage(user, msg, security_level, contacts, tags)
+        thread = Thread.from_user_message(user_msg)
+        return Message.from_user_message(user_msg, thread.thread_id)
 
     def process(self, buf):
         """
         Process a mail from buffer, to deliver it to users that can be found
         """
-        mail = MdaMessage(buf)
+        msg = MdaMessage(buf)
 
         messages = []
         parts = []
-        if mail.parts and mail.users:
-            for part in mail.parts:
+        if msg.parts and msg.users:
+            for part in msg.parts:
                 if not part.get_content_type() in self.exclude_parts:
-                    part = MessagePart.create(part, mail.users)
+                    part = MessagePart.create(part, msg.users)
                     log.debug('Created part %s (%s)' %
                               (part.id, part.content_type))
                     part.save()
                     parts.append(part)
-        if mail.users:
-            for user in mail.users:
-                message = self.process_user_mail(user, mail, parts)
+        if msg.users:
+            for user in msg.users:
+                message = self.process_user_mail(user, msg, parts)
                 if message:
                     log.debug('Delivery OK for message %s:%d' %
                               (user.id, message.message_id))
