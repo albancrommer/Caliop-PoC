@@ -16,7 +16,7 @@ class AbstractIndex(object):
     type = None
 
     def __init__(self, data):
-        # XXX : tofix
+        # XXX : tofix, need to handle better ES result
         if '_source' in data:
             data = data['_source']
         for col in self.columns:
@@ -35,6 +35,7 @@ class AbstractIndex(object):
         self.get(self.user_id, self.uid)
 
     def update(self, query):
+        # XXX surely not secure
         route = "%s/%s/%s/%s/_update" % \
             (self.index_server_url, self.user_id, self.type, self.uid)
         res = requests.post(route, data=to_json(query))
@@ -49,10 +50,12 @@ class AbstractIndex(object):
     @classmethod
     def create_index(cls, user_id, id, idx_object):
         obj = idx_object.to_dict()
+        # XXX Create mappings (in children classes)
         return cls.create(user_id, id, obj)
 
     @classmethod
     def filter(cls, user_id, params):
+        # XXX well I know this it bad, security must be considered strongly
         values = ["%s = %s" % (k, v) for k, v in params.iteritems()]
         q_str = ' AND '.join(values)
         query = {
