@@ -74,9 +74,10 @@ class Thread(AbstractCore):
             new_id = message.user.new_thread_id()
             thread = cls.create(user_id=message.user.id, thread_id=new_id,
                                 date_insert=datetime.utcnow())
-            lookup = ThreadLookup.create(user_id=message.user.id,
-                                         external_id=external_id,
-                                         thread_id=new_id)
+            if external_id:
+                lookup = ThreadLookup.create(user_id=message.user.id,
+                                             external_id=external_id,
+                                             thread_id=new_id)
             log.debug('Created thread %s' % thread.thread_id)
             index_data = {
                 'thread_id': thread.thread_id,
