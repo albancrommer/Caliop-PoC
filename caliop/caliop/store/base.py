@@ -121,7 +121,7 @@ class MailIndexMessage(BaseIndexMessage):
 
     def _parse_message(self, message):
         self.subject = message.mail.get('Subject')
-        self.from_ = message.contact_from
+        self.from_ = message.contact_from.id
         self.date = message.date
         self.text = message.text
         self.size = message.size
