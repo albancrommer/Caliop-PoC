@@ -18,8 +18,8 @@ requires = [
     'requests',
     'bcrypt',
     'PyYAML',
-    'cqlengine',  # For cassandra 2.0 need patch
-    'git+https://github.com/ekini/gsmtpd.git'  # OK I shouldn't, or not ...
+    # 'git+https://github.com/gdchamal/cqlengine.git',
+    # 'git+https://github.com/ekini/gsmtpd.git'  # OK I shouldn't, or not ...
     ]
 
 setup(name='caliop',
