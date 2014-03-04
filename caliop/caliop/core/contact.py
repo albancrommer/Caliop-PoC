@@ -32,4 +32,4 @@ class Contact(AbstractCore):
                 ContactLookup.create(user_id=user.id, value=v, contact_id=c.id)
         # Index contact
         cls._index_class.create(user.id, c.id, infos)
-        return cls(c)
+        return c
