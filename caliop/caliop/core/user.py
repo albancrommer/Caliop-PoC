@@ -29,7 +29,8 @@ class User(AbstractCore):
     @classmethod
     def authenticate(cls, uid, password):
         user = cls._model_class.get(id=uid)
-        if bcrypt.hashpw(password, user.password) == user.password:
+        # XXX : decode unicode not this way
+        if bcrypt.hashpw(str(password), str(user.password)) == user.password:
             return cls(user)
         raise Exception('Invalid credentials')
 
@@ -50,6 +51,14 @@ class User(AbstractCore):
     def get_thread_id(self, external_id):
         # XXX : lookup external thread_id to internal one
         return self.new_thread_id()
+
+    def to_api(self):
+        return {
+            'id': 1,     # TOFIX
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'date_created': None    # TOFIX
+        }
 
 
 class UserMessage(object):
