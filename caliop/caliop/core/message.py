@@ -74,11 +74,13 @@ class Message(AbstractCore):
             "title": message.subject,
             "body": message.text,
             "date_sent": message.date,
-            "protocole": "email",
+            "security": message.security_level,
+            "author": message.from_,
+            "thread_id": message.thread_id,
             # TOFIX
-            "security": 50,
-            "author": 2,
-            "thread_id": message.thread_id
+            "protocole": "email",
+            'answer_to': 0,
+            'offset': 1,
         }
         return data
 
