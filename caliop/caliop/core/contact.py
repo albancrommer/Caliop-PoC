@@ -38,14 +38,15 @@ class Contact(AbstractCore):
 
     @classmethod
     def by_id(cls, user, contact_id):
-        contact = cls._index_class.get(user.id, contact_id)
-        return cls.to_api(contact)
+        contact = cls._model_class.get(user_id=user.id, id=contact_id)
+        obj = cls(contact)
+        return obj.to_api()
 
     def to_api(self):
         return {
-            "id": self.contact_id,
-            "firstName": self.fist_name,
+            "id": self.id,
+            "firstName": self.infos.get('mail'),
             "lastName": self.last_name,
-            "avatar": self.infos.get('avatar'),
+            "avatar": self.infos.get('avatar', 'avatar.png'),
             "date_created": self.date_insert,
         }
