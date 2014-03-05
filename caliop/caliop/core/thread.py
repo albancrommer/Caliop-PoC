@@ -126,12 +126,19 @@ class Thread(AbstractCore):
         return thread
 
     @classmethod
-    def to_api(self, thread):
+    def expand_contacts(self, user, contacts):
+        results = []
+        for contact in contacts:
+            results.append(Contact.by_id(user, contact))
+        return results
+
+    @classmethod
+    def to_api(self, thread, recipients):
         data = {
             'id': thread.thread_id,
             'date_updated': thread.date_update,
             'text': thread.slug,
-            'recipients': thread.contacts,
+            'recipients': recipients,
             'labels': [TAGS.get(x, TAGS['INBOX']) for x in thread.tags],
             'security': random.randint(20, 100),
         }
@@ -147,10 +154,12 @@ class Thread(AbstractCore):
         # XXX : make output compatible for current API
         results = []
         for thr in threads:
-            results.append(cls.to_api(thr))
+            recipients = cls.expand_contacts(user, thr.contacts)
+            results.append(cls.to_api(thr, recipients))
         return results
 
     @classmethod
     def by_id(cls, user, thread_id):
         thread = cls._index_class.get(user.id, thread_id)
-        return cls.to_api(thread)
+        recipients = cls.expand_contacts(user, thread.contacts)
+        return cls.to_api(thread, recipients)
