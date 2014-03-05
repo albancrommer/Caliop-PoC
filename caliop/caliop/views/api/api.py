@@ -1,7 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 
 import os
-import json
 
 from pyramid.response import Response
 
@@ -14,6 +13,7 @@ Configuration.load(
 connection.setup(['127.0.0.1:9160'])
 
 from caliop.helpers.log import log
+from caliop.helpers.json import to_json
 
 from caliop.core.user import User
 from caliop.core.thread import Thread as UserThread
@@ -57,7 +57,7 @@ class Thread(Api):
         thread_id = int(self.request.matchdict.get('thread_id'))
         thread = UserThread.by_id(user, thread_id)
         log.debug('Got thread %r' % thread)
-        return Response(json.dumps(thread))
+        return Response(to_json(thread))
 
 
 class Threads(Thread):
@@ -65,7 +65,7 @@ class Threads(Thread):
         # XXX : user request session
         user = User.get(self.request.session['user'])
         threads = UserThread.by_user(user)
-        return Response(json.dumps(threads))
+        return Response(to_json(threads))
 
 
 class ThreadMessages(Api):
@@ -75,7 +75,7 @@ class ThreadMessages(Api):
         user = User.get(self.request.session['user'])
         thread_id = int(self.request.matchdict.get('thread_id'))
         messages = UserMessage.by_thread_id(user, thread_id)
-        return Response(json.dumps(messages))
+        return Response(to_json(messages))
 
 
 class Messages(Api):
@@ -95,7 +95,7 @@ class ContactLogin(Api):
             user = User.authenticate(credentials['login'],
                                      credentials['password'])
             self.request.session['user'] = user.id
-            return Response(json.dumps(user.to_api()))
+            return Response(to_json(user.to_api()))
 
         except (KeyError, BadCredentials, Exception), exc:
             # XXX raise correct exception in authenticate
