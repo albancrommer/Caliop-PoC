@@ -56,7 +56,7 @@ class AbstractIndex(object):
     @classmethod
     def filter(cls, user_id, params):
         # XXX well I know this it bad, security must be considered strongly
-        values = ["%s = %s" % (k, v) for k, v in params.iteritems()]
+        values = ["%s:%s" % (k, v) for k, v in params.iteritems()]
         q_str = ' AND '.join(values)
         query = {
             "query": {
