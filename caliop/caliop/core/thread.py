@@ -4,6 +4,7 @@ from cqlengine.query import DoesNotExist
 
 from caliop.helpers.log import log
 from caliop.core.base import AbstractCore
+from caliop.core.contact import Contact
 from caliop.store import (ThreadLookup as ModelThreadLookup,
                           Thread as ModelThread,
                           IndexedThread)
@@ -11,13 +12,43 @@ from caliop.store import (ThreadLookup as ModelThreadLookup,
 # XXX temporary
 import random
 
-TAGS_LABELS = {
-    'INBOX': 8,
-    'IMPORTANT': 5,
-    'SPAM': 6,
-    'WORK': 1,
-    'PERSONAL': 2,
-    'URGENT': 9
+TAGS = {
+    'INBOX': {
+        "id": 1,
+        "label": "Inbox",
+        "background": "#ed8484",
+        "color": "green"
+    },
+    'IMPORTANT': {
+        "id": 2,
+        "label": "Important",
+        "background": "#6553cc",
+        "color": "black"
+    },
+    'SPAM': {
+        "id": 3,
+        "label": "Spam",
+        "background": "#69e6f4",
+        "color": "white"
+    },
+    'WORK': {
+        "id": 4,
+        "label": "Work",
+        "background": "#e5a74b",
+        "color": "yellow"
+    },
+    'PERSONAL': {
+        "id": 5,
+        "label": "Personal",
+        "background": "#cecece",
+        "color": "blue"
+    },
+    'URGENT': {
+        "id": 6,
+        "label": "Urgent",
+        "background": "#000000",
+        "color": "red"
+    },
 }
 
 
@@ -84,7 +115,7 @@ class Thread(AbstractCore):
                 'date_insert': thread.date_insert,
                 'date_update': datetime.utcnow(),
                 'slug': message.text[:200],
-                'contacts': [x.id for x in message.contacts],
+                'contacts': [x.contact_id for x in message.contacts],
             }
             if message.tags:
                 index_data.update({'tags': message.tags})
@@ -101,7 +132,7 @@ class Thread(AbstractCore):
             'date_updated': thread.date_update,
             'text': thread.slug,
             'recipients': thread.contacts,
-            'labels': [TAGS_LABELS.get(x, 1) for x in thread.tags],
+            'labels': [TAGS.get(x, TAGS['INBOX']) for x in thread.tags],
             'security': random.randint(20, 100),
         }
         return data
@@ -122,5 +153,4 @@ class Thread(AbstractCore):
     @classmethod
     def by_id(cls, user, thread_id):
         thread = cls._index_class.get(user.id, thread_id)
-        log.debug('Have thread %r' % thread.to_dict())
         return cls.to_api(thread)
