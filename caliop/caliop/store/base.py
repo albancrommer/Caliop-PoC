@@ -28,7 +28,8 @@ class AbstractIndex(object):
         res = requests.get(route)
         if res.status_code == 200:
             data = res.json()
-            return cls(data) if data else None
+            obj = cls(data['_source']) if data['_source'] else None
+            return obj
         raise Exception('Index %s/%s/%s not found' % (user_id, cls.type, uid))
 
     def refresh(self):
