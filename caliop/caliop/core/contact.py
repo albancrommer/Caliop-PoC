@@ -1,3 +1,4 @@
+from datetime import datetime
 from caliop.store import (Contact as ModelContact,
                           ContactLookup as ModelLookup,
                           IndexedContact)
@@ -25,7 +26,8 @@ class Contact(AbstractCore):
 
     @classmethod
     def create(cls, user, infos):
-        c = super(Contact, cls).create(user_id=user.id, infos=infos)
+        c = super(Contact, cls).create(user_id=user.id, infos=infos,
+                                       date_insert=datetime.utcnow())
         # Create infos lookup
         for k, v in infos.iteritems():
             if 'tel' in k or 'mail' in k:
@@ -33,3 +35,12 @@ class Contact(AbstractCore):
         # Index contact
         cls._index_class.create(user.id, c.id, infos)
         return c
+
+    def to_api(self):
+        return {
+            "id": self.contact_id,
+            "firstName": self.fist_name,
+            "lastName": self.last_name,
+            "avatar": self.infos.get('avatar'),
+            "date_created": self.date_insert,
+        }

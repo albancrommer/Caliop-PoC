@@ -20,6 +20,10 @@ class Counter(Model):
 class Contact(Model):
     user_id = columns.Text(primary_key=True)
     id = columns.UUID(primary_key=True, default=uuid.uuid4)
+    first_name = columns.Text()
+    last_name = columns.Text()
+    date_insert = columns.DateTime()
+    date_update = columns.DateTime()
     # Abstract everything in a map
     infos = columns.Map(columns.Text, columns.Text)
 
