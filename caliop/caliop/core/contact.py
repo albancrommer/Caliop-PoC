@@ -36,6 +36,11 @@ class Contact(AbstractCore):
         cls._index_class.create(user.id, c.id, infos)
         return c
 
+    @classmethod
+    def by_id(cls, user, contact_id):
+        contact = cls._index_class.get(user.id, contact_id)
+        return cls.to_api(contact)
+
     def to_api(self):
         return {
             "id": self.contact_id,
