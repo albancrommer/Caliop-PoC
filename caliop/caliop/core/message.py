@@ -4,6 +4,7 @@ from caliop.helpers.log import log
 from caliop.core.base import AbstractCore
 from caliop.store import (Message as ModelMessage,
                           MessagePart as ModelMessagePart,
+                          MessageLookup as ModelMessageLookup,
                           IndexedMessage,
                           MailIndexMessage)
 
@@ -33,6 +34,11 @@ class MessagePart(AbstractCore):
         return None
 
 
+class MessageLookup(AbstractCore):
+
+    _model_class = ModelMessageLookup
+
+
 class Message(AbstractCore):
 
     _model_class = ModelMessage
@@ -50,6 +56,13 @@ class Message(AbstractCore):
                          external_thread_id=message.external_thread_id,
                          parts=parts_id,
                          tags=message.tags)
+        if message.external_message_id:
+            # Create message lookup
+            MessageLookup.create(user_id=message.user.id,
+                                 external_id=message.external_message_id,
+                                 message_id=message_id,
+                                 thread_id=thread_id)
+
         # set message_id into parts
         for part in message.parts:
             part.users[message.user.id] = msg.message_id
