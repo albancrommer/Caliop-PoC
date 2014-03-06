@@ -47,13 +47,15 @@ class DeliveryAgent(object):
         messages = []
         parts = []
         if msg.parts and msg.users:
+            cpt = 0
             for part in msg.parts:
                 if not part.is_multipart():
-                    new_part = MessagePart.create(part, msg.users)
+                    new_part = MessagePart.create(part, msg.users, cpt)
                     log.debug('Created part %s (%s)' %
                               (new_part.id, new_part.content_type))
                     new_part.save()
                     parts.append(new_part)
+                    cpt += 1
         if msg.users:
             for user in msg.users:
                 message = self.process_user_mail(user, msg, parts)

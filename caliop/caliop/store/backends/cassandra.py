@@ -55,6 +55,7 @@ class Message(Model):
 
 class MessagePart(Model):
     id = columns.UUID(primary_key=True, default=uuid.uuid4)
+    position = columns.Integer()
     content_type = columns.Text()
     size = columns.Integer()
     filename = columns.Text()

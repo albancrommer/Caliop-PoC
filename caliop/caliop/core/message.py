@@ -20,7 +20,7 @@ class MessagePart(AbstractCore):
     text_content_types = ['text/plain', 'text/html']
 
     @classmethod
-    def create(cls, part, users):
+    def create(cls, part, users, position):
         users_id = dict((user.id, 0) for user in users)
         size = len(part.get_payload())
         # XXX : decode not here
@@ -34,6 +34,7 @@ class MessagePart(AbstractCore):
             payload = part.get_payload()
         part = super(MessagePart, cls).\
             create(content_type=part.get_content_type(),
+                   position=position,
                    size=size,
                    filename=part.get_filename(),
                    payload=payload,
