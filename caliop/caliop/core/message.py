@@ -1,5 +1,8 @@
 from datetime import datetime
 
+# XXX : define our own exceptions ?
+from cqlengine.query import DoesNotExist
+
 from caliop.helpers.log import log
 from caliop.core.base import AbstractCore
 from caliop.store import (Message as ModelMessage,
@@ -37,6 +40,14 @@ class MessagePart(AbstractCore):
 class MessageLookup(AbstractCore):
 
     _model_class = ModelMessageLookup
+
+    @classmethod
+    def get(cls, user, external_id):
+        try:
+            return cls._model_class.get(user_id=user.id,
+                                        external_id=external_id)
+        except DoesNotExist:
+            return None
 
 
 class Message(AbstractCore):
