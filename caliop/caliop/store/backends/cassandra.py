@@ -77,6 +77,7 @@ class MessageLookup(Model):
     external_id = columns.Text(primary_key=True)
     message_id = columns.Integer()
     thread_id = columns.Integer()
+    offset = columns.Integer()
 
 
 class RRule(Model):
