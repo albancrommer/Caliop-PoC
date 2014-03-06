@@ -60,7 +60,12 @@ class AbstractIndex(object):
     @classmethod
     def filter(cls, user_id, params):
         # XXX well I know this it bad, security must be considered strongly
-        values = ["%s:%s" % (k, v) for k, v in params.iteritems()]
+        values = []
+        for k, v in params.iteritems():
+            if k.endswith('_id'):
+                values.append('%s:%s' % (k, v))
+            else:
+                values.append('%s = %s' % (k, v))
         q_str = ' AND '.join(values)
         query = {
             "query": {
@@ -76,10 +81,10 @@ class AbstractIndex(object):
         route = "%s/%s/%s/_search?" % (cls.index_server_url, user_id, cls.type)
         res = requests.get(route, data=to_json(query))
         data = res.json()
-        if data.get('hits', {}).get('hits'):
-            return [cls(x['_source'])
-                    for x in data['hits']['hits']]
-        return []
+        results = []
+        for idx in data.get('hits', []).get('hits', []):
+            results.append(cls(idx['_source']))
+        return results
 
     def to_dict(self):
         data = {}
@@ -107,10 +112,6 @@ class BaseIndexMessage(AbstractIndex):
                'text', 'size', 'headers',
                'tags', 'markers', 'parts', 'contacts',
                ]
-
-    def __init__(self, message):
-        for col in self.columns:
-            setattr(self, col, message.get(col))
 
 
 class MailIndexMessage(BaseIndexMessage):

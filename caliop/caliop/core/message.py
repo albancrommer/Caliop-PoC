@@ -115,7 +115,7 @@ class Message(AbstractCore):
             "body": message.text,
             "date_sent": message.date,
             "security": message.security_level,
-            "author": message.from_,
+            # "author": message.from_,
             "thread_id": message.thread_id,
             # TOFIX
             "protocole": "email",
