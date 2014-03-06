@@ -23,6 +23,9 @@ from caliop.core.contact import Contact, ContactLookup
 from caliop.mda.agent import DeliveryAgent
 from caliop.mda.message import MdaMessage
 
+from logging.config import dictConfig
+dictConfig(Configuration('global').get('logging'))
+
 connection.setup(['127.0.0.1:9160'])
 
 user = sys.argv[1]
