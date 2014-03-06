@@ -35,13 +35,6 @@ class ContactLookup(Model):
     contact_id = columns.UUID()
 
 
-class ThreadLookup(Model):
-    """Reverse index of external thread_id to internal one"""
-    user_id = columns.Text(primary_key=True)
-    external_id = columns.Text(primary_key=True)
-    thread_id = columns.Integer()
-
-
 class Thread(Model):
     # XXX threading simplest model, most data are only in index
     user_id = columns.Text(primary_key=True)

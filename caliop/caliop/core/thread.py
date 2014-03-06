@@ -5,9 +5,7 @@ from cqlengine.query import DoesNotExist
 from caliop.helpers.log import log
 from caliop.core.base import AbstractCore
 from caliop.core.contact import Contact
-from caliop.store import (ThreadLookup as ModelThreadLookup,
-                          Thread as ModelThread,
-                          IndexedThread)
+from caliop.store import Thread as ModelThread, IndexedThread
 
 # XXX temporary
 import random
@@ -50,19 +48,6 @@ TAGS = {
         "color": "red"
     },
 }
-
-
-class ThreadLookup(AbstractCore):
-
-    _model_class = ModelThreadLookup
-
-    @classmethod
-    def get(cls, user, external_id):
-        try:
-            return cls._model_class.get(user_id=user.id,
-                                        external_id=external_id)
-        except DoesNotExist:
-            return None
 
 
 class Thread(AbstractCore):
