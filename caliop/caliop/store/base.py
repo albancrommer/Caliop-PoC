@@ -29,6 +29,9 @@ class AbstractIndex(object):
         if res.status_code == 200:
             data = res.json()
             obj = cls(data['_source']) if data['_source'] else None
+            # XXX : design problem, we should not do this
+            setattr(obj, 'user_id', user_id)
+            setattr(obj, 'uid', uid)
             return obj
         raise Exception('Index %s/%s/%s not found' % (user_id, cls.type, uid))
 
