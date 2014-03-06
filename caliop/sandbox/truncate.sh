@@ -9,6 +9,7 @@ truncate user;
 truncate counter;
 truncate message;
 truncate message_part;
+truncate message_lookup;
 truncate thread;
 truncate thread_lookup;
 truncate contact;
