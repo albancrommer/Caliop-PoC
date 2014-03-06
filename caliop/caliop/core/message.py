@@ -5,6 +5,7 @@ from cqlengine.query import DoesNotExist
 
 from caliop.helpers.log import log
 from caliop.core.base import AbstractCore
+from caliop.core.thread import Thread
 from caliop.store import (Message as ModelMessage,
                           MessagePart as ModelMessagePart,
                           MessageLookup as ModelMessageLookup,
@@ -56,31 +57,46 @@ class Message(AbstractCore):
     _index_class = IndexedMessage
 
     @classmethod
-    def from_user_message(cls, message, thread_id):
-        parts_id = [x.id for x in message.parts]
+    def from_user_message(cls, message):
+        # Lookup by external_id
+        external_id = message.external_thread_id
         message_id = message.user.new_message_id()
+        parts_id = [x.id for x in message.parts]
+        lookup = None
+        if external_id:
+            log.debug('Lookup message %s for %s' %
+                      (external_id, message.user.id))
+            lookup = MessageLookup.get(message.user, external_id)
+
+        # Create or update thread
+        thread = Thread.from_user_message(message, lookup)
+
         msg = cls.create(user_id=message.user.id,
                          message_id=message_id,
-                         thread_id=thread_id,
+                         thread_id=thread.thread_id,
                          date_insert=datetime.utcnow(),
                          external_message_id=message.external_message_id,
                          external_thread_id=message.external_thread_id,
                          parts=parts_id,
                          tags=message.tags)
+
+        # Create a message lookup
         if message.external_message_id:
-            # Create message lookup
+            offset = lookup.offset + 1 if lookup else 0
             MessageLookup.create(user_id=message.user.id,
                                  external_id=message.external_message_id,
                                  message_id=message_id,
-                                 thread_id=thread_id)
-
+                                 thread_id=thread.thread_id,
+                                 offset=offset)
+        else:
+            log.warn('No message lookup possible for %s' % message_id)
         # set message_id into parts
         for part in message.parts:
             part.users[message.user.id] = msg.message_id
             part.save()
         # XXX write raw message in store using msg pkey
         # XXX index message asynchronously ?
-        index = MailIndexMessage(message, thread_id, message_id)
+        index = MailIndexMessage(message, thread.thread_id, message_id)
         cls._index_class.create_index(message.user.id, message_id, index)
         log.debug('Indexing message %s:%d' % (message.user.id, message_id))
         return msg

@@ -2,7 +2,6 @@ from caliop.helpers.log import log
 from caliop.mda.message import MdaMessage
 from caliop.core.user import UserMessage
 from caliop.core.message import Message, MessagePart
-from caliop.core.thread import Thread
 from caliop.core.contact import ContactLookup
 
 import random
@@ -39,8 +38,7 @@ class DeliveryAgent(object):
         security_level = random.randint(20, 100)
         user_msg = UserMessage(user, msg, security_level,
                                contacts, tags, parts)
-        thread = Thread.from_user_message(user_msg)
-        return Message.from_user_message(user_msg, thread.thread_id)
+        return Message.from_user_message(user_msg)
 
     def process(self, buf):
         """
