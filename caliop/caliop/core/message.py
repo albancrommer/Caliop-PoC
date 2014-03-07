@@ -23,11 +23,20 @@ class MessagePart(AbstractCore):
     def create(cls, part, users):
         users_id = dict((user.id, 0) for user in users)
         size = len(part.get_payload())
+        # XXX : decode not here
+        charsets = part.get_charsets()
+        if len(charsets) != 1:
+            raise Exception('Invalid number of charset for part : %r' %
+                            charsets)
+        if charsets[0] and charsets[0] != 'utf-8':
+            payload = part.get_payload().decode(charsets[0]).encode('utf-8')
+        else:
+            payload = part.get_payload()
         part = super(MessagePart, cls).\
             create(content_type=part.get_content_type(),
                    size=size,
                    filename=part.get_filename(),
-                   payload=part.get_payload(),
+                   payload=payload,
                    users=users_id)
         return part
 
@@ -42,6 +51,9 @@ class MessagePart(AbstractCore):
             return self.payload
         else:
             return '<a href="%s">%s</a>' % (self.get_url(), self.filename)
+
+    def can_index(self):
+        return True if self.content_type in self.text_content_types else False
 
 
 class MessageLookup(AbstractCore):

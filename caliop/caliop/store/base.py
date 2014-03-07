@@ -138,9 +138,9 @@ class MailIndexMessage(BaseIndexMessage):
 
     def _parse_parts(self, parts):
         self.parts = []
-        for part in parts:
+        for part in [x for x in parts if x.can_index()]:
             self.parts.append({'id': part.id,
                                'size': part.size,
                                'content_type': part.content_type,
                                'filename': part.filename,
-                               'content': part.get_text()})
+                               'content': part.payload})
