@@ -31,11 +31,17 @@ class MessagePart(AbstractCore):
                    users=users_id)
         return part
 
+    def get_url(self):
+        return '/parts/%s' % self.id
+
     def get_text(self):
         """Extract text information from part if possible"""
-        if self.content_type in self.text_content_types:
+        if self.content_type == 'text/plain':
+            return '<pre>%s</pre>' % self.payload
+        if self.content_type == 'text/html':
             return self.payload
-        return None
+        else:
+            return '<a href="%s">%s</a>' % (self.get_url(), self.filename)
 
 
 class MessageLookup(AbstractCore):
@@ -109,10 +115,14 @@ class Message(AbstractCore):
 
     @classmethod
     def to_api(cls, message):
+        parts = []
+        for part in message.parts:
+            parts.append(MessagePart.get(part['id']))
+        text = "<br />".join([x.get_text() for x in parts])
         data = {
             "id": message.message_id,
             "title": message.subject,
-            "body": message.text,
+            "body": text,
             "date_sent": message.date,
             "security": message.security_level,
             # "author": message.from_,
