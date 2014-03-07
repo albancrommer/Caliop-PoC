@@ -137,9 +137,9 @@ class MailIndexMessage(BaseIndexMessage):
         self.markers = ['U']
 
     def _parse_parts(self, parts):
-        self.parts = {}
+        self.parts = []
         for part in parts:
-            self.parts.update({'id': part.id,
+            self.parts.append({'id': part.id,
                                'size': part.size,
                                'content_type': part.content_type,
                                'filename': part.filename,
