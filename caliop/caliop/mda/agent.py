@@ -12,8 +12,6 @@ RANDOM_TAGS = ['WORK', 'PERSONAL', 'INBOX', 'SPAM',
 class DeliveryAgent(object):
     """Main logic for delivery of a mail message"""
 
-    exclude_parts = ['multipart/mixed', 'multipart/alternative']
-
     def _resolve_user_contacts(self, user, msg):
         """Find all contacts known in the mail"""
         contacts = []
@@ -50,12 +48,12 @@ class DeliveryAgent(object):
         parts = []
         if msg.parts and msg.users:
             for part in msg.parts:
-                if not part.get_content_type() in self.exclude_parts:
-                    part = MessagePart.create(part, msg.users)
+                if not part.is_multipart():
+                    new_part = MessagePart.create(part, msg.users)
                     log.debug('Created part %s (%s)' %
-                              (part.id, part.content_type))
-                    part.save()
-                    parts.append(part)
+                              (new_part.id, new_part.content_type))
+                    new_part.save()
+                    parts.append(new_part)
         if msg.users:
             for user in msg.users:
                 message = self.process_user_mail(user, msg, parts)

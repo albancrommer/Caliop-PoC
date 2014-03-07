@@ -79,8 +79,6 @@ class MdaMessage(object):
 
     def _extract_parts(self):
         """Multipart message, extract parts"""
-        if not self.mail.is_multipart():
-            return []
         parts = []
         for p in self.mail.walk():
             if not p.is_multipart():
@@ -91,7 +89,7 @@ class MdaMessage(object):
         """Decode all text payloads, be care about charset"""
         text_payloads = []
         for part in self.mail.walk():
-            if part.get_content_maintype() == 'multipart':
+            if part.is_multipart():
                 continue
             log.debug('Part is %s type' % part.get_content_type())
             if 'text' in part.get_content_type():
