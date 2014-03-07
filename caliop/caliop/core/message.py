@@ -85,6 +85,7 @@ class Message(AbstractCore):
             log.debug('Lookup message %s for %s' %
                       (external_id, message.user.id))
             lookup = MessageLookup.get(message.user, external_id)
+        answer_to = lookup.message_id if lookup else None
 
         # Create or update thread
         thread = Thread.from_user_message(message, lookup)
@@ -108,13 +109,15 @@ class Message(AbstractCore):
                                  offset=offset)
         else:
             log.warn('No message lookup possible for %s' % message_id)
+            offset = None
         # set message_id into parts
         for part in message.parts:
             part.users[message.user.id] = msg.message_id
             part.save()
         # XXX write raw message in store using msg pkey
         # XXX index message asynchronously ?
-        index = MailIndexMessage(message, thread.thread_id, message_id)
+        index = MailIndexMessage(message, thread.thread_id, message_id,
+                                 answer_to, offset)
         cls._index_class.create_index(message.user.id, message_id, index)
         log.debug('Indexing message %s:%d' % (message.user.id, message_id))
         return msg
@@ -141,8 +144,8 @@ class Message(AbstractCore):
             "thread_id": message.thread_id,
             # TOFIX
             "protocole": "email",
-            'answer_to': 0,
-            'offset': 1,
+            'answer_to': message.answer_to,
+            'offset': message.offset,
         }
         return data
 
@@ -150,4 +153,5 @@ class Message(AbstractCore):
     def by_thread_id(cls, user, thread_id, sort=None):
         params = {'thread_id': thread_id}
         messages = cls._index_class.filter(user.id, params)
-        return [cls.to_api(x) for x in messages]
+        results = [cls.to_api(x) for x in messages]
+        return sorted(results, key=lambda x: x.get('offset', 0))

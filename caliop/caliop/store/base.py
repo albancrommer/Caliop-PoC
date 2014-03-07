@@ -109,7 +109,7 @@ class BaseIndexMessage(AbstractIndex):
     """Base class to store a message in an index store"""
     columns = ['message_id', 'thread_id', 'security_level',
                'subject', 'from_', 'date', 'date_insert',
-               'text', 'size', 'headers',
+               'text', 'size', 'answer_to', 'offset', 'headers',
                'tags', 'markers', 'parts', 'contacts',
                ]
 
@@ -117,9 +117,11 @@ class BaseIndexMessage(AbstractIndex):
 class MailIndexMessage(BaseIndexMessage):
     """Get a user message object, and parse it to make an index"""
 
-    def __init__(self, message, thread_id, message_id):
+    def __init__(self, message, thread_id, message_id, answer_to, offset):
         self.message_id = message_id
         self.thread_id = thread_id
+        self.answer_to = answer_to
+        self.offset = offset
         self.security_level = message.security_level
         self.date_insert = datetime.utcnow()
         self._parse_message(message)
