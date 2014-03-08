@@ -42,6 +42,22 @@ class Contact(AbstractCore):
         obj = cls(contact)
         return obj.to_api()
 
+    @classmethod
+    def list_by_group(cls, user):
+        contacts = cls._model_class.objects.filter(user_id=user.id)
+        # group them by groups, can repeat same contact so
+        groups = {'unknown': []}
+        for contact in contacts:
+            if contact.groups:
+                for group in contact.groups:
+                    g = groups.setdefault(group, [])
+                    if not contact in g:
+                        g.append(cls(contact))
+            else:
+                if not contact in groups['unknown']:
+                    groups['unknown'].append(cls(contact))
+        return groups
+
     def to_api(self):
         return {
             "id": self.id,
