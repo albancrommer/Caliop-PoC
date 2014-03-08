@@ -42,6 +42,7 @@ class MessagePart(AbstractCore):
         return part
 
     def get_url(self):
+        # XXX not here
         return '/parts/%s' % self.id
 
     def get_text(self):
@@ -131,10 +132,10 @@ class Message(AbstractCore):
 
     @classmethod
     def to_api(cls, message):
-        parts = []
-        for part in message.parts:
-            parts.append(MessagePart.get(part['id']))
+        parts = [MessagePart.get(x['id']) for x in message.parts]
+        parts = sorted(parts, key=lambda x: x.position)
         text = "<br />".join([x.get_text() for x in parts])
+        log.debug('message from %r' % message.from_)
         data = {
             "id": message.message_id,
             "title": message.subject,
