@@ -8,7 +8,7 @@ from pyramid.response import Response
 from cqlengine import connection
 from caliop.config import Configuration
 Configuration.load(
-    '/home/mric/dev/Caliop-PoC/caliop/sandbox/conf.yaml',
+    './sandbox/conf.yaml',
     'global')
 connection.setup(['127.0.0.1:9160'])
 
@@ -18,6 +18,7 @@ from caliop.helpers.json import to_json
 from caliop.core.user import User
 from caliop.core.thread import Thread as UserThread
 from caliop.core.message import Message as UserMessage
+from caliop.core.contact import Contact as UserContact
 
 
 class Api(object):
@@ -106,3 +107,28 @@ class ContactLogin(Api):
 
 class ContactInfo(Api):
     filename = 'contact.json'
+
+
+class Contacts(Api):
+
+    def contact_link(self, contact):
+        name = None
+        if not (contact.last_name or contact.first_name):
+            if contact.infos.get('full_name'):
+                name = contact.infos['full_name']
+            elif contact.infos.get('mail'):
+                name = contact.infos['mail']
+            elif contact.info.get('phone'):
+                name = contact.infos['phone']
+        return {'id': contact.id, 'name': name}
+
+    def __call__(self):
+        user = User.get(self.request.session['user'])
+        groups = UserContact.list_by_group(user)
+        results = []
+        for g, contacts in groups.iteritems():
+            results.append({
+                'group': g,
+                'contacts': [self.contact_link(x) for x in contacts]})
+        results = sorted(results, key=lambda x: x['group'])
+        return Response(to_json(results))

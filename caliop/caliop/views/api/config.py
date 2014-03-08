@@ -27,3 +27,6 @@ def includeme(config):
 
     config.add_route('contact.login', '/api/mock/contact/login')
     config.add_view('caliop.views.api.ContactLogin', route_name='contact.login', renderer='json')
+
+    config.add_route('contacts.list', '/api/mock/contacts')
+    config.add_view('caliop.views.api.Contacts', route_name='contacts.list', renderer='json')
