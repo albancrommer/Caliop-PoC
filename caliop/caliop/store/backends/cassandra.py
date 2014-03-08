@@ -24,7 +24,8 @@ class Contact(Model):
     last_name = columns.Text()
     date_insert = columns.DateTime()
     date_update = columns.DateTime()
-    # Abstract everything in a map
+    groups = columns.List(columns.Text)
+    # Abstract everything else in a map
     infos = columns.Map(columns.Text, columns.Text)
 
 
