@@ -1,4 +1,5 @@
 import bcrypt
+from datetime import datetime
 
 from caliop.core.base import AbstractCore
 from caliop.core.contact import ContactLookup
@@ -19,6 +20,7 @@ class User(AbstractCore):
     def create(cls, **kwargs):
         password = kwargs.pop('password')
         kwargs['password'] = bcrypt.hashpw(password, bcrypt.gensalt())
+        kwargs['date_insert'] = datetime.utcnow()
         user = super(User, cls).create(**kwargs)
         # Create counters
         Counter.create(user_id=user.id)
@@ -54,10 +56,10 @@ class User(AbstractCore):
 
     def to_api(self):
         return {
-            'id': 1,     # TOFIX
+            'id': self.id,
             'first_name': self.first_name,
             'last_name': self.last_name,
-            'date_created': None    # TOFIX
+            'date_created': self.date_insert,
         }
 
 

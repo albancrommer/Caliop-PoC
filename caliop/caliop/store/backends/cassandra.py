@@ -6,6 +6,7 @@ from cqlengine.models import Model
 class User(Model):
     id = columns.Text(primary_key=True)
     password = columns.Text(required=True)
+    date_insert = columns.DateTime()
     first_name = columns.Text()
     last_name = columns.Text()
     params = columns.Map(columns.Text, columns.Text)
