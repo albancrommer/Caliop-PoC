@@ -4,10 +4,10 @@ from itertools import groupby
 
 from caliop.helpers.format import clean_email_address
 from caliop.helpers.log import log
-from caliop.core.user import User
+from caliop.core.message import BaseMessage
 
 
-class MdaMessage(object):
+class MdaMessage(BaseMessage):
     """Got a mail in raw rfc2822 format, parse it to
     resolve all recipients emails, users and parts
     """
@@ -60,22 +60,6 @@ class MdaMessage(object):
         for k, g in groupby(data, key=keyfunc):
             headers[k] = [x[1] for x in g]
         return headers
-
-    def all_recipients(self):
-        return self.recipients + [self.from_]
-
-    def _resolve_users(self):
-        """Find all users involved in this mail"""
-        find_users = []
-        for addr in self.recipients:
-            try:
-                user = User.get(addr)
-                if not user in find_users:
-                    find_users.append(user)
-            except:
-                # XXX handle NotFound only
-                pass
-        return find_users
 
     def _extract_parts(self):
         """Multipart message, extract parts"""
