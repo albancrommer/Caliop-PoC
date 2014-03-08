@@ -68,6 +68,7 @@ class UserMessage(object):
 
     def __init__(self, user, message, security_level, contacts, tags, parts):
         self.user = user
+        self.subject = message.subject
         self.message = message
         self.security_level = security_level
         self.contacts = contacts
@@ -78,6 +79,5 @@ class UserMessage(object):
         self.contact_from = ContactLookup.get(user, message.from_)
         self.text = message.text
         self.date = message.date
-        self.mail = message.mail
         self.size = message.size
         self.headers = message.headers

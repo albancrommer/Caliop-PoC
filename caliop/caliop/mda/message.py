@@ -30,6 +30,7 @@ class MdaMessage(BaseMessage):
             self.parts = self._extract_parts()
         else:
             self.parts = []
+        self.subject = self.mail.get('Subject')
         self.text = self._decode_text_payload()
         self.from_ = clean_email_address(self.mail.get('From'))
         self.date = parse_date(self.mail.get('Date'))

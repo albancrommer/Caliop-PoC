@@ -130,7 +130,7 @@ class MailIndexMessage(BaseIndexMessage):
         self.tags = message.tags
 
     def _parse_message(self, message):
-        self.subject = message.mail.get('Subject')
+        self.subject = message.subject
         self.from_ = message.contact_from.contact_id
         self.date = message.date
         self.text = message.text
