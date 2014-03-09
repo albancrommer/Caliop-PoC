@@ -6,7 +6,6 @@ from cqlengine.query import DoesNotExist
 from caliop.helpers.log import log
 from caliop.core.base import AbstractCore
 from caliop.core.thread import Thread
-from caliop.core.user import User
 from caliop.store import (Message as ModelMessage,
                           MessagePart as ModelMessagePart,
                           MessageLookup as ModelMessageLookup,
@@ -158,47 +157,3 @@ class Message(AbstractCore):
         messages = cls._index_class.filter(user.id, params)
         results = [cls.to_api(x) for x in messages]
         return sorted(results, key=lambda x: x.get('offset', 0))
-
-
-class BaseMessage(object):
-    """Base object to store"""
-
-    def __init__(self, user=None, subject=None, text=None,
-                 to=[], cc=[], bcc=[], attachments=[], headers=[],
-                 thread_id=None, message_id=None, parent_message_id=None
-                 ):
-        self.from_ = user
-        self.subject = subject
-        self.text = text
-        self.to = to
-        self.cc = cc
-        self.bcc = bcc
-        self.parts = attachments
-        self.headers = headers
-        self.date = datetime.utcnow()
-        self.thread_id = thread_id
-        self.message_id = message_id
-        self.parent_message_id = parent_message_id
-        self.size = len(self.text)
-        # Populate more complex
-        self.recipients = self._extract_recipients()
-        self.users = self._resolve_users()
-
-    def _resolve_users(self):
-        """Find all users involved in this mail"""
-        find_users = []
-        for addr in self.recipients:
-            try:
-                user = User.get(addr)
-                if not user in find_users:
-                    find_users.append(user)
-            except:
-                # XXX handle NotFound only
-                pass
-        return find_users
-
-    def _extract_recipients(self):
-        return self.to + self.cc + self.bcc
-
-    def all_recipients(self):
-        return self.recipients + [self.from_]
