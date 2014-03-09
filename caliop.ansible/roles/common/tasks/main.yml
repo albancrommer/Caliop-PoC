@@ -1,5 +1,8 @@
+- name: update apt cache
+  command: apt-get update
+
 - name: ensure python-apt is installed
-  action: raw apt-get install python-apt
+  action: raw apt-get -y install python-apt
   tags: ansible
 
 - name: ensure ruby-json installed as it is required for facter
