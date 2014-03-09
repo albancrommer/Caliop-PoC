@@ -1,0 +1,10 @@
+# interfaces(5) file used by ifup(8) and ifdown(8)
+auto lo
+iface lo inet loopback
+
+# XXX we have to trust that it will be eth1 !!
+auto eth1
+iface eth1 inet static
+   address {{ private_ip_address }}
+   netmask {{ private_network_mask }}
+   gateway {{ private_network_gateway }}
