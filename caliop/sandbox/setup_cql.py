@@ -10,7 +10,7 @@ from caliop.config import Configuration
 Configuration.load('./conf.yaml', 'global')
 from caliop.store import (User, Message, Counter, Contact,
                           ContactLookup, MessagePart, MessageLookup,
-                          Thread, ThreadLookup)
+                          Thread)
 
 connection.setup(['127.0.0.1:9160'])
 
@@ -22,4 +22,3 @@ sync_table(Counter)
 sync_table(Contact)
 sync_table(ContactLookup)
 sync_table(Thread)
-sync_table(ThreadLookup)
