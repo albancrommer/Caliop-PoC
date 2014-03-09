@@ -1,0 +1,6 @@
+- hosts: cassandra
+  user: root
+  roles:
+    - common
+    - private_network
+    - cassandra
