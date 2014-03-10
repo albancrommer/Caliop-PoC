@@ -28,6 +28,8 @@ dictConfig(Configuration('global').get('logging'))
 
 connection.setup(['127.0.0.1:9160'])
 
+AVATAR_DIR = '../../caliop.ng/src/assets/images/avatars'
+
 user = sys.argv[1]
 filename = sys.argv[2]
 
@@ -64,6 +66,11 @@ for key, mail in m.iteritems():
         lookup = ContactLookup.get(user, rec)
         if not lookup:
             log.info("Creating contact %s" % rec)
-            Contact.create(user, {'mail': rec})
+            infos = {'mail': rec}
+            name, domain = rec.split('@')
+
+            if os.path.isfile('%s/%s.png' % (AVATAR_DIR, name)):
+                infos.update({'avatar': '%s.png' % name})
+            Contact.create(user, infos)
     res = agent.process(mail)
     log.info("Process result %r" % res)
