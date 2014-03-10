@@ -6,6 +6,7 @@ from cqlengine.query import DoesNotExist
 from caliop.helpers.log import log
 from caliop.core.base import AbstractCore
 from caliop.core.thread import Thread
+from caliop.core.contact import Contact
 from caliop.store import (Message as ModelMessage,
                           MessagePart as ModelMessagePart,
                           MessageLookup as ModelMessageLookup,
@@ -131,18 +132,18 @@ class Message(AbstractCore):
         return messages
 
     @classmethod
-    def to_api(cls, message):
+    def to_api(cls, user, message):
         parts = [MessagePart.get(x['id']) for x in message.parts]
         parts = sorted(parts, key=lambda x: x.position)
         text = "<br />".join([x.get_text() for x in parts])
-        log.debug('message from %r' % message.from_)
+        from_ = Contact.by_id(user, message.from_)
         data = {
             "id": message.message_id,
             "title": message.subject,
             "body": text,
             "date_sent": message.date,
             "security": message.security_level,
-            # "author": message.from_,
+            "author": from_,
             "thread_id": message.thread_id,
             # TOFIX
             "protocole": "email",
@@ -155,5 +156,5 @@ class Message(AbstractCore):
     def by_thread_id(cls, user, thread_id, sort=None):
         params = {'thread_id': thread_id}
         messages = cls._index_class.filter(user.id, params)
-        results = [cls.to_api(x) for x in messages]
+        results = [cls.to_api(user, x) for x in messages]
         return sorted(results, key=lambda x: x.get('offset', 0))
