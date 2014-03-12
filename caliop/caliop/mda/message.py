@@ -98,8 +98,8 @@ class MdaMessage(object):
                 if len(charsets) > 1:
                     raise Exception('Too many charset %r for %s' %
                                     (charsets, part.get_payload()))
-                if charsets[0] != 'utf-8':
-                    text = part.get_payload().decode(charsets[0]). \
+                if charsets[0]:
+                    text = part.get_payload().decode(charsets[0], 'replace'). \
                         encode('utf-8')
                 else:
                     text = part.get_payload()

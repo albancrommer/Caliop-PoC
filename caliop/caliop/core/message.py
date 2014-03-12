@@ -29,8 +29,10 @@ class MessagePart(AbstractCore):
         if len(charsets) != 1:
             raise Exception('Invalid number of charset for part : %r' %
                             charsets)
-        if charsets[0] and charsets[0] != 'utf-8':
-            payload = part.get_payload().decode(charsets[0]).encode('utf-8')
+        if charsets[0]:
+            payload = part.get_payload(). \
+                decode(charsets[0], 'replace'). \
+                encode('utf-8')
         else:
             payload = part.get_payload()
         part = super(MessagePart, cls).\
