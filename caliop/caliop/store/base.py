@@ -58,7 +58,7 @@ class AbstractIndex(object):
         return cls.create(user_id, id, obj)
 
     @classmethod
-    def filter(cls, user_id, params):
+    def filter(cls, user_id, params, order=None, limit=None):
         # XXX well I know this it bad, security must be considered strongly
         values = []
         for k, v in params.iteritems():
@@ -78,6 +78,12 @@ class AbstractIndex(object):
                 }
             }
         }
+        if limit:
+            query.update({
+                'from': limit.get('from', 0),
+                'size': limit.get('size', 10),
+                })
+
         route = "%s/%s/%s/_search?" % (cls.index_server_url, user_id, cls.type)
         res = requests.get(route, data=to_json(query))
         data = res.json()
