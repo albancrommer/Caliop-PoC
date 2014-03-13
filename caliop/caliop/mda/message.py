@@ -1,3 +1,5 @@
+import base64
+
 from mailbox import Message as Rfc2822
 from dateutil.parser import parse as parse_date
 from itertools import groupby
@@ -98,10 +100,12 @@ class MdaMessage(object):
                 if len(charsets) > 1:
                     raise Exception('Too many charset %r for %s' %
                                     (charsets, part.get_payload()))
+                text = part.get_payload()
+                if 'Content-Transfer-Encoding' in part.keys():
+                    if part.get('Content-Transfer-Encoding') == 'base64':
+                        text = base64.b64decode(text)
                 if charsets[0]:
                     text = part.get_payload().decode(charsets[0], 'replace'). \
                         encode('utf-8')
-                else:
-                    text = part.get_payload()
                 text_payloads.append(text)
         return '\n'.join(text_payloads)

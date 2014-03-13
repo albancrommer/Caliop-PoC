@@ -1,3 +1,4 @@
+import base64
 from datetime import datetime
 
 # XXX : define our own exceptions ?
@@ -29,12 +30,16 @@ class MessagePart(AbstractCore):
         if len(charsets) != 1:
             raise Exception('Invalid number of charset for part : %r' %
                             charsets)
+        payload = part.get_payload()
+        if 'Content-Transfer-Encoding' in part.keys() and \
+            'text' in part.get('Content-Type'):
+            if part.get('Content-Transfer-Encoding') == 'base64':
+                payload = base64.b64decode(payload)
         if charsets[0]:
-            payload = part.get_payload(). \
+            payload = payload. \
                 decode(charsets[0], 'replace'). \
                 encode('utf-8')
-        else:
-            payload = part.get_payload()
+
         part = super(MessagePart, cls).\
             create(content_type=part.get_content_type(),
                    position=position,
