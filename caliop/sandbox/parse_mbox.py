@@ -58,10 +58,15 @@ except:
 agent = DeliveryAgent()
 
 log.info("Processing mode %s" % mode)
+msgs = []
 for key, mail in m.iteritems():
     # Create contact for user
     log.info('Processing mail %s' % key)
-    msg = MdaMessage(mail)
+    msgs.append(MdaMessage(mail))
+
+msgs = sorted(msgs, key=lambda x: x.date)
+
+for msg in msgs:
     for rec in msg.all_recipients():
         lookup = ContactLookup.get(user, rec)
         if not lookup:
@@ -72,5 +77,5 @@ for key, mail in m.iteritems():
             if os.path.isfile('%s/%s.png' % (AVATAR_DIR, name)):
                 infos.update({'avatar': '%s.png' % name})
             Contact.create(user, infos)
-    res = agent.process(mail)
+    res = agent.process(msg.mail)
     log.info("Process result %r" % res)
