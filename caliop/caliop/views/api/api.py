@@ -61,6 +61,7 @@ class ThreadMessages(Api):
     def __call__(self):
         user = User.get(self.request.session['user'])
         thread_id = int(self.request.matchdict.get('thread_id'))
+
         messages = UserMessage.by_thread_id(user, thread_id)
         return Response(to_json(messages))
 
@@ -87,7 +88,10 @@ class ContactLogin(Api):
 
 
 class ContactInfo(Api):
-    filename = 'contact.json'
+
+    def __call__(self):
+        user = User.get(self.request.session['user'])
+        return Response(to_json(user.to_api()))
 
 
 class Contacts(Api):
