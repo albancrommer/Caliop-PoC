@@ -21,6 +21,9 @@ from caliop.core.message import Message as UserMessage
 from caliop.core.contact import Contact as UserContact
 
 
+DEFAULT_LIMIT = Configuration('global').get('site.item_per_page')
+
+
 class Api(object):
     filename = None
     request = None
@@ -31,6 +34,12 @@ class Api(object):
 
     def init(self):
         pass
+
+    def get_limit(self):
+        limit = {}
+        limit['size'] = self.request.matchdict.get('limit', DEFAULT_LIMIT)
+        limit['from'] = self.request.matchdict.get('from_index', 0)
+        return limit
 
     def get_path(self, **kw):
         rootpath = os.path.dirname(os.path.realpath(__file__))
@@ -43,7 +52,8 @@ class Thread(Api):
     def __call__(self):
         user = User.get(self.request.session['user'])
         thread_id = int(self.request.matchdict.get('thread_id'))
-        thread = UserThread.by_id(user, thread_id)
+        thread = UserThread.by_id(user, thread_id,
+                                  limit=self.get_limit())
         log.debug('Got thread %r' % thread)
         return Response(to_json(thread))
 
@@ -52,7 +62,7 @@ class Threads(Thread):
     def __call__(self):
         # XXX : user request session
         user = User.get(self.request.session['user'])
-        threads = UserThread.by_user(user)
+        threads = UserThread.by_user(user, limit=self.get_limit())
         return Response(to_json(threads))
 
 
@@ -61,8 +71,8 @@ class ThreadMessages(Api):
     def __call__(self):
         user = User.get(self.request.session['user'])
         thread_id = int(self.request.matchdict.get('thread_id'))
-
-        messages = UserMessage.by_thread_id(user, thread_id)
+        messages = UserMessage.by_thread_id(user, thread_id,
+                                            limit=self.get_limit())
         return Response(to_json(messages))
 
 
