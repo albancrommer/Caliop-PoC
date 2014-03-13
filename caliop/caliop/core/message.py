@@ -155,8 +155,8 @@ class Message(AbstractCore):
         return data
 
     @classmethod
-    def by_thread_id(cls, user, thread_id, sort=None):
+    def by_thread_id(cls, user, thread_id, order=None, limit=None):
         params = {'thread_id': thread_id}
-        messages = cls._index_class.filter(user.id, params)
+        messages = cls._index_class.filter(user.id, params, order, limit)
         results = [cls.to_api(user, x) for x in messages]
         return sorted(results, key=lambda x: x.get('offset', 0))
