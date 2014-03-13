@@ -128,12 +128,13 @@ class Thread(AbstractCore):
         return data
 
     @classmethod
-    def by_user(cls, user, filters=None, sort=None, limit=None):
+    def by_user(cls, user, filters=None, order=None, limit=None):
         """Fetch indexed threads for main view"""
         if not filters:
             # filters = {'tags': 'INBOX'}
             filters = {'tags': '*'}
-        threads = cls._index_class.filter(user.id, filters)
+        threads = cls._index_class.filter(user.id, filters,
+                                          order=order, limit=limit)
         # XXX : make output compatible for current API
         results = []
         for thr in threads:

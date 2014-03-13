@@ -128,9 +128,10 @@ class Message(AbstractCore):
         return msg
 
     @classmethod
-    def find(cls, user, filters, sort=None):
+    def find(cls, user, filters, order=None, limit=None):
         """Query index to get messages matching query"""
-        messages = cls._index_class.filter(user.id, filters)
+        messages = cls._index_class.filter(user.id, filters,
+                                           order=order, limit=limit)
         return messages
 
     @classmethod
@@ -157,6 +158,7 @@ class Message(AbstractCore):
     @classmethod
     def by_thread_id(cls, user, thread_id, order=None, limit=None):
         params = {'thread_id': thread_id}
-        messages = cls._index_class.filter(user.id, params, order, limit)
+        messages = cls._index_class.filter(user.id, params,
+                                           order=order, limit=limit)
         results = [cls.to_api(user, x) for x in messages]
         return sorted(results, key=lambda x: x.get('offset', 0))
