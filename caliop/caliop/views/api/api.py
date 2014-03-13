@@ -52,8 +52,7 @@ class Thread(Api):
     def __call__(self):
         user = User.get(self.request.session['user'])
         thread_id = int(self.request.matchdict.get('thread_id'))
-        thread = UserThread.by_id(user, thread_id,
-                                  limit=self.get_limit())
+        thread = UserThread.by_id(user, thread_id)
         log.debug('Got thread %r' % thread)
         return Response(to_json(thread))
 
