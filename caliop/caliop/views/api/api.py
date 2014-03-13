@@ -37,19 +37,6 @@ class Api(object):
         filename = kw.get('filename', self.filename)
         return os.path.join(rootpath, 'json', filename)
 
-    def read_json(self, **kw):
-        filename = kw.get('filename', self.filename)
-        path = self.get_path(filename=filename)
-
-        stream = open(path)
-        json_ = stream.read()
-        stream.close()
-
-        return json_
-
-    def __call__(self):
-        return Response(self.read_json())
-
 
 class Thread(Api):
 
@@ -70,7 +57,6 @@ class Threads(Thread):
 
 
 class ThreadMessages(Api):
-    filename = 'messages.json'
 
     def __call__(self):
         user = User.get(self.request.session['user'])
@@ -79,12 +65,7 @@ class ThreadMessages(Api):
         return Response(to_json(messages))
 
 
-class Messages(Api):
-    filename = 'messages.json'
-
-
 class ContactLogin(Api):
-    filename = 'contact.json'
 
     def __call__(self):
         credentials = self.request.json
