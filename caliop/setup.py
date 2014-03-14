@@ -42,8 +42,7 @@ setup(name='caliop',
       install_requires=requires,
       tests_require=requires,
       test_suite="caliop",
-      entry_points="""\
-      [paste.app_factory]
-      main = caliop:main
-      """,
-      )
+      entry_points={
+          'paste.app_factory': ['main = caliop:main'],
+          'console_scripts': 'caliop = caliop.bin.cli:main',
+      })

@@ -26,6 +26,9 @@ pyramid.includes =
 
 caliop.ng.path = ../../caliop.ng/build
 
+caliop.config =
+    global:%(here)s/caliop.yaml
+
 ###
 # wsgi server configuration
 ###
