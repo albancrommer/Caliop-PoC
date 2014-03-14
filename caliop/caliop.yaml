@@ -1,0 +1,9 @@
+index_server:
+    url: http://localhost:9200
+
+cassandra:
+    hosts:
+        - '127.0.0.1:9160'
+
+site:
+    item_per_page: 10

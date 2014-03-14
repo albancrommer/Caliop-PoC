@@ -13,6 +13,7 @@ pyramid.debug_routematch = false
 pyramid.default_locale_name = en
 pyramid.includes =
     caliop
+    caliop.core.config
     caliop.views.app
     caliop.views.api
 
@@ -25,6 +26,9 @@ pyramid.includes =
 ###
 
 caliop.ng.path = ../../caliop.ng/build
+
+caliop.config =
+    global:%(here)s/caliop.yaml
 
 ###
 # wsgi server configuration
