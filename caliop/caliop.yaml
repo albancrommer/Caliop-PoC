@@ -1,5 +1,10 @@
 index_server:
     url: http://localhost:9200
+
+cassandra:
+    hosts:
+        - '127.0.0.1:9160'
+
 logging:
     version: 1
     handlers:

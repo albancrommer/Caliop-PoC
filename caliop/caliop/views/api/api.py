@@ -4,14 +4,7 @@ import os
 
 from pyramid.response import Response
 
-# XXX a better context management
-from cqlengine import connection
 from caliop.config import Configuration
-Configuration.load(
-    './sandbox/conf.yaml',
-    'global')
-connection.setup(['127.0.0.1:9160'])
-
 from caliop.helpers.log import log
 from caliop.helpers.json import to_json
 
