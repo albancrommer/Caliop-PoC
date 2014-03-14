@@ -19,7 +19,7 @@ from caliop import includeme as include_caliop
 from caliop.core.config import includeme as include_caliop_core
 
 from caliop.bin.import_email import import_email
-
+from caliop.bin.setup_storage import setup_storage
 
 def main(args=sys.argv):
 
@@ -34,10 +34,17 @@ def main(args=sys.argv):
     sp_import.add_argument('-p', dest='import_path')
     sp_import.add_argument('-e', dest='email')
 
+    sp_setup_storage = subparsers.add_parser('setup',
+        help='initialize the storage engine')
+    sp_setup_storage.set_defaults(func=setup_storage)
+
     kwargs = parser.parse_args(args[1:])
     kwargs = vars(kwargs)
 
-    settings = get_appsettings(kwargs.pop('conffile'), u'main')
+    config_uri = kwargs.pop('conffile')
+    setup_logging(config_uri)
+
+    settings = get_appsettings(config_uri, u'main')
     # do not declare routes and others useless includes
     del settings['pyramid.includes']
 
