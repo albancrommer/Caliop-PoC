@@ -1,4 +1,4 @@
-- hosts: cassandra
+- hosts: backend
   user: root
   roles:
     - common
