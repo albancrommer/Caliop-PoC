@@ -1,6 +1,6 @@
-project_name: caliop
-project_root: /var/projects/caliop
-project_repo: https://github.com/Gandi/Caliop-PoC.git
+project_name: caliopopen
+project_root: /var/projects/caliopopen
+project_repo: https://github.com/gdchamal/Caliop-PoC.git
 system_packages:
   - sudo
   - build-essential
