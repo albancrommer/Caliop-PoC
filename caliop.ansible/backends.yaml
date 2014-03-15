@@ -4,3 +4,4 @@
     - common
     - private_network
     - cassandra
+    - elasticsearch
