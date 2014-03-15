@@ -1,7 +1,7 @@
 ---
 
 - name: Pull sources from the repository.
-  git: repo={{project_repo}} dest={{ project_root }}/code/ version=${branch}
+  git: repo={{project_repo}} dest={{ project_root }}/code/ version={{ git_branch }}
   sudo: true
   sudo_user: "{{ project_name }}"
   #notify:
