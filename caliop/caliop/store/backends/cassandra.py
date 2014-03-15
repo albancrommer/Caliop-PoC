@@ -18,6 +18,13 @@ class Counter(Model):
     thread_id = columns.Counter()
 
 
+class Tag(Model):
+    user_id = columns.Text(primary_key=True)
+    label = columns.Text(primary_key=True)
+    background = columns.Text()
+    color = columns.Text()
+
+
 class Contact(Model):
     user_id = columns.Text(primary_key=True)
     id = columns.UUID(primary_key=True, default=uuid.uuid4)

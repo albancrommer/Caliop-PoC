@@ -3,13 +3,25 @@ from datetime import datetime
 
 from caliop.core.base import AbstractCore
 from caliop.core.contact import ContactLookup
-from caliop.store import User as ModelUser, Counter as ModelCounter, UserIndex
+from caliop.store import (User as ModelUser,
+                          Tag as ModelTag,
+                          Counter as ModelCounter,
+                          UserIndex)
 
 
 class Counter(AbstractCore):
 
     _model_class = ModelCounter
     _pkey_name = 'user_id'
+
+
+class Tag(AbstractCore):
+
+    _model_class = ModelTag
+
+    @classmethod
+    def get(cls, user, id):
+        return cls(cls._model_class.get(user_id=user.id, label=id))
 
 
 class User(AbstractCore):
@@ -61,6 +73,10 @@ class User(AbstractCore):
             'last_name': self.last_name,
             'date_created': self.date_insert,
         }
+
+    def tags(self):
+        objs = self._model_class.objects.filter(user_id=self.id)
+        return [Tag(x) for x in objs]
 
 
 class UserMessage(object):
