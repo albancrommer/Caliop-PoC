@@ -3,4 +3,5 @@
   user: root
   roles:
     - common
+    - private_network
     - web
