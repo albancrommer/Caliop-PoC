@@ -15,7 +15,7 @@
 # limitations under the License.
 
 # Cassandra Node IP=Data Center:Rack
-{% for host in groups['cassandra'] %}
+{% for host in groups['backend'] %}
 {{ hostvars[host]['private_ip_address'] }}={{ hostvars[host]['datacenter'] }}:{{ hostvars[host]['rack'] }}
 {% endfor %}
 
