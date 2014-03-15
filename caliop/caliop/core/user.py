@@ -1,6 +1,8 @@
 import bcrypt
 from datetime import datetime
 
+from caliop.helpers.config import Configuration
+
 from caliop.core.base import AbstractCore
 from caliop.core.contact import ContactLookup
 from caliop.store import (User as ModelUser,
@@ -36,6 +38,10 @@ class User(AbstractCore):
         user = super(User, cls).create(**kwargs)
         # Create counters
         Counter.create(user_id=user.id)
+        # Create default tags
+        default_tags = Configuration('global').get('system.default_tags')
+        for tag in default_tags:
+            Tag.create(user_id=user.id, **tag)
         # Create index
         UserIndex.create(user)
         return user
