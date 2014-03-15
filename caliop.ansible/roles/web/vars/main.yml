@@ -12,6 +12,7 @@ system_packages:
   - python-setuptools
   - python-pycurl
   - curl
+  - libffi-dev
 python_packages:
   - pip
   - virtualenv
