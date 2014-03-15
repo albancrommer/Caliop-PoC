@@ -19,7 +19,7 @@
   sudo_user: "{{ project_name }}"
 
 - name: python setup.py develop caliop
-  raw: cd {{ project_root }} && source env/bin/activate && cd code/{{ project_name }} && python setup.py develop
+  raw: cd {{ project_root }} && source env/bin/activate && cd code/{{ project_basedir }} && python setup.py develop
   sudo: true
   sudo_user: "{{ project_name }}"
 
@@ -39,12 +39,12 @@
 #  sudo_user: "{{ project_name }}"
 
 - name: grunt compile for angularjs app
-  command: grunt compile chdir={{ project_root }}/code/caliop.ng
+  command: grunt compile chdir={{ project_root }}/code/{{ project_basedir }}.ng
   sudo: true
   sudo_user: "{{ project_name }}"
 
 - name: deploy pserve configuration script
-  template: src=production.ini.j2 dest={{ project_root }}/code/{{ project_name }}/production.ini
+  template: src=production.ini.j2 dest={{ project_root }}/code/{{ project_basedir }}/production.ini
   sudo: true
   sudo_user: "{{ project_name }}"
 

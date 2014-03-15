@@ -4,7 +4,7 @@
 ###
 
 [app:main]
-use = egg:{{ project_name }}
+use = egg:{{ project_basedir }}
 
 pyramid.reload_templates = false
 pyramid.debug_authorization = false
@@ -12,15 +12,15 @@ pyramid.debug_notfound = false
 pyramid.debug_routematch = false
 pyramid.default_locale_name = en
 pyramid.includes =
-    {{ project_name }}
-    {{ project_name }}.views.app
-    {{ project_name }}.views.api
+    {{ project_basedir }}
+    {{ project_basedir }}.views.app
+    {{ project_basedir }}.views.api
 
 ###
 # Angular app settings.
 ###
 
-{{ project_name }}.ng.path = ../../{{ project_name }}.ng/bin
+{{ project_basedir }}.ng.path = ../../{{ project_basedir }}.ng/bin
 
 ###
 # wsgi server configuration
@@ -37,7 +37,7 @@ port = 6543
 ###
 
 [loggers]
-keys = root, {{ project_name }}
+keys = root, {{ project_basedir }}
 
 [handlers]
 keys = console
@@ -49,10 +49,10 @@ keys = generic
 level = WARN
 handlers = console
 
-[logger_{{ project_name }}]
+[logger_{{ project_basedir }}]
 level = WARN
 handlers =
-qualname = {{ project_name }}
+qualname = {{ project_basedir }}
 
 [handler_console]
 class = StreamHandler

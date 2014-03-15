@@ -6,4 +6,4 @@ source $BASEDIR/env/bin/activate
 
 cd $BASEDIR/code/caliop
 
-pserve --daemon --log-file {{ project_root }}/pserve.log production.ini &
+pserve --daemon --log-file {{ project_basedir }}/pserve.log production.ini &
