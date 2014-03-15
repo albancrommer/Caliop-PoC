@@ -13,6 +13,7 @@ pyramid.debug_routematch = false
 pyramid.default_locale_name = en
 pyramid.includes =
     {{ project_basedir }}
+    {{ project_basedir }}.core.config
     {{ project_basedir }}.views.app
     {{ project_basedir }}.views.api
 
@@ -21,7 +22,8 @@ pyramid.includes =
 ###
 
 {{ project_basedir }}.ng.path = ../../{{ project_basedir }}.ng/bin
-
+{{ project_basedir }}.config =
+    global:%(here)s/{{ project_basedir }}.yaml
 ###
 # wsgi server configuration
 ###

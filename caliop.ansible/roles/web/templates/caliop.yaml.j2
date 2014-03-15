@@ -1,0 +1,10 @@
+index_server:
+    url: http://{{ index_server_url }}
+
+cassandra:
+    hosts:
+{% for host in groups['backends'] %}
+        - {{ hostvars[host]['private_ip_address'] }}:9160
+{% endfor %}
+site:
+    item_per_page: 10

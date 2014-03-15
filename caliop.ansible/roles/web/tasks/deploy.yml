@@ -23,6 +23,11 @@
   sudo: true
   sudo_user: "{{ project_name }}"
 
+- name: configure caliop
+  template: src={{ project_basedir }}.yaml.j2 dest={{ project_root }}/code/{{ project_basedir}}/{{ project_basedir}}.yaml
+  sudo: true
+  sudo_user: "{{ project_name }}"
+
 - name: npm install for angularjs app
   command: npm install chdir={{ project_root }}/code/caliop.ng
   sudo: true
