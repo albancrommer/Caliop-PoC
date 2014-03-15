@@ -29,7 +29,7 @@
 
 # DO NOT WORK, maybe a stdin/out problem on curl
 #- name: install npm
-#  command: curl https://npmjs.org/install.sh | sh
+#  command: curl https://www.npmjs.org/install.sh | sh
 
 - name: install nodejs modules with npm
   npm: name={{item}} state=present global=yes
