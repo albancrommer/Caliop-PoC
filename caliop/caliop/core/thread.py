@@ -85,6 +85,8 @@ class Thread(AbstractCore):
 
     @classmethod
     def expand_tags(self, user, tags):
+        if not tags:
+            return []
         user_tags = dict((x.label, x) for x in user.tags)
         results = []
         for tag in tags:
