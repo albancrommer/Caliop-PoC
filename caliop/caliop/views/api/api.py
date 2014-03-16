@@ -1,5 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 
+from datetime import datetime
+
 from pyramid.response import Response
 from cornice.resource import resource
 
@@ -7,10 +9,10 @@ from caliop.config import Configuration
 from caliop.helpers.log import log
 from caliop.helpers.json import to_json
 
-from caliop.core.user import User
+from caliop.core.user import User, UserMessage
 from caliop.core.thread import Thread as UserThread
-from caliop.core.message import Message as UserMessage
-from caliop.core.contact import Contact as UserContact
+from caliop.core.message import (Message as CMessage, BaseMessage)
+from caliop.core.contact import Contact as UserContact, Recipient
 
 
 DEFAULT_LIMIT = Configuration('global').get('site.item_per_page')
@@ -65,11 +67,56 @@ class Message(Api):
         self.request = request
         self.user = self.check_user()
 
+    def extract_recipients(self):
+        """Get recipients from request"""
+        recipients = {}
+        for rec_type in ['to_recipients', 'cc_recipients', 'bcc_recipients']:
+            addrs = []
+            for rec in self.request.json.get(rec_type, []):
+                addrs.append((rec['contact'], rec['address']))
+            recipients[rec_type] = addrs
+        recipients['from'] = [(self.user.id, self.user.id)]
+        return recipients
+
     def collection_get(self):
         thread_id = int(self.request.matchdict.get('thread_id'))
-        messages = UserMessage.by_thread_id(self.user, thread_id,
-                                            limit=get_limit(self.request))
+        messages = CMessage.by_thread_id(self.user, thread_id,
+                                         limit=get_limit(self.request))
         return Response(to_json(messages))
+
+    def collection_post(self):
+        thread_id = int(self.request.matchdict.get('thread_id'))
+        reply_to = self.request.json.get('reply_to')
+        if reply_to:
+            parent = CMessage.get(self.user, reply_to)
+            parent_message_id = parent.external_id
+            thread_id = parent.thread_id
+            sec_level = parent.security_level
+        else:
+            parent_message_id = None
+            thread_id = None
+            # XXX : how to compute ?
+            sec_level = 0
+        recipients = self.extract_recipients()
+        # XXX : make recipient for UserMessage using Recipient class
+        print "Recipients %r" % recipients
+        subject = self.request.json.get('subject')
+        text = self.request.json.get('text')
+        tags = self.request.json.get('tags', [])
+        base_msg = BaseMessage(recipients,
+                               subject=subject,
+                               text=text, tags=tags,
+                               date=datetime.utcnow(),
+                               security_level=sec_level,
+                               thread_id=thread_id,
+                               parent_message_id=parent_message_id)
+        user_msg = UserMessage(self.user, base_msg, sec_level,
+                               [], tags, [])
+        msg = CMessage.from_user_message(user_msg)
+        idx_msg = CMessage.by_id(self.user, msg.message_id)
+        log.info('Post new message %r' % msg.message_id)
+        # XXX return redirect to newly created message ?
+        return Response(to_json(idx_msg))
 
 
 @resource(collection_path=make_url('/contacts'),
