@@ -41,8 +41,9 @@ class Thread(AbstractCore):
                 'date_update': datetime.utcnow(),
             }
             if message.contacts:
+                contacts = [x.contact.contact_id for x in message.contacts]
                 index_data.update({
-                    'contacts': [x.id for x in message.contacts]
+                    'contacts': contacts,
                 })
             if message.tags:
                 index_data.update({'tags': message.tags})
@@ -59,7 +60,7 @@ class Thread(AbstractCore):
                 'date_insert': thread.date_insert,
                 'date_update': datetime.utcnow(),
                 'slug': message.text[:200],
-                'contacts': [x.contact_id for x in message.contacts],
+                'contacts': [x.contact.contact_id for x in message.contacts],
             }
             if message.tags:
                 index_data.update({'tags': message.tags})
