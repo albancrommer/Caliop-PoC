@@ -29,18 +29,23 @@ def get_limit(request):
     return limit
 
 
-def check_user(request):
-    # XXX : use a validator and do a real check
-    return User.get(request.session['user'])
+class Api(object):
+    """Base class for all Api"""
+
+    def __init__(self, request):
+        self.request = request
+
+    def check_user(self):
+        return User.get(self.request.session['user'])
 
 
 @resource(collection_path=make_url('/threads'),
           path=make_url('/threads/{thread_id}'))
-class Thread(object):
+class Thread(Api):
 
     def __init__(self, request):
         self.request = request
-        self.user = check_user(request)
+        self.user = self.check_user()
 
     def collection_get(self):
         threads = UserThread.by_user(self.user, limit=get_limit(self.request))
@@ -54,11 +59,11 @@ class Thread(object):
 
 @resource(collection_path=make_url('/threads/{thread_id}/messages'),
           path=make_url('/threads/{thread_id}/messages/{message_id}'))
-class Message(object):
+class Message(Api):
 
     def __init__(self, request):
         self.request = request
-        self.user = check_user(request)
+        self.user = self.check_user()
 
     def collection_get(self):
         thread_id = int(self.request.matchdict.get('thread_id'))
@@ -69,11 +74,11 @@ class Message(object):
 
 @resource(collection_path=make_url('/contacts'),
           path=make_url('/contacts/{contact_id'))
-class Contact(object):
+class Contact(Api):
 
     def __init__(self, request):
         self.request = request
-        self.user = check_user(request)
+        self.user = self.check_user()
 
     def contact_link(self, contact):
         name = None
@@ -98,12 +103,6 @@ class Contact(object):
 
 
 # XXX XXX XXX XXX Should not be here !!!!
-class Api(object):
-
-    def __init__(self, request):
-        self.request = request
-
-
 class ContactLogin(Api):
 
     def __call__(self):
