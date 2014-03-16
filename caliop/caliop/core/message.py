@@ -162,6 +162,11 @@ class Message(AbstractCore):
         return data
 
     @classmethod
+    def by_id(cls, user, message_id):
+        msg = cls._index_class.get(user.id, message_id)
+        return cls.to_api(user, msg)
+
+    @classmethod
     def by_thread_id(cls, user, thread_id, order=None, limit=None):
         params = {'thread_id': thread_id}
         messages = cls._index_class.filter(user.id, params,
