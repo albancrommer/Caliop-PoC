@@ -100,13 +100,12 @@ class UserMessage(object):
     def __init__(self, user, message, security_level, recipients, tags, parts):
         self.user = user
         self.subject = message.subject
-        self.message = message
         self.security_level = security_level
         self.recipients = recipients
         self.tags = tags
         self.parts = parts
-        self.external_message_id = self.message.message_id
-        self.external_parent_id = self.message.parent_message_id
+        self.external_message_id = message.message_id
+        self.external_parent_id = message.parent_message_id
         from_addr = message.recipients['from'][0]
         self.contact_from = ContactLookup.get(user, from_addr[0])
         self.text = message.text
