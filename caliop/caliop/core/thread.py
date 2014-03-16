@@ -119,4 +119,5 @@ class Thread(AbstractCore):
     def by_id(cls, user, thread_id):
         thread = cls._index_class.get(user.id, thread_id)
         recipients = cls.expand_contacts(user, thread.contacts)
-        return cls.to_api(thread, recipients)
+        tags = cls.expand_tags(user, thread.tags)
+        return cls.to_api(thread, recipients, tags)

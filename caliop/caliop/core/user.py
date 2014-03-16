@@ -90,7 +90,7 @@ class User(AbstractCore):
 
     @property
     def tags(self):
-        objs = self._model_class.objects.filter(user_id=self.id)
+        objs = Tag._model_class.objects.filter(user_id=self.id)
         return [Tag(x) for x in objs]
 
 
