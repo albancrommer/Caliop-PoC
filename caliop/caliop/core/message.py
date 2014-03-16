@@ -104,6 +104,7 @@ class Message(AbstractCore):
                          message_id=message_id,
                          thread_id=thread.thread_id,
                          date_insert=datetime.utcnow(),
+                         security_level=message.security_level,
                          external_message_id=message.external_message_id,
                          external_parent_id=parent_id,
                          parts=parts_id,

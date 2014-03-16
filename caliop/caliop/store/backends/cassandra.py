@@ -49,6 +49,7 @@ class Thread(Model):
     user_id = columns.Text(primary_key=True)
     thread_id = columns.Integer(primary_key=True)  # counter.thread_id
     date_insert = columns.DateTime()
+    security_level = columns.Integer()
 
 
 class Message(Model):
@@ -56,6 +57,7 @@ class Message(Model):
     message_id = columns.Integer(primary_key=True)  # counter.message_id
     thread_id = columns.Integer()                   # counter.thread_id
     date_insert = columns.DateTime()
+    security_level = columns.Integer()
     external_message_id = columns.Text()
     external_parent_id = columns.Text()
     parts = columns.List(columns.UUID)

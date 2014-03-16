@@ -7,9 +7,6 @@ from caliop.core.base import AbstractCore
 from caliop.core.contact import Contact
 from caliop.store import Thread as ModelThread, IndexedThread
 
-# XXX temporary
-import random
-
 
 class Thread(AbstractCore):
 
@@ -32,6 +29,10 @@ class Thread(AbstractCore):
             # Existing thread
             thread = cls.get(message.user, lookup.thread_id)
             log.debug('Get thread %s' % lookup.thread_id)
+            if message.security_level < thread.security_level:
+                # XXX : use min value, is it correct ?
+                thread.security_level = message.security_level
+                thread.save()
             index = cls._index_class.get(message.user.id, lookup.thread_id)
             if not index:
                 log.error('Index not found for thread %s' % lookup.thread_id)
@@ -39,6 +40,7 @@ class Thread(AbstractCore):
             index_data = {
                 'slug': message.text[:200],
                 'date_update': datetime.utcnow(),
+                'security_level': thread.security_level,
             }
             if message.contacts:
                 contacts = [x.contact.contact_id for x in message.contacts]
@@ -52,13 +54,16 @@ class Thread(AbstractCore):
         else:
             # Create new thread
             new_id = message.user.new_thread_id()
-            thread = cls.create(user_id=message.user.id, thread_id=new_id,
-                                date_insert=datetime.utcnow())
+            thread = cls.create(user_id=message.user.id,
+                                thread_id=new_id,
+                                date_insert=datetime.utcnow(),
+                                security_level=message.security_level)
             log.debug('Created thread %s' % thread.thread_id)
             index_data = {
                 'thread_id': thread.thread_id,
                 'date_insert': thread.date_insert,
                 'date_update': datetime.utcnow(),
+                'security_level': message.security_level,
                 'slug': message.text[:200],
                 'contacts': [x.contact.contact_id for x in message.contacts],
             }
@@ -96,7 +101,7 @@ class Thread(AbstractCore):
             'text': thread.slug,
             'recipients': recipients,
             'labels': [x.to_api() for x in tags],
-            'security': random.randint(20, 100),
+            'security': thread.security_level,
         }
         return data
 

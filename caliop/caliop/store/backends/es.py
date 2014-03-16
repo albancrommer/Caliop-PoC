@@ -59,6 +59,6 @@ class IndexedThread(AbstractIndex, TagMixin):
     """Thread from index server"""
 
     columns = ['thread_id', 'date_insert', 'date_update',
-               'slug', 'tags', 'contacts']
+               'security_level', 'slug', 'tags', 'contacts']
 
     type = 'threads'
