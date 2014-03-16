@@ -167,6 +167,12 @@ class Message(AbstractCore):
         return cls.to_api(user, msg)
 
     @classmethod
+    def index_by_id(cls, user_id, message_id):
+        # XXX : bad design on by_id methods (all objects) make this
+        # necessary, TOREMOVE later
+        return cls._index_class.get(user_id, message_id)
+
+    @classmethod
     def by_thread_id(cls, user, thread_id, order=None, limit=None):
         params = {'thread_id': thread_id}
         messages = cls._index_class.filter(user.id, params,
