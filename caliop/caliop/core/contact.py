@@ -66,3 +66,11 @@ class Contact(AbstractCore):
             "avatar": self.infos.get('avatar', 'avatar.png'),
             "date_created": self.date_insert,
         }
+
+
+class Recipient(object):
+    """Store a contact reference and one of it's address used in a message"""
+
+    def __init__(self, contact, address):
+        self.contact = contact
+        self.address = address

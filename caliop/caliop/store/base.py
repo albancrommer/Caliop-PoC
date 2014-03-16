@@ -82,7 +82,7 @@ class AbstractIndex(object):
             query.update({
                 'from': limit.get('from', 0),
                 'size': limit.get('size', 10),
-                })
+            })
 
         route = "%s/%s/%s/_search?" % (cls.index_server_url, user_id, cls.type)
         res = requests.get(route, data=to_json(query))
@@ -132,7 +132,7 @@ class MailIndexMessage(BaseIndexMessage):
         self.date_insert = datetime.utcnow()
         self._parse_message(message)
         self._parse_parts(message.parts)
-        self.contacts = [x.contact_id for x in message.contacts]
+        self.contacts = [(x.contact_id, y) for x, y in message.contacts]
         self.tags = message.tags
 
     def _parse_message(self, message):

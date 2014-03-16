@@ -70,7 +70,7 @@ class MdaMessage(object):
     def _resolve_users(self):
         """Find all users involved in this mail"""
         find_users = []
-        for addr in self.recipients:
+        for addr, real_addr in self.recipients:
             try:
                 user = User.get(addr)
                 if not user in find_users:

@@ -10,4 +10,4 @@ def clean_email_address(addr):
     if '+' in name:
         name, ext = name.split('+', 2)
     # unicode everywhere
-    return u'%s@%s' % (name, domain)
+    return (u'%s@%s' % (name, domain), email)

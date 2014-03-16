@@ -107,7 +107,7 @@ class UserMessage(object):
         self.parts = parts
         self.external_message_id = self.message.message_id
         self.external_parent_id = self.message.parent_message_id
-        self.contact_from = ContactLookup.get(user, message.from_)
+        self.contact_from = ContactLookup.get(user, message.from_[0])
         self.text = message.text
         self.date = message.date
         self.size = message.size
