@@ -1,5 +1,5 @@
 from caliop.helpers.log import log
-from caliop.mda.message import MdaMessage
+from caliop.smtp.message import MdaMessage
 from caliop.core.user import UserMessage
 from caliop.core.message import Message, MessagePart
 from caliop.core.contact import ContactLookup, Recipient

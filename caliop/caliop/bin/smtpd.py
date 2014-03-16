@@ -6,7 +6,7 @@ Configuration.load('./tmp/conf.yaml', 'global')
 connection.setup(['127.0.0.1:9160'])
 
 from caliop.helpers.log import log
-from caliop.mda.agent import DeliveryAgent
+from caliop.smtp.agent import DeliveryAgent
 
 
 class SmtpServer(SMTPServer):

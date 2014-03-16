@@ -6,7 +6,7 @@ from caliop.config import Configuration
 Configuration.load('./tmp/conf.yaml', 'global')
 connection.setup(['127.0.0.1:9160'])
 
-from caliop.mda.agent import DeliveryAgent
+from caliop.smtp.agent import DeliveryAgent
 
 
 if __name__ == '__main__':
