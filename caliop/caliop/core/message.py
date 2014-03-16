@@ -168,3 +168,27 @@ class Message(AbstractCore):
                                            order=order, limit=limit)
         results = [cls.to_api(user, x) for x in messages]
         return sorted(results, key=lambda x: x.get('offset', 0))
+
+
+class BaseMessage(object):
+    """Base object to store"""
+
+    def __init__(self, recipients, subject=None, text=None,
+                 tags=[], security_level=0, date=None,
+                 attachments=[], headers=[],
+                 thread_id=None, message_id=None, parent_message_id=None,
+                 external_message_id=None
+                 ):
+        self.recipients = recipients
+        self.subject = subject
+        self.text = text
+        self.tags = tags
+        self.security_level = security_level
+        self.date = date
+        self.parts = attachments
+        self.headers = headers
+        self.thread_id = thread_id
+        self.message_id = message_id
+        self.parent_message_id = parent_message_id
+        self.external_message_id = external_message_id
+        self.size = len(self.text)
