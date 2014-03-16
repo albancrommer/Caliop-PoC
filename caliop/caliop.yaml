@@ -2,6 +2,7 @@ index_server:
     url: http://localhost:9200
 
 cassandra:
+    keyspace: caliop
     hosts:
         - '127.0.0.1:9160'
 

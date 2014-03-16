@@ -2,8 +2,16 @@ import uuid
 from cqlengine import columns
 from cqlengine.models import Model
 
+from caliop.helpers.config import Configuration
 
-class User(Model):
+
+class BaseModel(Model):
+
+    __abstract__ = True
+    __keyspace__ = Configuration('global').get('cassandra.keyspace')
+
+
+class User(BaseModel):
     id = columns.Text(primary_key=True)
     password = columns.Text(required=True)
     date_insert = columns.DateTime()
@@ -12,20 +20,20 @@ class User(Model):
     params = columns.Map(columns.Text, columns.Text)
 
 
-class Counter(Model):
+class Counter(BaseModel):
     user_id = columns.Text(primary_key=True)
     message_id = columns.Counter()
     thread_id = columns.Counter()
 
 
-class Tag(Model):
+class Tag(BaseModel):
     user_id = columns.Text(primary_key=True)
     label = columns.Text(primary_key=True)
     background = columns.Text()
     color = columns.Text()
 
 
-class Contact(Model):
+class Contact(BaseModel):
     user_id = columns.Text(primary_key=True)
     id = columns.UUID(primary_key=True, default=uuid.uuid4)
     first_name = columns.Text()
@@ -37,14 +45,14 @@ class Contact(Model):
     infos = columns.Map(columns.Text, columns.Text)
 
 
-class ContactLookup(Model):
+class ContactLookup(BaseModel):
     """Lookup any information needed to recognize a user contact"""
     user_id = columns.Text(primary_key=True)
     value = columns.Text(primary_key=True)
     contact_id = columns.UUID()
 
 
-class Thread(Model):
+class Thread(BaseModel):
     # XXX threading simplest model, most data are only in index
     user_id = columns.Text(primary_key=True)
     thread_id = columns.Integer(primary_key=True)  # counter.thread_id
@@ -52,7 +60,7 @@ class Thread(Model):
     security_level = columns.Integer()
 
 
-class Message(Model):
+class Message(BaseModel):
     user_id = columns.Text(primary_key=True)
     message_id = columns.Integer(primary_key=True)  # counter.message_id
     thread_id = columns.Integer()                   # counter.thread_id
@@ -64,7 +72,7 @@ class Message(Model):
     tags = columns.List(columns.Text)
 
 
-class MessagePart(Model):
+class MessagePart(BaseModel):
     id = columns.UUID(primary_key=True, default=uuid.uuid4)
     position = columns.Integer()
     content_type = columns.Text()
@@ -76,7 +84,7 @@ class MessagePart(Model):
     users = columns.Map(columns.Text, columns.Integer)
 
 
-class MessageLookup(Model):
+class MessageLookup(BaseModel):
     """Reverse index for external message id"""
     user_id = columns.Text(primary_key=True)
     external_id = columns.Text(primary_key=True)
@@ -85,7 +93,7 @@ class MessageLookup(Model):
     offset = columns.Integer()
 
 
-class RRule(Model):
+class RRule(BaseModel):
     """Recurrence Rule"""
     user_id = columns.Text(primary_key=True)    # partition key
     id = columns.UUID(primary_key=True, default=uuid.uuid4)
@@ -95,7 +103,7 @@ class RRule(Model):
     events = columns.List(columns.UUID)
 
 
-class Event(Model):
+class Event(BaseModel):
     user_id = columns.Text(primary_key=True)    # partition key
     id = columns.UUID(primary_key=True, default=uuid.uuid4)
     date_start = columns.DateTime()
