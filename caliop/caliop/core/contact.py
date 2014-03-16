@@ -71,6 +71,14 @@ class Contact(AbstractCore):
 class Recipient(object):
     """Store a contact reference and one of it's address used in a message"""
 
-    def __init__(self, contact, address):
+    def __init__(self, contact, address, type='to'):
         self.contact = contact
         self.address = address
+        self.type = type
+
+    def to_dict(self):
+        return {
+            'contact': self.contact.contact_id,
+            'type': self.type,
+            'address': self.address,
+        }

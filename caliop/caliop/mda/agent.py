@@ -13,11 +13,12 @@ class DeliveryAgent(object):
     def _resolve_user_contacts(self, user, msg):
         """Find all contacts known in the mail"""
         contacts = []
-        for addr, real_addr in msg.all_recipients():
-            if addr != user.id:
-                log.debug('Try to resolve contact %s' % addr)
-                contact = ContactLookup.get(user, addr)
-                contacts.append(Recipient(contact, real_addr))
+        for type, recips in msg.recipients.iteritems():
+            for addr, real_addr in recips:
+                if addr != user.id:
+                    log.debug('Try to resolve contact %s' % addr)
+                    contact = ContactLookup.get(user, addr)
+                    contacts.append(Recipient(contact, real_addr, type))
         return contacts
 
     def _get_tags(self, user, mail):

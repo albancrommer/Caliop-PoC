@@ -14,7 +14,7 @@ class MdaMessage(object):
     resolve all recipients emails, users and parts
     """
 
-    recipient_headers = ['To', 'Cc', 'Bcc', 'X-Original-To']
+    recipient_headers = ['From', 'To', 'Cc', 'Bcc', 'X-Original-To']
 
     def __init__(self, raw):
         try:
@@ -34,7 +34,6 @@ class MdaMessage(object):
             self.parts = []
         self.subject = self.mail.get('Subject')
         self.text = self._decode_text_payload()
-        self.from_ = clean_email_address(self.mail.get('From'))
         self.date = parse_date(self.mail.get('Date'))
         # will be converted as external_id
         self.message_id = self.mail.get('Message-Id')
@@ -42,14 +41,18 @@ class MdaMessage(object):
         self.size = len(self.mail.get_payload())
 
     def _extract_recipients(self):
-        addrs = []
+        recip = {}
         for header in self.recipient_headers:
+            addrs = []
+            recipient_type = header.lower()
             if self.mail.get(header):
                 if ',' in self.mail.get(header):
                     addrs.extend(self.mail.get(header).split(','))
                 else:
                     addrs.append(self.mail.get(header))
-        return [clean_email_address(x) for x in addrs]
+            addrs = [clean_email_address(x) for x in addrs]
+            recip[recipient_type] = addrs
+        return recip
 
     def _extract_headers(self):
         """Duplicate on headers exists, group them by name
@@ -64,20 +67,18 @@ class MdaMessage(object):
             headers[k] = [x[1] for x in g]
         return headers
 
-    def all_recipients(self):
-        return self.recipients + [self.from_]
-
     def _resolve_users(self):
         """Find all users involved in this mail"""
         find_users = []
-        for addr, real_addr in self.recipients:
-            try:
-                user = User.get(addr)
-                if not user in find_users:
-                    find_users.append(user)
-            except:
-                # XXX handle NotFound only
-                pass
+        for type, recip in self.recipients.iteritems():
+            for addr, real_addr in recip:
+                try:
+                    user = User.get(addr)
+                    if not user in find_users:
+                        find_users.append(user)
+                except:
+                    # XXX handle NotFound only
+                    pass
         return find_users
 
     def _extract_parts(self):
