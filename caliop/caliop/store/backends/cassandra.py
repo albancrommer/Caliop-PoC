@@ -57,7 +57,7 @@ class Message(Model):
     thread_id = columns.Integer()                   # counter.thread_id
     date_insert = columns.DateTime()
     external_message_id = columns.Text()
-    external_thread_id = columns.Text()
+    external_parent_id = columns.Text()
     parts = columns.List(columns.UUID)
     tags = columns.List(columns.Text)
 

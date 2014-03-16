@@ -87,14 +87,14 @@ class Message(AbstractCore):
     @classmethod
     def from_user_message(cls, message):
         # Lookup by external_id
-        external_id = message.external_thread_id
+        parent_id = message.external_parent_id
         message_id = message.user.new_message_id()
         parts_id = [x.id for x in message.parts]
         lookup = None
-        if external_id:
+        if parent_id:
             log.debug('Lookup message %s for %s' %
-                      (external_id, message.user.id))
-            lookup = MessageLookup.get(message.user, external_id)
+                      (parent_id, message.user.id))
+            lookup = MessageLookup.get(message.user, parent_id)
         answer_to = lookup.message_id if lookup else None
 
         # Create or update thread
@@ -105,7 +105,7 @@ class Message(AbstractCore):
                          thread_id=thread.thread_id,
                          date_insert=datetime.utcnow(),
                          external_message_id=message.external_message_id,
-                         external_thread_id=message.external_thread_id,
+                         external_parent_id=parent_id,
                          parts=parts_id,
                          tags=message.tags)
 
