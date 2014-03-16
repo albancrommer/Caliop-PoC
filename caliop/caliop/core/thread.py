@@ -42,8 +42,10 @@ class Thread(AbstractCore):
                 'date_update': datetime.utcnow(),
                 'security_level': thread.security_level,
             }
-            if message.contacts:
-                contacts = [x.contact.contact_id for x in message.contacts]
+            if message.recipients:
+                contacts = []
+                for rec in message.recipients:
+                    contacts.append((rec.contact.contact_id, rec.address))
                 index_data.update({
                     'contacts': contacts,
                 })
@@ -59,13 +61,16 @@ class Thread(AbstractCore):
                                 date_insert=datetime.utcnow(),
                                 security_level=message.security_level)
             log.debug('Created thread %s' % thread.thread_id)
+            contacts = []
+            for rec in message.recipients:
+                contacts.append((rec.contact.contact_id, rec.address))
             index_data = {
                 'thread_id': thread.thread_id,
                 'date_insert': thread.date_insert,
                 'date_update': datetime.utcnow(),
                 'security_level': message.security_level,
                 'slug': message.text[:200],
-                'contacts': [x.contact.contact_id for x in message.contacts],
+                'contacts': contacts,
             }
             if message.tags:
                 index_data.update({'tags': message.tags})
@@ -78,7 +83,7 @@ class Thread(AbstractCore):
     @classmethod
     def expand_contacts(self, user, contacts):
         results = []
-        for contact in contacts:
+        for contact, addr in contacts:
             results.append(Contact.by_id(user, contact))
         return results
 

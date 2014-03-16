@@ -132,7 +132,7 @@ class MailIndexMessage(BaseIndexMessage):
         self.date_insert = datetime.utcnow()
         self._parse_message(message)
         self._parse_parts(message.parts)
-        cts = [(x.contact.contact_id, x.address) for x in message.contacts]
+        cts = [(x.contact.contact_id, x.address) for x in message.recipients]
         self.contacts = cts
         self.tags = message.tags
 

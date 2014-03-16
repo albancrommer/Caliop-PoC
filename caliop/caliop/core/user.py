@@ -97,12 +97,12 @@ class User(AbstractCore):
 class UserMessage(object):
     """Class to use for creating thread and message in store"""
 
-    def __init__(self, user, message, security_level, contacts, tags, parts):
+    def __init__(self, user, message, security_level, recipients, tags, parts):
         self.user = user
         self.subject = message.subject
         self.message = message
         self.security_level = security_level
-        self.contacts = contacts
+        self.recipients = recipients
         self.tags = tags
         self.parts = parts
         self.external_message_id = self.message.message_id
