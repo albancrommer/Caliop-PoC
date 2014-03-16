@@ -25,6 +25,14 @@ class Tag(AbstractCore):
     def get(cls, user, id):
         return cls(cls._model_class.get(user_id=user.id, label=id))
 
+    def to_api(self):
+        return {
+            'id': 1,    # TOFIX
+            'label': self.label,
+            'background': self.background,
+            'color': self.color,
+        }
+
 
 class User(AbstractCore):
 
@@ -80,6 +88,7 @@ class User(AbstractCore):
             'date_created': self.date_insert,
         }
 
+    @property
     def tags(self):
         objs = self._model_class.objects.filter(user_id=self.id)
         return [Tag(x) for x in objs]

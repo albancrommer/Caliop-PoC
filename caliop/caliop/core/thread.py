@@ -10,45 +10,6 @@ from caliop.store import Thread as ModelThread, IndexedThread
 # XXX temporary
 import random
 
-TAGS = {
-    'INBOX': {
-        "id": 1,
-        "label": "Inbox",
-        "background": "#ed8484",
-        "color": "green"
-    },
-    'IMPORTANT': {
-        "id": 2,
-        "label": "Important",
-        "background": "#6553cc",
-        "color": "black"
-    },
-    'SPAM': {
-        "id": 3,
-        "label": "Spam",
-        "background": "#69e6f4",
-        "color": "white"
-    },
-    'WORK': {
-        "id": 4,
-        "label": "Work",
-        "background": "#e5a74b",
-        "color": "yellow"
-    },
-    'PERSONAL': {
-        "id": 5,
-        "label": "Personal",
-        "background": "#cecece",
-        "color": "blue"
-    },
-    'URGENT': {
-        "id": 6,
-        "label": "Urgent",
-        "background": "#000000",
-        "color": "red"
-    },
-}
-
 
 class Thread(AbstractCore):
 
@@ -116,13 +77,24 @@ class Thread(AbstractCore):
         return results
 
     @classmethod
-    def to_api(self, thread, recipients):
+    def expand_tags(self, user, tags):
+        user_tags = dict((x.label, x) for x in user.tags)
+        results = []
+        for tag in tags:
+            if tag in user_tags:
+                results.append(user_tags[tag])
+            else:
+                log.warn('Unknow user tag %r' % tag)
+        return results
+
+    @classmethod
+    def to_api(self, thread, recipients, tags):
         data = {
             'id': thread.thread_id,
             'date_updated': thread.date_update,
             'text': thread.slug,
             'recipients': recipients,
-            'labels': [TAGS.get(x, TAGS['INBOX']) for x in thread.tags],
+            'labels': [x.to_api() for x in tags],
             'security': random.randint(20, 100),
         }
         return data
@@ -139,7 +111,8 @@ class Thread(AbstractCore):
         results = []
         for thr in threads:
             recipients = cls.expand_contacts(user, thr.contacts)
-            results.append(cls.to_api(thr, recipients))
+            tags = cls.expand_tags(user, thr.tags)
+            results.append(cls.to_api(thr, recipients, tags))
         return results
 
     @classmethod
