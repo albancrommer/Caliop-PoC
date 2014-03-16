@@ -5,8 +5,6 @@ from caliop.core.message import Message, MessagePart
 from caliop.core.contact import ContactLookup, Recipient
 
 import random
-RANDOM_TAGS = ['WORK', 'PERSONAL', 'INBOX', 'SPAM',
-               'IMPORTANT', 'URGENT']
 
 
 class DeliveryAgent(object):
@@ -25,7 +23,8 @@ class DeliveryAgent(object):
     def _get_tags(self, user, mail):
         # XXX: real logic needed
         tags = ['MAIL']
-        tags.extend(random.sample(RANDOM_TAGS, 2))
+        user_tags = [x.label for x in user.tags if x.label != 'MAIL']
+        tags.extend(random.sample(user_tags, 2))
         return tags
 
     def process_user_mail(self, user, msg, parts):
