@@ -5,7 +5,8 @@ from cqlengine.query import DoesNotExist
 from caliop.helpers.log import log
 from caliop.core.base import AbstractCore
 from caliop.core.contact import Contact
-from caliop.store import Thread as ModelThread, IndexedThread
+from caliop.storage.data.cassandra import Thread as ModelThread
+from caliop.storage.index.elasticsearch import IndexedThread
 
 
 class Thread(AbstractCore):

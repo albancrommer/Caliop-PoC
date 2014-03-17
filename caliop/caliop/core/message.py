@@ -8,11 +8,13 @@ from caliop.helpers.log import log
 from caliop.core.base import AbstractCore
 from caliop.core.thread import Thread
 from caliop.core.contact import Contact
-from caliop.store import (Message as ModelMessage,
-                          MessagePart as ModelMessagePart,
-                          MessageLookup as ModelMessageLookup,
-                          IndexedMessage,
-                          MailIndexMessage)
+from caliop.storage.data.cassandra import (Message as ModelMessage,
+                                           MessagePart as ModelMessagePart,
+                                           MessageLookup as ModelMessageLookup,
+                                           )
+from caliop.storage.index.elasticsearch import (IndexedMessage,
+                                                MailIndexMessage,
+                                                )
 
 
 class MessagePart(AbstractCore):
