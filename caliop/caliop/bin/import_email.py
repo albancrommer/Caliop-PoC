@@ -34,7 +34,8 @@ def import_email(email, import_path, format):
             files = [f for f in listdir(import_path) if \
                 os.path.isfile(os.path.join(import_path, f))]
             for f in files:
-                emails[f] = message_from_file('%s/%s' % (import_path, f))
+                with open('%s/%s' % (import_path, f)) as fh:
+                    emails[f] = message_from_file(fh)
         else:
             mode = 'mbox'
             emails = mbox(import_path)
