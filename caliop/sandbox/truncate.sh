@@ -11,7 +11,6 @@ truncate message;
 truncate message_part;
 truncate message_lookup;
 truncate thread;
-truncate thread_lookup;
 truncate contact;
 truncate contact_lookup;
 
