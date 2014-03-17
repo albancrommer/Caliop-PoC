@@ -5,10 +5,10 @@ from caliop.helpers.config import Configuration
 
 from caliop.core.base import AbstractCore
 from caliop.core.contact import ContactLookup
-from caliop.store import (User as ModelUser,
-                          Tag as ModelTag,
-                          Counter as ModelCounter,
-                          UserIndex)
+from caliop.storage.data.cassandra import (User as ModelUser,
+                                           Tag as ModelTag,
+                                           Counter as ModelCounter)
+from caliop.storage.index.elasticsearch import UserIndex
 
 
 class Counter(AbstractCore):

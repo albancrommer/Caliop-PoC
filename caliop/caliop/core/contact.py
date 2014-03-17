@@ -1,8 +1,9 @@
 from datetime import datetime
-from caliop.store import (Contact as ModelContact,
-                          ContactLookup as ModelLookup,
-                          IndexedContact)
-from caliop.core.base import AbstractCore
+
+from .base import AbstractCore
+from caliop.storage.data.cassandra import (Contact as ModelContact,
+                                           ContactLookup as ModelLookup)
+from caliop.storage.index.elasticsearch import IndexedContact
 
 
 class ContactLookup(AbstractCore):
