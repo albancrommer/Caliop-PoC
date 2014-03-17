@@ -3,15 +3,19 @@ from datetime import datetime
 from cqlengine.query import DoesNotExist
 
 from caliop.helpers.log import log
-from caliop.core.base import AbstractCore
-from caliop.core.contact import Contact
-from caliop.storage.data.cassandra import Thread as ModelThread
+
+from caliop.storage import registry
+from caliop.storage.data.interfaces import IThread
+
 from caliop.storage.index.elasticsearch import IndexedThread
+
+from .base import AbstractCore
+from .contact import Contact
 
 
 class Thread(AbstractCore):
 
-    _model_class = ModelThread
+    _model_class = registry.get(IThread)
     _index_class = IndexedThread
 
     @classmethod

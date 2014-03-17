@@ -1,8 +1,21 @@
+# -*- coding: utf-8 -*-
+"""
+Caliop storage data interfaces
+"""
+
+from __future__ import absolute_import, print_function, unicode_literals
+
 import uuid
+
 from cqlengine import columns
 from cqlengine.models import Model
+from zope.interface import implementer
 
 from caliop.helpers.config import Configuration
+
+from .interfaces import (IUser, ICounter, ITag, IContact,
+                         IContactLookup, IThread, IMessage, IMessagePart,
+                         IMessageLookup)
 
 
 class BaseModel(Model):
@@ -11,6 +24,7 @@ class BaseModel(Model):
     __keyspace__ = Configuration('global').get('cassandra.keyspace')
 
 
+@implementer(IUser)
 class User(BaseModel):
     id = columns.Text(primary_key=True)
     password = columns.Text(required=True)
@@ -20,12 +34,14 @@ class User(BaseModel):
     params = columns.Map(columns.Text, columns.Text)
 
 
+@implementer(ICounter)
 class Counter(BaseModel):
     user_id = columns.Text(primary_key=True)
     message_id = columns.Counter()
     thread_id = columns.Counter()
 
 
+@implementer(ITag)
 class Tag(BaseModel):
     user_id = columns.Text(primary_key=True)
     label = columns.Text(primary_key=True)
@@ -33,6 +49,7 @@ class Tag(BaseModel):
     color = columns.Text()
 
 
+@implementer(IContact)
 class Contact(BaseModel):
     user_id = columns.Text(primary_key=True)
     id = columns.UUID(primary_key=True, default=uuid.uuid4)
@@ -45,6 +62,7 @@ class Contact(BaseModel):
     infos = columns.Map(columns.Text, columns.Text)
 
 
+@implementer(IContactLookup)
 class ContactLookup(BaseModel):
     """Lookup any information needed to recognize a user contact"""
     user_id = columns.Text(primary_key=True)
@@ -52,6 +70,7 @@ class ContactLookup(BaseModel):
     contact_id = columns.UUID()
 
 
+@implementer(IThread)
 class Thread(BaseModel):
     # XXX threading simplest model, most data are only in index
     user_id = columns.Text(primary_key=True)
@@ -60,6 +79,7 @@ class Thread(BaseModel):
     security_level = columns.Integer()
 
 
+@implementer(IMessage)
 class Message(BaseModel):
     user_id = columns.Text(primary_key=True)
     message_id = columns.Integer(primary_key=True)  # counter.message_id
@@ -72,6 +92,7 @@ class Message(BaseModel):
     tags = columns.List(columns.Text)
 
 
+@implementer(IMessagePart)
 class MessagePart(BaseModel):
     id = columns.UUID(primary_key=True, default=uuid.uuid4)
     position = columns.Integer()
@@ -84,6 +105,7 @@ class MessagePart(BaseModel):
     users = columns.Map(columns.Text, columns.Integer)
 
 
+@implementer(IMessageLookup)
 class MessageLookup(BaseModel):
     """Reverse index for external message id"""
     user_id = columns.Text(primary_key=True)
@@ -93,12 +115,14 @@ class MessageLookup(BaseModel):
     offset = columns.Integer()
 
 
+# Calendar
+
 class RRule(BaseModel):
     """Recurrence Rule"""
     user_id = columns.Text(primary_key=True)    # partition key
     id = columns.UUID(primary_key=True, default=uuid.uuid4)
     type = columns.Text()
-    occurence = columns.Integer(default=1)
+    occurrence = columns.Integer(default=1)
     value = columns.Integer()
     events = columns.List(columns.UUID)
 

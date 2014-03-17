@@ -61,15 +61,18 @@ def import_email(email, import_path, format):
     msgs = sorted(msgs, key=lambda msg: msg.date)
 
     for msg in msgs:
-        for rec in msg.all_recipients():
-            lookup = ContactLookup.get(user, rec)
-            if not lookup:
-                log.info("Creating contact %s" % rec)
-                infos = {'mail': rec}
-                name, domain = rec.split('@')
+        for type, addresses in msg.recipients.iteritems():
+            if not addresses:
+                continue
+            for alias, _address in addresses:
+                lookup = ContactLookup.get(user, alias)
+                if not lookup:
+                    log.info('Creating contact %s' % alias)
+                    infos = {'mail': alias}
+                    name, domain = alias.split('@')
 
-                if os.path.isfile('%s/%s.png' % (AVATAR_DIR, name)):
-                    infos.update({'avatar': '%s.png' % name})
-                Contact.create(user, infos)
+                    if os.path.isfile('%s/%s.png' % (AVATAR_DIR, name)):
+                        infos.update({'avatar': '%s.png' % name})
+                    Contact.create(user, infos)
         res = agent.process(msg.mail)
-        log.info("Process result %r" % res)
+        log.info('Process result %r' % res)
