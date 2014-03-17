@@ -1,14 +1,21 @@
+# -*- coding: utf-8 -*-
+"""
+Caliop storage interface
+"""
+from __future__ import absolute_import, print_function, unicode_literals
+
 from datetime import datetime
 
-from .base import AbstractCore
-from caliop.storage.data.cassandra import (Contact as ModelContact,
-                                           ContactLookup as ModelLookup)
+from caliop.storage import registry
+from caliop.storage.data.interfaces import IContact, IContactLookup
 from caliop.storage.index.elasticsearch import IndexedContact
+
+from .base import AbstractCore
 
 
 class ContactLookup(AbstractCore):
 
-    _model_class = ModelLookup
+    _model_class = registry.get(IContactLookup)
 
     @classmethod
     def get(cls, user, value):
@@ -16,13 +23,13 @@ class ContactLookup(AbstractCore):
         try:
             obj = cls._model_class.get(user_id=user.id, value=value)
             return cls(obj)
-        except:
+        except Exception:
             return None
 
 
 class Contact(AbstractCore):
 
-    _model_class = ModelContact
+    _model_class = registry.get(IContact)
     _index_class = IndexedContact
 
     @classmethod

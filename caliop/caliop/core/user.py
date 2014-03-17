@@ -3,23 +3,24 @@ from datetime import datetime
 
 from caliop.helpers.config import Configuration
 
-from caliop.core.base import AbstractCore
-from caliop.core.contact import ContactLookup
-from caliop.storage.data.cassandra import (User as ModelUser,
-                                           Tag as ModelTag,
-                                           Counter as ModelCounter)
+from caliop.storage import registry
+from caliop.storage.data.interfaces import ITag, IUser, ICounter
+
+from .base import AbstractCore
+from .contact import ContactLookup
+
 from caliop.storage.index.elasticsearch import UserIndex
 
 
 class Counter(AbstractCore):
 
-    _model_class = ModelCounter
+    _model_class = registry.get(ICounter)
     _pkey_name = 'user_id'
 
 
 class Tag(AbstractCore):
 
-    _model_class = ModelTag
+    _model_class = registry.get(ITag)
 
     @classmethod
     def get(cls, user, id):
@@ -36,7 +37,7 @@ class Tag(AbstractCore):
 
 class User(AbstractCore):
 
-    _model_class = ModelUser
+    _model_class = registry.get(IUser)
 
     @classmethod
     def create(cls, **kwargs):

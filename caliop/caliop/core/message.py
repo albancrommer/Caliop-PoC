@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+"""
+Caliop user's messages
+"""
+from __future__ import absolute_import, print_function, unicode_literals
+
 import base64
 from datetime import datetime
 
@@ -5,21 +11,22 @@ from datetime import datetime
 from cqlengine.query import DoesNotExist
 
 from caliop.helpers.log import log
-from caliop.core.base import AbstractCore
-from caliop.core.thread import Thread
-from caliop.core.contact import Contact
-from caliop.storage.data.cassandra import (Message as ModelMessage,
-                                           MessagePart as ModelMessagePart,
-                                           MessageLookup as ModelMessageLookup,
-                                           )
+
+from caliop.storage import registry
+from caliop.storage.data.interfaces import (IMessage, IMessagePart,
+                                            IMessageLookup)
 from caliop.storage.index.elasticsearch import (IndexedMessage,
                                                 MailIndexMessage,
                                                 )
 
+from .base import AbstractCore
+from .thread import Thread
+from .contact import Contact
+
 
 class MessagePart(AbstractCore):
 
-    _model_class = ModelMessagePart
+    _model_class = registry.get(IMessagePart)
 
     text_content_types = ['text/plain', 'text/html']
 
@@ -70,7 +77,7 @@ class MessagePart(AbstractCore):
 
 class MessageLookup(AbstractCore):
 
-    _model_class = ModelMessageLookup
+    _model_class = registry.get(IMessageLookup)
 
     @classmethod
     def get(cls, user, external_id):
@@ -83,7 +90,7 @@ class MessageLookup(AbstractCore):
 
 class Message(AbstractCore):
 
-    _model_class = ModelMessage
+    _model_class = registry.get(IMessage)
     _index_class = IndexedMessage
 
     @classmethod
