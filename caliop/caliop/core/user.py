@@ -9,7 +9,7 @@ from caliop.storage.data.interfaces import ITag, IUser, ICounter
 from .base import AbstractCore
 from .contact import ContactLookup
 
-from caliop.storage.index.elasticsearch import UserIndex
+from caliop.storage.index.interfaces import IUserIndex
 
 
 class Counter(AbstractCore):
@@ -38,6 +38,7 @@ class Tag(AbstractCore):
 class User(AbstractCore):
 
     _model_class = registry.get(IUser)
+    _index_class = registry.get(IUserIndex)
 
     @classmethod
     def create(cls, **kwargs):
@@ -52,7 +53,7 @@ class User(AbstractCore):
         for tag in default_tags:
             Tag.create(user_id=user.id, **tag)
         # Create index
-        UserIndex.create(user)
+        cls._index_class.create(user)
         return user
 
     @classmethod

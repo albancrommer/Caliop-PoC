@@ -1,14 +1,16 @@
 from datetime import datetime
 
 import requests
+from zope.interface import implementer
 
 from caliop.config import Configuration
-from caliop.helpers.log import log
 from caliop.helpers.json import to_json
+from .interfaces import (IMailIndexMessage, IUserIndex, IIndexedMessage,
+                         IIndexedContact, IIndexedThread)
 
 
-class AbstractIndex(object):
-    """Abstract class for indexed objects"""
+class BaseIndex(object):
+    """Base class for indexed objects"""
     # XXX : automagic server discovery differently ....
     index_server_url = Configuration('global').get('index_server.url')
 
@@ -99,8 +101,8 @@ class AbstractIndex(object):
             data.update({col: getattr(self, col)})
         return data
 
-
-class UserIndex(AbstractIndex):
+@implementer(IUserIndex)
+class UserIndex(BaseIndex):
     """Only here to manage user index globally (create, delete)"""
 
     @classmethod
@@ -111,7 +113,7 @@ class UserIndex(AbstractIndex):
         return True if res.status_code == 200 else False
 
 
-class BaseIndexMessage(AbstractIndex):
+class BaseIndexMessage(BaseIndex):
     """Base class to store a message in an index store"""
     columns = ['message_id', 'thread_id', 'security_level',
                'subject', 'from_', 'date', 'date_insert',
@@ -120,6 +122,7 @@ class BaseIndexMessage(AbstractIndex):
                ]
 
 
+@implementer(IMailIndexMessage)
 class MailIndexMessage(BaseIndexMessage):
     """Get a user message object, and parse it to make an index"""
 
@@ -192,13 +195,15 @@ class TagMixin(object):
         return True
 
 
+@implementer(IIndexedMessage)
 class IndexedMessage(BaseIndexMessage, TagMixin):
     """Message from index server with helpers methods"""
 
     type = 'messages'
 
 
-class IndexedContact(AbstractIndex, TagMixin):
+@implementer(IIndexedContact)
+class IndexedContact(BaseIndex, TagMixin):
     """Contact from index server with helpers methods"""
 
     def __init__(self, data):
@@ -209,7 +214,8 @@ class IndexedContact(AbstractIndex, TagMixin):
     type = 'contacts'
 
 
-class IndexedThread(AbstractIndex, TagMixin):
+@implementer(IIndexedThread)
+class IndexedThread(BaseIndex, TagMixin):
     """Thread from index server"""
 
     columns = ['thread_id', 'date_insert', 'date_update',
