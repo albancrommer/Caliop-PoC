@@ -9,7 +9,7 @@ from zope.interface import Attribute, Interface
 
 
 class IRawMail(Interface):
-    id = Attribute('Mail identifier')
+    raw_id = Attribute('Mail identifier')
     users = Attribute('List of users to deliver this mail')
     data = Attribute('Binary content of mail')
 

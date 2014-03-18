@@ -26,7 +26,7 @@ class BaseModel(Model):
 
 @implementer(IRawMail)
 class RawMail(BaseModel):
-    id = columns.Text(primary_key=True)
+    raw_id = columns.Text(primary_key=True)
     users = columns.List(columns.Text)
     data = columns.Bytes()
 
