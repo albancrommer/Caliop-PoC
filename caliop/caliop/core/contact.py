@@ -8,7 +8,7 @@ from datetime import datetime
 
 from caliop.storage import registry
 from caliop.storage.data.interfaces import IContact, IContactLookup
-from caliop.storage.index.elasticsearch import IndexedContact
+from caliop.storage.index.interfaces import IIndexedContact
 
 from .base import AbstractCore
 
@@ -30,7 +30,7 @@ class ContactLookup(AbstractCore):
 class Contact(AbstractCore):
 
     _model_class = registry.get(IContact)
-    _index_class = IndexedContact
+    _index_class = registry.get(IIndexedContact)
 
     @classmethod
     def create(cls, user, infos):
