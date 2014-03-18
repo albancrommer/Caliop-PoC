@@ -51,8 +51,8 @@ class Tag(BaseModel):
 
 @implementer(IContact)
 class Contact(BaseModel):
+    contact_id = columns.UUID(primary_key=True, default=uuid.uuid4)
     user_id = columns.Text(primary_key=True)
-    id = columns.UUID(primary_key=True, default=uuid.uuid4)
     first_name = columns.Text()
     last_name = columns.Text()
     date_insert = columns.DateTime()

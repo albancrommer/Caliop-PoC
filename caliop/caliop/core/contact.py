@@ -39,7 +39,8 @@ class Contact(BaseCore):
         # Create infos lookup
         for k, v in infos.iteritems():
             if 'tel' in k or 'mail' in k:
-                ContactLookup.create(user_id=user.user_id, value=v, contact_id=c.id)
+                ContactLookup.create(user_id=user.user_id, value=v,
+                                     contact_id=c.contact_id)
         # Index contact
         cls._index_class.create(user.user_id, c.id, infos)
         return c

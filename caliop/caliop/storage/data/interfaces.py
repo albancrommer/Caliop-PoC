@@ -31,7 +31,7 @@ class ITag(Interface):
 
 
 class IContact(Interface):
-    id = Attribute('Contact identifier')
+    contact_id = Attribute('Contact identifier')
     user_id = Attribute('Email address')
     first_name = Attribute('First name')
     last_name = Attribute('Last name')
