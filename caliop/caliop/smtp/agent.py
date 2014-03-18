@@ -1,5 +1,6 @@
 from caliop.helpers.log import log
 from caliop.smtp.message import MdaMessage
+from caliop.core.raw import RawMail
 from caliop.core.user import UserMessage
 from caliop.core.message import Message, MessagePart
 from caliop.core.contact import ContactLookup, Recipient
@@ -46,6 +47,12 @@ class DeliveryAgent(object):
 
         messages = []
         parts = []
+        if msg.users:
+            user_ids = set(x.user_id for x in msg.users)
+            raw = RawMail.create(msg.message_id,
+                                 user_ids,
+                                 msg.mail.as_string())
+            log.debug('Created raw mail %r' % raw.raw_id)
         if msg.parts and msg.users:
             cpt = 0
             for part in msg.parts:
