@@ -6,19 +6,19 @@ from caliop.helpers.config import Configuration
 from caliop.storage import registry
 from caliop.storage.data.interfaces import ITag, IUser, ICounter
 
-from .base import AbstractCore
+from .base import BaseCore
 from .contact import ContactLookup
 
 from caliop.storage.index.interfaces import IUserIndex
 
 
-class Counter(AbstractCore):
+class Counter(BaseCore):
 
     _model_class = registry.get(ICounter)
     _pkey_name = 'user_id'
 
 
-class Tag(AbstractCore):
+class Tag(BaseCore):
 
     _model_class = registry.get(ITag)
 
@@ -35,7 +35,7 @@ class Tag(AbstractCore):
         }
 
 
-class User(AbstractCore):
+class User(BaseCore):
 
     _model_class = registry.get(IUser)
     _index_class = registry.get(IUserIndex)

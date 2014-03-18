@@ -10,10 +10,10 @@ from caliop.storage import registry
 from caliop.storage.data.interfaces import IContact, IContactLookup
 from caliop.storage.index.interfaces import IIndexedContact
 
-from .base import AbstractCore
+from .base import BaseCore
 
 
-class ContactLookup(AbstractCore):
+class ContactLookup(BaseCore):
 
     _model_class = registry.get(IContactLookup)
 
@@ -27,7 +27,7 @@ class ContactLookup(AbstractCore):
             return None
 
 
-class Contact(AbstractCore):
+class Contact(BaseCore):
 
     _model_class = registry.get(IContact)
     _index_class = registry.get(IIndexedContact)

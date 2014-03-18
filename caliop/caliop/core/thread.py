@@ -8,11 +8,11 @@ from caliop.storage import registry
 from caliop.storage.data.interfaces import IThread
 from caliop.storage.index.interfaces import IIndexedThread
 
-from .base import AbstractCore
+from .base import BaseCore
 from .contact import Contact
 
 
-class Thread(AbstractCore):
+class Thread(BaseCore):
 
     _model_class = registry.get(IThread)
     _index_class = registry.get(IIndexedThread)

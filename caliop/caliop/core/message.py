@@ -19,12 +19,12 @@ from caliop.storage.index.elasticsearch import (IndexedMessage,
                                                 MailIndexMessage,
                                                 )
 
-from .base import AbstractCore
+from .base import BaseCore
 from .thread import Thread
 from .contact import Contact
 
 
-class MessagePart(AbstractCore):
+class MessagePart(BaseCore):
 
     _model_class = registry.get(IMessagePart)
 
@@ -75,7 +75,7 @@ class MessagePart(AbstractCore):
         return True if self.content_type in self.text_content_types else False
 
 
-class MessageLookup(AbstractCore):
+class MessageLookup(BaseCore):
 
     _model_class = registry.get(IMessageLookup)
 
@@ -88,7 +88,7 @@ class MessageLookup(AbstractCore):
             return None
 
 
-class Message(AbstractCore):
+class Message(BaseCore):
 
     _model_class = registry.get(IMessage)
     _index_class = IndexedMessage
