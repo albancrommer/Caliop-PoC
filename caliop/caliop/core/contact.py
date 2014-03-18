@@ -47,7 +47,8 @@ class Contact(BaseCore):
 
     @classmethod
     def by_id(cls, user, contact_id):
-        contact = cls._model_class.get(user_id=user.user_id, id=contact_id)
+        contact = cls._model_class.get(user_id=user.user_id,
+                                       contact_id=contact_id)
         obj = cls(contact)
         return obj.to_api()
 
@@ -69,7 +70,7 @@ class Contact(BaseCore):
 
     def to_api(self):
         return {
-            "id": self.id,
+            "id": self.user_id,
             "firstName": self.infos.get('mail'),
             "lastName": self.last_name,
             "avatar": self.infos.get('avatar', 'avatar.png'),
