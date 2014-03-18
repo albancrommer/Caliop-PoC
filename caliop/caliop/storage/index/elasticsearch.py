@@ -108,7 +108,7 @@ class UserIndex(BaseIndex):
     @classmethod
     def create(cls, user):
         # Create index for user
-        route = '%s/%s' % (cls.index_server_url, user.id)
+        route = '%s/%s' % (cls.index_server_url, user.user_id)
         res = requests.put(route)
         return True if res.status_code == 200 else False
 

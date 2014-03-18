@@ -44,7 +44,7 @@ def import_email(email, import_path, format):
         user = User.get(email)
     except Exception:
         log.info("Creating user")
-        user = User.create(id=email,
+        user = User.create(user_id=email,
                            first_name='Test %s' % email.upper(),
                            last_name=email.lower(),
                            password='123456')

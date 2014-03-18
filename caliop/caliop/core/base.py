@@ -1,9 +1,19 @@
+# -*- coding: utf-8 -*-
+"""
+Caliop core base class.
+
+Core are glue code to the storage abstraction layer.
+"""
+
+from __future__ import absolute_import, print_function, unicode_literals
+
 from cqlengine import columns
 
 
-class AbstractCore(object):
-    """Abstract class for all core objects"""
+class BaseCore(object):
+    """Base class for all core objects"""
     _model_class = None
+    _index_class = None
     _pkey_name = 'id'
 
     def __init__(self, obj):

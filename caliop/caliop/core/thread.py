@@ -8,11 +8,11 @@ from caliop.storage import registry
 from caliop.storage.data.interfaces import IThread
 from caliop.storage.index.interfaces import IIndexedThread
 
-from .base import AbstractCore
+from .base import BaseCore
 from .contact import Contact
 
 
-class Thread(AbstractCore):
+class Thread(BaseCore):
 
     _model_class = registry.get(IThread)
     _index_class = registry.get(IIndexedThread)
@@ -20,7 +20,7 @@ class Thread(AbstractCore):
     @classmethod
     def get(cls, user, thread_id):
         try:
-            return cls._model_class.get(user_id=user.id,
+            return cls._model_class.get(user_id=user.user_id,
                                         thread_id=thread_id)
         except DoesNotExist:
             return None
@@ -37,7 +37,7 @@ class Thread(AbstractCore):
                 # XXX : use min value, is it correct ?
                 thread.security_level = message.security_level
                 thread.save()
-            index = cls._index_class.get(message.user.id, lookup.thread_id)
+            index = cls._index_class.get(message.user.user_id, lookup.thread_id)
             if not index:
                 log.error('Index not found for thread %s' % lookup.thread_id)
                 raise Exception
@@ -58,7 +58,7 @@ class Thread(AbstractCore):
         else:
             # Create new thread
             new_id = message.user.new_thread_id()
-            thread = cls.create(user_id=message.user.id,
+            thread = cls.create(user_id=message.user.user_id,
                                 thread_id=new_id,
                                 date_insert=datetime.utcnow(),
                                 security_level=message.security_level)
@@ -74,7 +74,7 @@ class Thread(AbstractCore):
             }
             if message.tags:
                 index_data.update({'tags': message.tags})
-            cls._index_class.create(message.user.id, thread.thread_id,
+            cls._index_class.create(message.user.user_id, thread.thread_id,
                                     index_data)
             log.debug('Create index for thread %s' % thread.thread_id)
 
@@ -118,7 +118,7 @@ class Thread(AbstractCore):
         if not filters:
             # filters = {'tags': 'INBOX'}
             filters = {'tags': '*'}
-        threads = cls._index_class.filter(user.id, filters,
+        threads = cls._index_class.filter(user.user_id, filters,
                                           order=order, limit=limit)
         # XXX : make output compatible for current API
         results = []
@@ -130,7 +130,7 @@ class Thread(AbstractCore):
 
     @classmethod
     def by_id(cls, user, thread_id):
-        thread = cls._index_class.get(user.id, thread_id)
+        thread = cls._index_class.get(user.user_id, thread_id)
         recipients = cls.expand_contacts(user, thread.contacts)
         tags = cls.expand_tags(user, thread.tags)
         return cls.to_api(thread, recipients, tags)

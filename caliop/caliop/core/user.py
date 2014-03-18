@@ -6,25 +6,25 @@ from caliop.helpers.config import Configuration
 from caliop.storage import registry
 from caliop.storage.data.interfaces import ITag, IUser, ICounter
 
-from .base import AbstractCore
+from .base import BaseCore
 from .contact import ContactLookup
 
 from caliop.storage.index.interfaces import IUserIndex
 
 
-class Counter(AbstractCore):
+class Counter(BaseCore):
 
     _model_class = registry.get(ICounter)
     _pkey_name = 'user_id'
 
 
-class Tag(AbstractCore):
+class Tag(BaseCore):
 
     _model_class = registry.get(ITag)
 
     @classmethod
     def get(cls, user, id):
-        return cls(cls._model_class.get(user_id=user.id, label=id))
+        return cls(cls._model_class.get(user_id=user.user_id, label=id))
 
     def to_api(self):
         return {
@@ -35,10 +35,11 @@ class Tag(AbstractCore):
         }
 
 
-class User(AbstractCore):
+class User(BaseCore):
 
     _model_class = registry.get(IUser)
     _index_class = registry.get(IUserIndex)
+    _pkey_name = 'user_id'
 
     @classmethod
     def create(cls, **kwargs):
@@ -47,32 +48,32 @@ class User(AbstractCore):
         kwargs['date_insert'] = datetime.utcnow()
         user = super(User, cls).create(**kwargs)
         # Create counters
-        Counter.create(user_id=user.id)
+        Counter.create(user_id=user.user_id)
         # Create default tags
         default_tags = Configuration('global').get('system.default_tags')
         for tag in default_tags:
-            Tag.create(user_id=user.id, **tag)
+            Tag.create(user_id=user.user_id, **tag)
         # Create index
         cls._index_class.create(user)
         return user
 
     @classmethod
     def authenticate(cls, uid, password):
-        user = cls._model_class.get(id=uid)
+        user = cls._model_class.get(user_id=uid)
         # XXX : decode unicode not this way
         if bcrypt.hashpw(str(password), str(user.password)) == user.password:
             return cls(user)
         raise Exception('Invalid credentials')
 
     def new_message_id(self):
-        counter = Counter.get(self.id)
+        counter = Counter.get(self.user_id)
         # XXX : MUST be handled by core object correctly
         counter.model.message_id += 1
         counter.save()
         return counter.message_id
 
     def new_thread_id(self):
-        counter = Counter.get(self.id)
+        counter = Counter.get(self.user_id)
         # XXX : MUST be handled by core object correctly
         counter.model.thread_id += 1
         counter.save()
@@ -84,7 +85,7 @@ class User(AbstractCore):
 
     def to_api(self):
         return {
-            'id': self.id,
+            'id': self.user_id,
             'first_name': self.first_name,
             'last_name': self.last_name,
             'date_created': self.date_insert,
@@ -92,7 +93,7 @@ class User(AbstractCore):
 
     @property
     def tags(self):
-        objs = Tag._model_class.objects.filter(user_id=self.id)
+        objs = Tag._model_class.objects.filter(user_id=self.user_id)
         return [Tag(x) for x in objs]
 
 

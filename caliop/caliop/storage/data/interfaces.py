@@ -15,7 +15,7 @@ class IRawMail(Interface):
 
 
 class IUser(Interface):
-    id = Attribute('User email')
+    user_id = Attribute('User email')
     password = Attribute('encrypted password')
     date_insert = Attribute('Creation date of the user')
     first_name = Attribute('First name')
@@ -37,7 +37,7 @@ class ITag(Interface):
 
 
 class IContact(Interface):
-    id = Attribute('Contact identifier')
+    contact_id = Attribute('Contact identifier')
     user_id = Attribute('Email address')
     first_name = Attribute('First name')
     last_name = Attribute('Last name')

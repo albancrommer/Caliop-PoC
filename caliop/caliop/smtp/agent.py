@@ -15,7 +15,7 @@ class DeliveryAgent(object):
         contacts = []
         for type, recips in msg.recipients.iteritems():
             for addr, real_addr in recips:
-                if addr != user.id:
+                if addr != user.user_id:
                     log.debug('Try to resolve contact %s' % addr)
                     contact = ContactLookup.get(user, addr)
                     contacts.append(Recipient(contact, real_addr, type))
@@ -61,6 +61,6 @@ class DeliveryAgent(object):
                 message = self.process_user_mail(user, msg, parts)
                 if message:
                     log.debug('Delivery OK for message %s:%d' %
-                              (user.id, message.message_id))
+                              (user.user_id, message.message_id))
                     messages.append(message)
         return messages
