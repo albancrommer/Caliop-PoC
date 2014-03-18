@@ -8,6 +8,12 @@ from __future__ import absolute_import, print_function, unicode_literals
 from zope.interface import Attribute, Interface
 
 
+class IRawMail(Interface):
+    id = Attribute('Mail identifier')
+    users = Attribute('List of users to deliver this mail')
+    data = Attribute('Binary content of mail')
+
+
 class IUser(Interface):
     id = Attribute('User email')
     password = Attribute('encrypted password')

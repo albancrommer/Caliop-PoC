@@ -11,7 +11,7 @@ def setup_storage():
     from caliop.storage.data.cassandra import (User, Message, Counter, Tag,
                                                Contact, ContactLookup,
                                                MessagePart, MessageLookup,
-                                               Thread)
+                                               Thread, RawMail)
 
     sync_table(User)
     sync_table(Tag)
@@ -22,3 +22,4 @@ def setup_storage():
     sync_table(Contact)
     sync_table(ContactLookup)
     sync_table(Thread)
+    sync_table(RawMail)

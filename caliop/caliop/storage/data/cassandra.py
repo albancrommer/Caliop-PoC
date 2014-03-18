@@ -15,13 +15,20 @@ from caliop.helpers.config import Configuration
 
 from .interfaces import (IUser, ICounter, ITag, IContact,
                          IContactLookup, IThread, IMessage, IMessagePart,
-                         IMessageLookup)
+                         IMessageLookup, IRawMail)
 
 
 class BaseModel(Model):
 
     __abstract__ = True
     __keyspace__ = Configuration('global').get('cassandra.keyspace')
+
+
+@implementer(IRawMail)
+class RawMail(BaseModel):
+    id = columns.Text(primary_key=True)
+    users = columns.List(columns.Text)
+    data = columns.Bytes()
 
 
 @implementer(IUser)

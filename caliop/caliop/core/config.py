@@ -11,6 +11,7 @@ def includeme(config):
 
     # XXX get that really configurable
     from caliop.storage.data import cassandra
+    registry.register(cassandra.RawMail)
     registry.register(cassandra.User)
     registry.register(cassandra.Contact)
     registry.register(cassandra.ContactLookup)
