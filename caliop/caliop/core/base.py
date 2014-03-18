@@ -13,6 +13,7 @@ from cqlengine import columns
 class BaseCore(object):
     """Base class for all core objects"""
     _model_class = None
+    _index_class = None
     _pkey_name = 'id'
 
     def __init__(self, obj):

@@ -75,7 +75,7 @@ class Message(Api):
             for rec in self.request.json.get(rec_type, []):
                 addrs.append((rec['contact'], rec['address']))
             recipients[rec_type] = addrs
-        recipients['from'] = [(self.user.id, self.user.id)]
+        recipients['from'] = [(self.user.user_id, self.user.user_id)]
         return recipients
 
     def collection_get(self):
@@ -161,7 +161,7 @@ class ContactLogin(Api):
         try:
             user = User.authenticate(credentials['login'],
                                      credentials['password'])
-            self.request.session['user'] = user.id
+            self.request.session['user'] = user.user_id
             return Response(to_json(user.to_api()))
 
         except (KeyError, BadCredentials, Exception), exc:

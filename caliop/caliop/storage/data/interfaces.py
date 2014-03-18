@@ -9,7 +9,7 @@ from zope.interface import Attribute, Interface
 
 
 class IUser(Interface):
-    id = Attribute('User email')
+    user_id = Attribute('User email')
     password = Attribute('encrypted password')
     date_insert = Attribute('Creation date of the user')
     first_name = Attribute('First name')

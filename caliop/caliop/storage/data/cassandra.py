@@ -26,7 +26,7 @@ class BaseModel(Model):
 
 @implementer(IUser)
 class User(BaseModel):
-    id = columns.Text(primary_key=True)
+    user_id = columns.Text(primary_key=True)
     password = columns.Text(required=True)
     date_insert = columns.DateTime()
     first_name = columns.Text()
@@ -120,7 +120,7 @@ class MessageLookup(BaseModel):
 class RRule(BaseModel):
     """Recurrence Rule"""
     user_id = columns.Text(primary_key=True)    # partition key
-    id = columns.UUID(primary_key=True, default=uuid.uuid4)
+    rrule_id = columns.UUID(primary_key=True, default=uuid.uuid4)
     type = columns.Text()
     occurrence = columns.Integer(default=1)
     value = columns.Integer()
@@ -129,7 +129,7 @@ class RRule(BaseModel):
 
 class Event(BaseModel):
     user_id = columns.Text(primary_key=True)    # partition key
-    id = columns.UUID(primary_key=True, default=uuid.uuid4)
+    event_id = columns.UUID(primary_key=True, default=uuid.uuid4)
     date_start = columns.DateTime()
     end_date = columns.DateTime()
     description = columns.Text()

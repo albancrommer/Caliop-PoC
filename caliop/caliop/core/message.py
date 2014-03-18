@@ -32,7 +32,7 @@ class MessagePart(BaseCore):
 
     @classmethod
     def create(cls, part, users, position):
-        users_id = dict((user.id, 0) for user in users)
+        users_id = dict((user.user_id, 0) for user in users)
         size = len(part.get_payload())
         # XXX : decode not here
         charsets = part.get_charsets()
@@ -82,7 +82,7 @@ class MessageLookup(BaseCore):
     @classmethod
     def get(cls, user, external_id):
         try:
-            return cls._model_class.get(user_id=user.id,
+            return cls._model_class.get(user_id=user.user_id,
                                         external_id=external_id)
         except DoesNotExist:
             return None
@@ -102,14 +102,14 @@ class Message(BaseCore):
         lookup = None
         if parent_id:
             log.debug('Lookup message %s for %s' %
-                      (parent_id, message.user.id))
+                      (parent_id, message.user.user_id))
             lookup = MessageLookup.get(message.user, parent_id)
         answer_to = lookup.message_id if lookup else None
 
         # Create or update thread
         thread = Thread.from_user_message(message, lookup)
 
-        msg = cls.create(user_id=message.user.id,
+        msg = cls.create(user_id=message.user.user_id,
                          message_id=message_id,
                          thread_id=thread.thread_id,
                          date_insert=datetime.utcnow(),
@@ -122,7 +122,7 @@ class Message(BaseCore):
         # Create a message lookup
         if message.external_message_id:
             offset = lookup.offset + 1 if lookup else 0
-            MessageLookup.create(user_id=message.user.id,
+            MessageLookup.create(user_id=message.user.user_id,
                                  external_id=message.external_message_id,
                                  message_id=message_id,
                                  thread_id=thread.thread_id,
@@ -132,20 +132,20 @@ class Message(BaseCore):
             offset = None
         # set message_id into parts
         for part in message.parts:
-            part.users[message.user.id] = msg.message_id
+            part.users[message.user.user_id] = msg.message_id
             part.save()
         # XXX write raw message in store using msg pkey
         # XXX index message asynchronously ?
         index = MailIndexMessage(message, thread.thread_id, message_id,
                                  answer_to, offset)
-        cls._index_class.create_index(message.user.id, message_id, index)
-        log.debug('Indexing message %s:%d' % (message.user.id, message_id))
+        cls._index_class.create_index(message.user.user_id, message_id, index)
+        log.debug('Indexing message %s:%d' % (message.user.user_id, message_id))
         return msg
 
     @classmethod
     def find(cls, user, filters, order=None, limit=None):
         """Query index to get messages matching query"""
-        messages = cls._index_class.filter(user.id, filters,
+        messages = cls._index_class.filter(user.user_id, filters,
                                            order=order, limit=limit)
         return messages
 
@@ -172,7 +172,7 @@ class Message(BaseCore):
 
     @classmethod
     def by_id(cls, user, message_id):
-        msg = cls._index_class.get(user.id, message_id)
+        msg = cls._index_class.get(user.user_id, message_id)
         return cls.to_api(user, msg)
 
     @classmethod
@@ -184,7 +184,7 @@ class Message(BaseCore):
     @classmethod
     def by_thread_id(cls, user, thread_id, order=None, limit=None):
         params = {'thread_id': thread_id}
-        messages = cls._index_class.filter(user.id, params,
+        messages = cls._index_class.filter(user.user_id, params,
                                            order=order, limit=limit)
         results = [cls.to_api(user, x) for x in messages]
         return sorted(results, key=lambda x: x.get('offset', 0))
