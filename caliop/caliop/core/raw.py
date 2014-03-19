@@ -8,6 +8,7 @@ from caliop.core.base import BaseCore
 class RawMail(BaseCore):
 
     _model_class = ModelRawMail
+    _pkey_name = 'raw_id'
 
     @classmethod
     def create(cls, message_id, users, raw):
