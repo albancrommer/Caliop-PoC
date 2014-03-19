@@ -6,6 +6,8 @@ from pyramid_jinja2 import renderer_factory
 # XXX : use a real session factory
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
 
+from caliop.helpers import renderer
+
 
 def includeme(config):
     """
@@ -14,8 +16,12 @@ def includeme(config):
     my_session_factory = UnencryptedCookieSessionFactoryConfig('itsaseekreet')
     config.set_session_factory(my_session_factory)
 
+    config.commit()
+    config.add_renderer('text_plain', renderer.TextPlainRenderer)
+    config.add_renderer('json', renderer.JsonRenderer)
+    config.add_renderer('simplejson', renderer.JsonRenderer)
+
     # Activate cornice in any case and scan
-    config.include('cornice')
     config.scan('caliop.views.api.api')
 
     config.add_route('contact.info', '/api/mock/contact/info')
