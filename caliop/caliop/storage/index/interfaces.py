@@ -1,7 +1,42 @@
 from zope.interface import Interface, Attribute
 
 
-class _IIndexed(Interface):
+class IStorageIndex(Interface):
+    """ Search Engine """
+
+    def initialize_db(cls, settings):
+        """
+        Create the search engine schema if necessary
+        """
+
+    def connect(cls, settings):
+        """
+        Connect to the storage.
+        """
+
+    def disconnect(cls):
+        """
+        Disconnect to the storage.
+        """
+
+    def get_connection(cls):
+        """
+        Return a connection to the database
+        """
+
+
+
+class IUserIndex(Interface):
+    """ Create and index for each user """
+
+    #@classmethod
+    def create(cls, user):
+        """
+         Create an index for the user
+        """
+
+
+class _IIndexedDocument(Interface):
     """Base interface for indexed objects"""
 
     type = Attribute("String that represent the type. "
@@ -52,17 +87,8 @@ class _IIndexed(Interface):
         """
 
 
-class IUserIndex(_IIndexed):
-    """Only here to manage user index globally (create, delete)"""
 
-    #@classmethod
-    def create(cls, user):
-        """
-         Create an index for the user
-        """
-
-
-class IMailIndexMessage(_IIndexed):
+class IMailIndexMessage(_IIndexedDocument):
     """Get a user message object, and parse it to make an index"""
 
     def __init__(self, message, thread_id, message_id, answer_to, offset):
@@ -71,7 +97,7 @@ class IMailIndexMessage(_IIndexed):
         """
 
 
-class _ITagMixin(_IIndexed):
+class _ITagMixin(_IIndexedDocument):
 
     def add_tag(self, tag):
         """
@@ -89,11 +115,11 @@ class _ITagMixin(_IIndexed):
         """
 
 
-class IIndexedMessage(_IIndexed):
+class IIndexedMessage(_IIndexedDocument):
     """Message from index server with helpers methods"""
 
 
-class IIndexedContact(_IIndexed):
+class IIndexedContact(_IIndexedDocument):
     """Contact from index server with helpers methods"""
 
     def __init__(self, data):
@@ -101,5 +127,5 @@ class IIndexedContact(_IIndexed):
 
         """
 
-class IIndexedThread(_IIndexed):
+class IIndexedThread(_IIndexedDocument):
     """Thread from index server"""

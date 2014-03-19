@@ -5,14 +5,42 @@ from zope.interface import implementer
 
 from caliop.config import Configuration
 from caliop.helpers.json import to_json
-from .interfaces import (IMailIndexMessage, IUserIndex, IIndexedMessage,
+from .interfaces import (IStorageIndex,
+                         IMailIndexMessage, IUserIndex, IIndexedMessage,
                          IIndexedContact, IIndexedThread)
+from ..registry import get_component
 
 
-class BaseIndex(object):
+@implementer(IStorageIndex)
+class StorageIndex(object):
+    def initialize_db(cls, settings):
+        """ Do nothing """
+
+    def connect(cls, settings):
+        """ Do nothing """
+
+    def disconnect(cls):
+        """ Do nothing """
+
+    def get_connection(cls):
+        return Configuration('global').get('index_server.url')
+
+
+@implementer(IUserIndex)
+class UserIndex(object):
+    """Only here to manage user index globally (create, delete)"""
+
+    @classmethod
+    def create(cls, user):
+        # Create index for user
+        index_server_url = get_component(IStorageIndex).get_connection()
+        route = '%s/%s' % (index_server_url, user.user_id)
+        res = requests.put(route)
+        return True if res.status_code == 200 else False
+
+
+class BaseIndexDocument(object):
     """Base class for indexed objects"""
-    # XXX : automagic server discovery differently ....
-    index_server_url = Configuration('global').get('index_server.url')
 
     columns = []
     type = None
@@ -26,7 +54,8 @@ class BaseIndex(object):
 
     @classmethod
     def get(cls, user_id, uid):
-        route = "%s/%s/%s/%s" % (cls.index_server_url, user_id, cls.type, uid)
+        index_server_url = get_component(IStorageIndex).get_connection()
+        route = "%s/%s/%s/%s" % (index_server_url, user_id, cls.type, uid)
         res = requests.get(route)
         if res.status_code == 200:
             data = res.json()
@@ -49,7 +78,8 @@ class BaseIndex(object):
 
     @classmethod
     def create(cls, user_id, id, data):
-        route = '%s/%s/%s/%s' % (cls.index_server_url, user_id, cls.type, id)
+        index_server_url = get_component(IStorageIndex).get_connection()
+        route = '%s/%s/%s/%s' % (index_server_url, user_id, cls.type, id)
         res = requests.put(route, to_json(data))
         return True if res.status_code == 200 else False
 
@@ -62,6 +92,7 @@ class BaseIndex(object):
     @classmethod
     def filter(cls, user_id, params, order=None, limit=None):
         # XXX well I know this it bad, security must be considered strongly
+        index_server_url = get_component(IStorageIndex).get_connection()
         values = []
         for k, v in params.iteritems():
             if k.endswith('_id'):
@@ -85,8 +116,7 @@ class BaseIndex(object):
                 'from': limit.get('from', 0),
                 'size': limit.get('size', 10),
             })
-
-        route = "%s/%s/%s/_search?" % (cls.index_server_url, user_id, cls.type)
+        route = "%s/%s/%s/_search?" % (index_server_url, user_id, cls.type)
         res = requests.get(route, data=to_json(query))
         data = res.json()
         results = []
@@ -101,19 +131,8 @@ class BaseIndex(object):
             data.update({col: getattr(self, col)})
         return data
 
-@implementer(IUserIndex)
-class UserIndex(BaseIndex):
-    """Only here to manage user index globally (create, delete)"""
 
-    @classmethod
-    def create(cls, user):
-        # Create index for user
-        route = '%s/%s' % (cls.index_server_url, user.user_id)
-        res = requests.put(route)
-        return True if res.status_code == 200 else False
-
-
-class BaseIndexMessage(BaseIndex):
+class BaseIndexMessage(BaseIndexDocument):
     """Base class to store a message in an index store"""
     columns = ['message_id', 'thread_id', 'security_level',
                'subject', 'from_', 'date', 'date_insert',
@@ -203,7 +222,7 @@ class IndexedMessage(BaseIndexMessage, TagMixin):
 
 
 @implementer(IIndexedContact)
-class IndexedContact(BaseIndex, TagMixin):
+class IndexedContact(BaseIndexDocument, TagMixin):
     """Contact from index server with helpers methods"""
 
     def __init__(self, data):
@@ -215,7 +234,7 @@ class IndexedContact(BaseIndex, TagMixin):
 
 
 @implementer(IIndexedThread)
-class IndexedThread(BaseIndex, TagMixin):
+class IndexedThread(BaseIndexDocument, TagMixin):
     """Thread from index server"""
 
     columns = ['thread_id', 'date_insert', 'date_update',
