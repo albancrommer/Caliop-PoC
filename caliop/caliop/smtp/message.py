@@ -16,7 +16,7 @@ class MdaMessage(object):
 
     recipient_headers = ['From', 'To', 'Cc', 'Bcc', 'X-Original-To']
 
-    def __init__(self, raw):
+    def __init__(self, rcpts, raw):
         try:
             self.mail = Rfc2822(raw)
         except Exception, exc:
@@ -27,7 +27,7 @@ class MdaMessage(object):
             log.warn('Defects on parsed mail %r' % self.mail.defects)
         self.recipients = self._extract_recipients()
         self.headers = self._extract_headers()
-        self.users = self._resolve_users()
+        self.users = self._resolve_users(rcpts)
         if self.users:
             self.parts = self._extract_parts()
         else:
@@ -67,18 +67,17 @@ class MdaMessage(object):
             headers[k] = [x[1] for x in g]
         return headers
 
-    def _resolve_users(self):
-        """Find all users involved in this mail"""
+    def _resolve_users(self, rcpts):
+        """Find all users from recipients"""
         find_users = []
-        for type, recip in self.recipients.iteritems():
-            for addr, real_addr in recip:
-                try:
-                    user = User.get(addr)
-                    if not user in find_users:
-                        find_users.append(user)
-                except:
-                    # XXX handle NotFound only
-                    pass
+        for rcpt in rcpts:
+            try:
+                user = User.get(rcpt)
+                if not user in find_users:
+                    find_users.append(user)
+            except:
+                # XXX handle NotFound only
+                pass
         return find_users
 
     def _extract_parts(self):

@@ -39,11 +39,11 @@ class DeliveryAgent(object):
                                contacts, tags, parts)
         return Message.from_user_message(user_msg)
 
-    def process(self, buf):
+    def process(self, mailfrom, rcpts, buf):
         """
         Process a mail from buffer, to deliver it to users that can be found
         """
-        msg = MdaMessage(buf)
+        msg = MdaMessage(rcpts, buf)
 
         messages = []
         parts = []

@@ -51,13 +51,15 @@ def import_email(email, import_path, format):
         user.save()
 
     agent = DeliveryAgent()
+    mailfrom = ''
+    rcpts = [email]
 
     log.info("Processing mode %s" % mode)
     msgs = []
     for key, mail in emails.iteritems():
         # Create contact for user
         log.info('Processing mail %s' % key)
-        msgs.append(MdaMessage(mail))
+        msgs.append(MdaMessage(rcpts, mail))
 
     msgs = sorted(msgs, key=lambda msg: msg.date)
 
@@ -75,5 +77,5 @@ def import_email(email, import_path, format):
                     if os.path.isfile('%s/%s.png' % (AVATAR_DIR, name)):
                         infos.update({'avatar': '%s.png' % name})
                     Contact.create(user, infos)
-        res = agent.process(msg.mail)
+        res = agent.process(mailfrom, rcpts, msg.mail)
         log.info('Process result %r' % res)
