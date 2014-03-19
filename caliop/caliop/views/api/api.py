@@ -9,6 +9,7 @@ from caliop.config import Configuration
 from caliop.helpers.log import log
 from caliop.helpers.json import to_json
 
+from caliop.core.raw import RawMail
 from caliop.core.user import User, UserMessage
 from caliop.core.thread import Thread as UserThread
 from caliop.core.message import (Message as CMessage, BaseMessage)
@@ -147,6 +148,21 @@ class Contact(Api):
                 'contacts': [self.contact_link(x) for x in contacts]})
         results = sorted(results, key=lambda x: x['group'])
         return Response(to_json(results))
+
+
+@resource(path=make_url('/mails/{raw_id}'))
+class Raw(Api):
+
+    def __init__(self, request):
+        self.request = request
+        self.user = self.check_user()
+
+    def get(self):
+        raw_id = self.request.matchdict.get('raw_id')
+        raw = RawMail.get(raw_id)
+        if not self.user.user_id in raw.users:
+            return Response(to_json({'error': 'Not allowed'}))
+        return Response(raw.data)
 
 
 # XXX XXX XXX XXX Should not be here !!!!
