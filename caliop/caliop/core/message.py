@@ -48,12 +48,19 @@ class MessagePart(BaseCore):
             payload = payload. \
                 decode(charsets[0], 'replace'). \
                 encode('utf-8')
-
+        if part.get('Content-Disposition'):
+            if ';' in part.get('Content-Disposition'):
+                disposition, _ = part.get('Content-Disposition').split(';', 2)
+            else:
+                disposition = part.get('Content-Disposition')
+        else:
+            disposition = None
         part = super(MessagePart, cls).\
             create(content_type=part.get_content_type(),
                    position=position,
                    size=size,
                    filename=part.get_filename(),
+                   disposition=disposition,
                    payload=payload,
                    users=users_id)
         return part

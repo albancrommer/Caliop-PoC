@@ -90,6 +90,7 @@ class IMessagePart(Interface):
     content_type = Attribute('Content type')
     size = Attribute('Size of the payload')
     filename = Attribute('Filename')
+    disposition = Attribute('Content-Disposition of part')
     payload = Attribute('base64 encoded payload')
     users = Attribute('Map user and related message for this part')
 

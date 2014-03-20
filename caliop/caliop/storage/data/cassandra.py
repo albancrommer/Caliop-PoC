@@ -108,6 +108,7 @@ class MessagePart(BaseModel):
     content_type = columns.Text()
     size = columns.Integer()
     filename = columns.Text()
+    disposition = columns.Text()
     # base64 encoded payload
     payload = columns.Text()
     # Map user and related message for this part
