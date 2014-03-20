@@ -64,6 +64,7 @@ class IThread(Interface):
     thread_id = Attribute('')
     date_insert = Attribute('')
     security_level = Attribute('')
+    subject = Attribute('Thread subject')
 
 
 class IMessage(Interface):
@@ -72,6 +73,7 @@ class IMessage(Interface):
     thread_id = Attribute('Thread that own the message')
     date_insert = Attribute('Creation date')
     security_level = Attribute('Caliop Security Score')
+    subject = Attribute('Message subject')
     external_message_id = Attribute('MIME message id or '
                                     'other protocol like id')
     external_parent_id = Attribute('In-Reply-To')
