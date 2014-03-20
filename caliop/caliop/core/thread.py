@@ -61,7 +61,8 @@ class Thread(BaseCore):
             thread = cls.create(user_id=message.user.user_id,
                                 thread_id=new_id,
                                 date_insert=datetime.utcnow(),
-                                security_level=message.security_level)
+                                security_level=message.security_level,
+                                subject=message.subject)
             log.debug('Created thread %s' % thread.thread_id)
             contacts = [x.to_dict() for x in message.recipients]
             index_data = {

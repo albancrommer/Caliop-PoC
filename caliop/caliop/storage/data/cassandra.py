@@ -84,6 +84,7 @@ class Thread(BaseModel):
     thread_id = columns.Integer(primary_key=True)  # counter.thread_id
     date_insert = columns.DateTime()
     security_level = columns.Integer()
+    subject = columns.Text()
 
 
 @implementer(IMessage)
@@ -93,6 +94,7 @@ class Message(BaseModel):
     thread_id = columns.Integer()                   # counter.thread_id
     date_insert = columns.DateTime()
     security_level = columns.Integer()
+    subject = columns.Text()
     external_message_id = columns.Text()
     external_parent_id = columns.Text()
     parts = columns.List(columns.UUID)

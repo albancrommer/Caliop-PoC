@@ -114,6 +114,7 @@ class Message(BaseCore):
                          thread_id=thread.thread_id,
                          date_insert=datetime.utcnow(),
                          security_level=message.security_level,
+                         subject=message.subject,
                          external_message_id=message.external_message_id,
                          external_parent_id=parent_id,
                          parts=parts_id,
