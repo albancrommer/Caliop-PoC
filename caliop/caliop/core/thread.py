@@ -70,6 +70,7 @@ class Thread(BaseCore):
                 'date_insert': thread.date_insert,
                 'date_update': datetime.utcnow(),
                 'security_level': message.security_level,
+                'subject': message.subject,
                 'slug': message.text[:200],
                 'contacts': contacts,
             }
