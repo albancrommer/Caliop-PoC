@@ -11,8 +11,9 @@ from caliop.helpers.log import log
 from caliop.core.raw import RawMail
 from caliop.core.user import User, UserMessage
 from caliop.core.thread import Thread as UserThread
-from caliop.core.message import (Message as CMessage, BaseMessage)
-from caliop.core.contact import Contact as UserContact, Recipient
+from caliop.core.message import (Message as CoreMessage, BaseMessage,
+                                 MessagePart as CorePart)
+from caliop.core.contact import Contact as UserContact
 
 
 DEFAULT_LIMIT = Configuration('global').get('site.item_per_page')
@@ -80,7 +81,7 @@ class Message(Api):
 
     def collection_get(self):
         thread_id = int(self.request.matchdict.get('thread_id'))
-        messages = CMessage.by_thread_id(self.user, thread_id,
+        messages = CoreMessage.by_thread_id(self.user, thread_id,
                                          limit=get_limit(self.request))
         return messages
 
@@ -88,7 +89,7 @@ class Message(Api):
         thread_id = int(self.request.matchdict.get('thread_id'))
         reply_to = self.request.json.get('reply_to')
         if reply_to:
-            parent = CMessage.get(self.user, reply_to)
+            parent = CoreMessage.get(self.user, reply_to)
             parent_message_id = parent.external_id
             thread_id = parent.thread_id
             sec_level = parent.security_level
@@ -111,8 +112,8 @@ class Message(Api):
                                parent_message_id=parent_message_id)
         user_msg = UserMessage(self.user, base_msg, sec_level,
                                [], tags, [])
-        msg = CMessage.from_user_message(user_msg)
-        idx_msg = CMessage.by_id(self.user, msg.message_id)
+        msg = CoreMessage.from_user_message(user_msg)
+        idx_msg = CoreMessage.by_id(self.user, msg.message_id)
         log.info('Post new message %r' % msg.message_id)
         # XXX return redirect to newly created message ?
         return idx_msg
@@ -162,6 +163,22 @@ class Raw(Api):
         if not self.user.user_id in raw.users:
             return {'error': 'Not allowed'}
         return raw.data
+
+
+@resource(path=make_url('/parts/{part_id}'))
+class Part(Api):
+
+    def __init__(self, request):
+        self.request = request
+        self.user = self.check_user()
+
+    @view(renderer='part')
+    def get(self):
+        part_id = self.request.matchdict.get('part_id')
+        part = CorePart.get(part_id)
+        if not self.user.user_id in part.users:
+            return {'error': 'Not allowed'}
+        return {'part': part}
 
 
 # XXX XXX XXX XXX Should not be here !!!!

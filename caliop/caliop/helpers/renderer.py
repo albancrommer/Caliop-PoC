@@ -46,3 +46,18 @@ class JsonRenderer(object):
                         or acceptable[0])
         response.content_type = content_type
         return json.dumps(data, cls=JSONEncoder)
+
+
+@implementer(ITemplateRenderer)
+class PartRenderer(object):
+    """
+    Renderer for a message part, content type is defined in the part
+    """
+
+    def __init__(self, request):
+        self.request = request
+
+    def __call__(self, part, context):
+        response = context['request'].response
+        response.content_type = part['part'].content_type.encode('utf-8')
+        return part['part'].payload.encode('utf-8')

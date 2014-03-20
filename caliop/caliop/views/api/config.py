@@ -20,6 +20,7 @@ def includeme(config):
     config.add_renderer('text_plain', renderer.TextPlainRenderer)
     config.add_renderer('json', renderer.JsonRenderer)
     config.add_renderer('simplejson', renderer.JsonRenderer)
+    config.add_renderer('part', renderer.PartRenderer)
 
     # Activate cornice in any case and scan
     config.scan('caliop.views.api.api')
