@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Caliop storage data interfaces
+Caliop storage data _IStorables
 """
 
 from __future__ import absolute_import, print_function, unicode_literals
@@ -8,13 +8,26 @@ from __future__ import absolute_import, print_function, unicode_literals
 from zope.interface import Attribute, Interface
 
 
-class IRawMail(Interface):
+class _IStorable(Interface):
+
+    #@classmethod
+    def create(cls, **kwargs):
+        """
+         Create a storable oject in the storage engine and return it.
+        """
+
+    def save(self):
+        """
+         Save the current state of the storable object in the storage engine.
+        """
+
+class IRawMail(_IStorable):
     raw_id = Attribute('Mail identifier')
     users = Attribute('List of users to deliver this mail')
     data = Attribute('Binary content of mail')
 
 
-class IUser(Interface):
+class IUser(_IStorable):
     user_id = Attribute('User email')
     password = Attribute('encrypted password')
     date_insert = Attribute('Creation date of the user')
@@ -23,20 +36,20 @@ class IUser(Interface):
     params = Attribute('Other user parameters in a dict')
 
 
-class ICounter(Interface):
+class ICounter(_IStorable):
     user_id = Attribute('Email address')
     message_id = Attribute('Identifier of the message')
     thread_id = Attribute('Identifier of the thread')
 
 
-class ITag(Interface):
+class ITag(_IStorable):
     user_id = Attribute('Email address')
     label = Attribute('Label of the tag')
     background = Attribute('Background color')
     color = Attribute('Foreground color')
 
 
-class IContact(Interface):
+class IContact(_IStorable):
     contact_id = Attribute('Contact identifier')
     user_id = Attribute('Email address')
     first_name = Attribute('First name')
@@ -47,7 +60,7 @@ class IContact(Interface):
     infos = Attribute('Contact informations in a dict object')
 
 
-class IContactLookup(Interface):
+class IContactLookup(_IStorable):
     """Lookup any information needed to recognize a user contact"""
     user_id = Attribute('User email address to look up')
     value = Attribute('A value in a Contact.info that match '
@@ -55,7 +68,7 @@ class IContactLookup(Interface):
     contact_id = Attribute('Identifier of the message')
 
 
-class IThread(Interface):
+class IThread(_IStorable):
     """
     Represent a discussion thread.
     """
@@ -67,7 +80,7 @@ class IThread(Interface):
     subject = Attribute('Thread subject')
 
 
-class IMessage(Interface):
+class IMessage(_IStorable):
     message_id = Attribute('Message identifier')
     user_id = Attribute('User email that own the message')
     thread_id = Attribute('Thread that own the message')
@@ -81,7 +94,7 @@ class IMessage(Interface):
     tags = Attribute('List of tags in the message')
 
 
-class IMessagePart(Interface):
+class IMessagePart(_IStorable):
     """
     Build a mime message part
     """
@@ -95,7 +108,7 @@ class IMessagePart(Interface):
     users = Attribute('Map user and related message for this part')
 
 
-class IMessageLookup(Interface):
+class IMessageLookup(_IStorable):
     """Reverse index for external message id"""
     user_id = Attribute('User email')
     external_id = Attribute('Parent Message identifier')
@@ -106,7 +119,7 @@ class IMessageLookup(Interface):
 
 ## Calendar
 
-class IRRule(Interface):
+class IRRule(_IStorable):
     """Recurrence Rule"""
     id = Attribute('')
     user_id = Attribute('User email')    # partition key
@@ -116,7 +129,7 @@ class IRRule(Interface):
     events = Attribute('')
 
 
-class IEvent(Interface):
+class IEvent(_IStorable):
     user_id = Attribute('User email')    # partition key
     id = Attribute('')
     date_start = Attribute('')

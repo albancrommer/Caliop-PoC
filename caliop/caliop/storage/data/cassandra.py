@@ -23,6 +23,12 @@ class BaseModel(Model):
     __abstract__ = True
     __keyspace__ = Configuration('global').get('cassandra.keyspace')
 
+    @classmethod
+    def create(cls, **kwargs):
+        kwargs = {key: val for key, val in kwargs.items()
+                  if key in cls._columns}
+        return super(BaseModel, cls).create(**kwargs)
+
 
 @implementer(IRawMail)
 class RawMail(BaseModel):
