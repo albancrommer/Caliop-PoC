@@ -29,4 +29,3 @@ def includeme(config):
     registry.register(elasticsearch.IndexedContact)
     registry.register(elasticsearch.IndexedMessage)
     registry.register(elasticsearch.IndexedThread)
-    registry.register(elasticsearch.MailIndexMessage)

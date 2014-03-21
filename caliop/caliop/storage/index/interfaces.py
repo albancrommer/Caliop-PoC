@@ -87,16 +87,6 @@ class _IIndexedDocument(Interface):
         """
 
 
-
-class IMailIndexMessage(_IIndexedDocument):
-    """Get a user message object, and parse it to make an index"""
-
-    def __init__(self, message, thread_id, message_id, answer_to, offset):
-        """
-         Create the main index message from the given id
-        """
-
-
 class _ITagMixin(_IIndexedDocument):
 
     def add_tag(self, tag):

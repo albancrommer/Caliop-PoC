@@ -15,7 +15,7 @@ from caliop.helpers.log import log
 from caliop.storage import registry
 from caliop.storage.data.interfaces import (IMessage, IMessagePart,
                                             IMessageLookup)
-from caliop.storage.index.interfaces import IIndexedMessage, IMailIndexMessage
+from caliop.storage.index.interfaces import IIndexedMessage
 
 from .base import BaseCore
 from .thread import Thread
@@ -91,49 +91,22 @@ class MessageLookup(BaseCore):
             # Create a message lookup
             lookup = kwargs.get('lookup', None)
             offset = lookup.offset + 1 if lookup else 0
-            MessageLookup.create(user_id=message.user_id,
-                                 external_id=message.external_message_id,
-                                 message_id=message.message_id,
-                                 thread_id=message.thread_id,
-                                 offset=offset)
+            super(MessageLookup, cls).create(user_id=message.user_id,
+                                             external_id=message.external_message_id,
+                                             message_id=message.message_id,
+                                             thread_id=message.thread_id,
+                                             offset=offset)
         else:
             log.warn('No message lookup possible for %s' % message.message_id)
             offset = None
 
     @classmethod
-    def get(cls, user, external_id):
+    def get(cls, user_id, external_id):
         try:
-            return cls._model_class.get(user_id=user.user_id,
+            return cls._model_class.get(user_id=user_id,
                                         external_id=external_id)
         except DoesNotExist:
             return None
-
-
-
-
-class MailIndexMessage(object):
-    """Get a user message object, and parse it to make an index"""
-
-    def __init__(self, message, thread_id, message_id, answer_to, offset):
-        self.answer_to = answer_to
-        self.offset = offset
-
-        self.contacts = [x.to_dict() for x in message.recipients]
-        self.from_ = message.contact_from.contact_id
-        self.date = message.date
-        self.text = message.text
-        self.size = message.size
-        self.headers = message.headers
-        self.markers = ['U']
-
-    def _parse_parts(self, parts):
-        self.parts = []
-        for part in [x for x in parts if x.can_index()]:
-            self.parts.append({'id': part.id,
-                               'size': part.size,
-                               'content_type': part.content_type,
-                               'filename': part.filename,
-                               'content': part.payload})
 
 
 class Message(BaseCore):
@@ -141,82 +114,42 @@ class Message(BaseCore):
     _model_class = registry.get(IMessage)
     _lookup_classes = {('user_id', 'external_id'): MessageLookup}
     _index_class = registry.get(IIndexedMessage)
-
-    """Get a user message object, and parse it to make an index"""
-
-    user_id = columns.Text(primary_key=True)
-    message_id = columns.Integer(primary_key=True)  # counter.message_id
-    thread_id = columns.Integer()                   # counter.thread_id
-    date_insert = columns.DateTime()
-    security_level = columns.Integer()
-    external_message_id = columns.Text()
-    external_parent_id = columns.Text()
-    parts = columns.List(columns.UUID)
-    tags = columns.List(columns.Text)
+    _pkey_name = 'message_id'
 
     @property
-    def lookup(self):
-        pass
-
-
-    def __init__(self, message, thread_id, message_id, answer_to, offset):
-        self.answer_to = answer_to
-        self.offset = offset
-        self.security_level = message.security_level
-        self.date_insert = datetime.utcnow()
-        self._parse_message(message)
-        self._parse_parts(message.parts)
-        cts = [x.to_dict() for x in message.recipients]
-        self.contacts = cts
-        self.tags = message.tags
-
-    def _parse_message(self, message):
-        self.subject = message.subject
-        self.from_ = message.contact_from.contact_id
-        self.date = message.date
-        self.text = message.text
-        self.size = message.size
-        self.headers = message.headers
-        self.markers = ['U']
-
-    def _parse_parts(self, parts):
-        self.parts = []
-        for part in [x for x in parts if x.can_index()]:
-            self.parts.append({'id': part.id,
-                               'size': part.size,
-                               'content_type': part.content_type,
-                               'filename': part.filename,
-                               'content': part.payload})
-
-
-
-
-    @classmethod
-    def create(cls, **kwargs):
-        message = super(Message, cls).create(**kwargs)
-
-        # XXX write raw message in store using msg pkey
-        # XXX index message asynchronously ?
-        index = MailIndexMessage(message, thread.thread_id, message_id,
-                                 answer_to, offset)
-        cls._index_class.create_index(message.user.user_id, message_id, index)
-        log.debug('Indexing message %s:%d' % (message.user.user_id, message_id))
+    def offset(self):
+        try:
+            return MessageLookup.get(self.user_id,
+                                     self.external_message_id).offset
+        except Exception as exc:  # otherwise we are going in the __getattr__
+            log.exception('Exception occured while getting the message lookup')
+            return 0
 
     @classmethod
     def from_user_message(cls, message):
         # Lookup by external_id
         parent_id = message.external_parent_id
         message_id = message.user.new_message_id()
-        parts_id = [x.id for x in message.parts]
+        parts_id = [part.id for part in message.parts]
         lookup = None
         if parent_id:
             log.debug('Lookup message %s for %s' %
                       (parent_id, message.user.user_id))
-            lookup = MessageLookup.get(message.user, parent_id)
+            lookup = MessageLookup.get(message.user.user_id, parent_id)
         answer_to = lookup.message_id if lookup else None
 
         # Create or update thread
         thread = Thread.from_user_message(message, lookup)
+
+        indexed_parts = []
+        for part in message.parts:
+            if not part.can_index():
+                continue
+            indexed_parts.append({'id': part.id,
+                                  'size': part.size,
+                                  'content_type': part.content_type,
+                                  'filename': part.filename,
+                                  'content': part.payload})
 
         msg = cls.create(user_id=message.user.user_id,
                          message_id=message_id,
@@ -228,7 +161,21 @@ class Message(BaseCore):
                          external_parent_id=parent_id,
                          parts=parts_id,
                          tags=message.tags,
-                         lookup=lookup)
+                         flags=[r'Recent'],
+                         lookup=lookup,
+                         # Indexed fields
+                         _indexed_extra={
+                             'from_': message.contact_from.contact_id,
+                             'headers': message.headers,
+                             'text': message.text,
+                             'answer_to': answer_to,
+                             'contacts': [contact.to_dict()
+                                          for contact in message.recipients],
+                             'date': message.date,
+                             'size': message.size,
+                             'parts': indexed_parts
+                             },
+                         )
 
         # set message_id into parts
         for part in message.parts:

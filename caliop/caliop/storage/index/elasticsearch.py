@@ -1,14 +1,23 @@
+import logging
 from datetime import datetime
 
 import requests
+
 from zope.interface import implementer
+import simplejson as json
 
 from caliop.config import Configuration
-from caliop.helpers.json import to_json
+from caliop.helpers.renderer import JSONEncoder
 from .interfaces import (IStorageIndex,
                          IUserIndex, IIndexedMessage,
                          IIndexedContact, IIndexedThread)
 from ..registry import get_component
+
+
+log = logging.getLogger(__name__)
+
+def to_json(data):
+    return json.dumps(data, cls=JSONEncoder)
 
 
 @implementer(IStorageIndex)
@@ -31,7 +40,7 @@ class UserIndex(object):
     """Only here to manage user index globally (create, delete)"""
 
     @classmethod
-    def create(self, user):
+    def create(self, user, **kwargs):
         # Create index for user
         index_server_url = get_component(IStorageIndex).get_connection()
         route = '%s/%s' % (index_server_url, user.user_id)
@@ -61,10 +70,13 @@ class BaseIndexDocument(object):
     @classmethod
     def get(cls, user_id, uid):
         route = cls._get_resource_url(user_id, uid)
+        log.debug('GET %s' % route)
         res = requests.get(route)
         if res.status_code == 200:
             data = res.json()
             obj = cls(data['_source']) if data['_source'] else None
+            if not obj:
+                raise Exception('Index %s/%s/%s not found' % (user_id, cls.type, uid))
             # XXX : design problem, we should not do this
             setattr(obj, 'user_id', user_id)
             setattr(obj, 'uid', uid)
@@ -83,21 +95,18 @@ class BaseIndexDocument(object):
         return True if res.status_code == 200 else False
 
     @classmethod
-    def create(cls, core_object):
+    def create(cls, core_object, **kwargs):
         index_server_url = get_component(IStorageIndex).get_connection()
         route = '%s/%s/%s/%s' % (index_server_url, core_object.user_id,
                                  cls.type,
                                  getattr(core_object, core_object._pkey_name),
                                  )
-        data = {column:getattr(core_object, column) for column in cls.columns}
+        data = {column: kwargs.get(column, getattr(core_object, column))
+                for column in cls.columns}
+        log.debug('Create index data %s' % (route))
+
         res = requests.put(route, to_json(data))
         return True if res.status_code == 200 else False
-
-    @classmethod
-    def create_index(cls, user_id, id, idx_object):
-        obj = idx_object.to_dict()
-        # XXX Create mappings (in children classes)
-        return cls.create(user_id, id, obj)
 
     @classmethod
     def filter(cls, user_id, params, order=None, limit=None):
@@ -142,17 +151,6 @@ class BaseIndexDocument(object):
         return data
 
 
-class BaseIndexMessage(BaseIndexDocument):
-    """Base class to store a message in an index store"""
-    columns = ['message_id', 'thread_id', 'security_level',
-               'subject', 'from_', 'date', 'date_insert',
-               'text', 'size', 'answer_to', 'offset', 'headers',
-               'tags', 'markers', 'parts', 'contacts',
-               ]
-
-
-
-
 class TagMixin(object):
     """Mixin for indexed objects havings tags"""
 
@@ -191,10 +189,15 @@ class TagMixin(object):
 
 
 @implementer(IIndexedMessage)
-class IndexedMessage(BaseIndexMessage, TagMixin):
+class IndexedMessage(BaseIndexDocument, TagMixin):
     """Message from index server with helpers methods"""
 
     type = 'messages'
+    columns = ['message_id', 'thread_id', 'security_level',
+               'subject', 'from_', 'date', 'date_insert',
+               'text', 'size', 'answer_to', 'offset', 'headers',
+               'tags', 'flags', 'parts', 'contacts',
+               ]
 
 
 @implementer(IIndexedContact)

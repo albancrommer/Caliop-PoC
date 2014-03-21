@@ -100,11 +100,12 @@ class Message(BaseModel):
     thread_id = columns.Integer()                   # counter.thread_id
     date_insert = columns.DateTime()
     security_level = columns.Integer()
-    subject = columns.Text()
+    subject = columns.Text()  # Subject of email, the message for short
     external_message_id = columns.Text()
     external_parent_id = columns.Text()
     parts = columns.List(columns.UUID)
     tags = columns.List(columns.Text)
+    flags = columns.List(columns.Text)  # Seen, Recent, Deleted, ... IMAP?
 
 
 @implementer(IMessagePart)

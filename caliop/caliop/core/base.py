@@ -7,8 +7,6 @@ Core are glue code to the storage abstraction layer.
 
 from __future__ import absolute_import, print_function, unicode_literals
 
-from cqlengine import columns  # XXX: Fix me!
-
 
 class BaseCore(object):
     """Base class for all core objects"""
@@ -17,16 +15,19 @@ class BaseCore(object):
     _index_class = None
     _pkey_name = 'id'
 
+    def __init__(self, model):
+        self.model = model
+
     @classmethod
     def create(cls, **kwargs):
-
+        indexed_extra = kwargs.pop('_indexed_extra', {})
         obj = cls._model_class.create(**kwargs)
         for lookup in cls._lookup_classes.values():
             lookup.create(obj, **kwargs)
 
         obj = cls(obj)
         if cls._index_class:
-            cls._index_class.create(obj)
+            cls._index_class.create(obj, **indexed_extra)
         return obj
 
     @classmethod
@@ -41,8 +42,9 @@ class BaseCore(object):
         return self.model.save()
 
     def __getattr__(self, attr):
+        """
+        used to proxy model attribute.
+        Does not proxy attributed retrieve via a "lookup".
+        """
         if attr in self.model._columns.keys():
-            col = getattr(self.model, attr)
-            if isinstance(self.model._columns[attr], columns.UUID):
-                return str(col)
-            return col
+            return getattr(self.model, attr)

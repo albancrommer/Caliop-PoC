@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 from datetime import datetime
 
 from pyramid.response import Response
+from pyramid.httpexceptions import HTTPForbidden
 from cornice.resource import resource, view
 
 from caliop.config import Configuration
@@ -39,7 +40,9 @@ class Api(object):
         self.request = request
 
     def check_user(self):
-        return User.get(self.request.session['user'])
+        if 'user' in self.request.session:
+            return User.get(self.request.session['user'])
+        return None
 
 
 @resource(collection_path=make_url('/threads'),

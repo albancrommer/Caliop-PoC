@@ -109,7 +109,10 @@ class IMessagePart(_IStorable):
 
 
 class IMessageLookup(_IStorable):
-    """Reverse index for external message id"""
+    """Reverse index for external message id.
+
+    Used to build messages threading. Compuge the "offset' of the message.
+    """
     user_id = Attribute('User email')
     external_id = Attribute('Parent Message identifier')
     message_id = Attribute('Child Message identifier')

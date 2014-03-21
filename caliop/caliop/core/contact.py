@@ -41,6 +41,7 @@ class Contact(BaseCore):
     _model_class = registry.get(IContact)
     _lookup_classes = {('user_id', 'value'): ContactLookup}
     _index_class = registry.get(IIndexedContact)
+    _pkey_name = 'contact_id'
 
     @classmethod
     def create(cls, user, infos):
