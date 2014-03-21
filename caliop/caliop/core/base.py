@@ -7,22 +7,27 @@ Core are glue code to the storage abstraction layer.
 
 from __future__ import absolute_import, print_function, unicode_literals
 
-from cqlengine import columns
+from cqlengine import columns  # XXX: Fix me!
 
 
 class BaseCore(object):
     """Base class for all core objects"""
     _model_class = None
+    _lookup_classes = {}
     _index_class = None
     _pkey_name = 'id'
 
-    def __init__(self, obj):
-        self.model = obj
-
     @classmethod
     def create(cls, **kwargs):
+
         obj = cls._model_class.create(**kwargs)
-        return cls(obj)
+        for lookup in cls._lookup_classes.values():
+            lookup.create(obj, **kwargs)
+
+        obj = cls(obj)
+        if cls._index_class:
+            cls._index_class.create(obj)
+        return obj
 
     @classmethod
     def get(cls, key):

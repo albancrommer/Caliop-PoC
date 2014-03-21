@@ -15,9 +15,7 @@ from caliop.helpers.log import log
 from caliop.storage import registry
 from caliop.storage.data.interfaces import (IMessage, IMessagePart,
                                             IMessageLookup)
-from caliop.storage.index.elasticsearch import (IndexedMessage,
-                                                MailIndexMessage,
-                                                )
+from caliop.storage.index.interfaces import IIndexedMessage, IMailIndexMessage
 
 from .base import BaseCore
 from .thread import Thread
@@ -87,6 +85,22 @@ class MessageLookup(BaseCore):
     _model_class = registry.get(IMessageLookup)
 
     @classmethod
+    def create(cls, message, **kwargs):
+
+        if kwargs['external_message_id']:
+            # Create a message lookup
+            lookup = kwargs.get('lookup', None)
+            offset = lookup.offset + 1 if lookup else 0
+            MessageLookup.create(user_id=message.user_id,
+                                 external_id=message.external_message_id,
+                                 message_id=message.message_id,
+                                 thread_id=message.thread_id,
+                                 offset=offset)
+        else:
+            log.warn('No message lookup possible for %s' % message.message_id)
+            offset = None
+
+    @classmethod
     def get(cls, user, external_id):
         try:
             return cls._model_class.get(user_id=user.user_id,
@@ -95,10 +109,98 @@ class MessageLookup(BaseCore):
             return None
 
 
+
+
+class MailIndexMessage(object):
+    """Get a user message object, and parse it to make an index"""
+
+    def __init__(self, message, thread_id, message_id, answer_to, offset):
+        self.answer_to = answer_to
+        self.offset = offset
+
+        self.contacts = [x.to_dict() for x in message.recipients]
+        self.from_ = message.contact_from.contact_id
+        self.date = message.date
+        self.text = message.text
+        self.size = message.size
+        self.headers = message.headers
+        self.markers = ['U']
+
+    def _parse_parts(self, parts):
+        self.parts = []
+        for part in [x for x in parts if x.can_index()]:
+            self.parts.append({'id': part.id,
+                               'size': part.size,
+                               'content_type': part.content_type,
+                               'filename': part.filename,
+                               'content': part.payload})
+
+
 class Message(BaseCore):
 
     _model_class = registry.get(IMessage)
-    _index_class = IndexedMessage
+    _lookup_classes = {('user_id', 'external_id'): MessageLookup}
+    _index_class = registry.get(IIndexedMessage)
+
+    """Get a user message object, and parse it to make an index"""
+
+    user_id = columns.Text(primary_key=True)
+    message_id = columns.Integer(primary_key=True)  # counter.message_id
+    thread_id = columns.Integer()                   # counter.thread_id
+    date_insert = columns.DateTime()
+    security_level = columns.Integer()
+    external_message_id = columns.Text()
+    external_parent_id = columns.Text()
+    parts = columns.List(columns.UUID)
+    tags = columns.List(columns.Text)
+
+    @property
+    def lookup(self):
+        pass
+
+
+    def __init__(self, message, thread_id, message_id, answer_to, offset):
+        self.answer_to = answer_to
+        self.offset = offset
+        self.security_level = message.security_level
+        self.date_insert = datetime.utcnow()
+        self._parse_message(message)
+        self._parse_parts(message.parts)
+        cts = [x.to_dict() for x in message.recipients]
+        self.contacts = cts
+        self.tags = message.tags
+
+    def _parse_message(self, message):
+        self.subject = message.subject
+        self.from_ = message.contact_from.contact_id
+        self.date = message.date
+        self.text = message.text
+        self.size = message.size
+        self.headers = message.headers
+        self.markers = ['U']
+
+    def _parse_parts(self, parts):
+        self.parts = []
+        for part in [x for x in parts if x.can_index()]:
+            self.parts.append({'id': part.id,
+                               'size': part.size,
+                               'content_type': part.content_type,
+                               'filename': part.filename,
+                               'content': part.payload})
+
+
+
+
+    @classmethod
+    def create(cls, **kwargs):
+        message = super(Message, cls).create(**kwargs)
+
+        # XXX write raw message in store using msg pkey
+        # XXX index message asynchronously ?
+        index = MailIndexMessage(message, thread.thread_id, message_id,
+                                 answer_to, offset)
+        cls._index_class.create_index(message.user.user_id, message_id, index)
+        log.debug('Indexing message %s:%d' % (message.user.user_id, message_id))
 
     @classmethod
     def from_user_message(cls, message):
@@ -125,29 +227,14 @@ class Message(BaseCore):
                          external_message_id=message.external_message_id,
                          external_parent_id=parent_id,
                          parts=parts_id,
-                         tags=message.tags)
+                         tags=message.tags,
+                         lookup=lookup)
 
-        # Create a message lookup
-        if message.external_message_id:
-            offset = lookup.offset + 1 if lookup else 0
-            MessageLookup.create(user_id=message.user.user_id,
-                                 external_id=message.external_message_id,
-                                 message_id=message_id,
-                                 thread_id=thread.thread_id,
-                                 offset=offset)
-        else:
-            log.warn('No message lookup possible for %s' % message_id)
-            offset = None
         # set message_id into parts
         for part in message.parts:
             part.users[message.user.user_id] = msg.message_id
             part.save()
-        # XXX write raw message in store using msg pkey
-        # XXX index message asynchronously ?
-        index = MailIndexMessage(message, thread.thread_id, message_id,
-                                 answer_to, offset)
-        cls._index_class.create_index(message.user.user_id, message_id, index)
-        log.debug('Indexing message %s:%d' % (message.user.user_id, message_id))
+
         return msg
 
     @classmethod

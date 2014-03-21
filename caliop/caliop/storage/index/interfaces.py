@@ -32,7 +32,7 @@ class IUserIndex(Interface):
     #@classmethod
     def create(cls, user):
         """
-         Create an index for the user
+         Create the user in the index storage
         """
 
 

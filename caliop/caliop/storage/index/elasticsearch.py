@@ -6,7 +6,7 @@ from zope.interface import implementer
 from caliop.config import Configuration
 from caliop.helpers.json import to_json
 from .interfaces import (IStorageIndex,
-                         IMailIndexMessage, IUserIndex, IIndexedMessage,
+                         IUserIndex, IIndexedMessage,
                          IIndexedContact, IIndexedThread)
 from ..registry import get_component
 
@@ -31,7 +31,7 @@ class UserIndex(object):
     """Only here to manage user index globally (create, delete)"""
 
     @classmethod
-    def create(cls, user):
+    def create(self, user):
         # Create index for user
         index_server_url = get_component(IStorageIndex).get_connection()
         route = '%s/%s' % (index_server_url, user.user_id)
@@ -53,9 +53,14 @@ class BaseIndexDocument(object):
             setattr(self, col, data.get(col, None))
 
     @classmethod
-    def get(cls, user_id, uid):
+    def _get_resource_url(cls, user_id, uid):
         index_server_url = get_component(IStorageIndex).get_connection()
-        route = "%s/%s/%s/%s" % (index_server_url, user_id, cls.type, uid)
+        route = '%s/%s/%s/%s' % (index_server_url, user_id, cls.type, uid)
+        return route
+
+    @classmethod
+    def get(cls, user_id, uid):
+        route = cls._get_resource_url(user_id, uid)
         res = requests.get(route)
         if res.status_code == 200:
             data = res.json()
@@ -71,15 +76,20 @@ class BaseIndexDocument(object):
 
     def update(self, query):
         # XXX surely not secure
-        route = "%s/%s/%s/%s/_update" % \
-            (self.index_server_url, self.user_id, self.type, self.uid)
+        index_server_url = get_component(IStorageIndex).get_connection()
+        route = '%s/%s/%s/%s/_update' % \
+            (index_server_url, self.user_id, self.type, self.uid)
         res = requests.post(route, data=to_json(query))
         return True if res.status_code == 200 else False
 
     @classmethod
-    def create(cls, user_id, id, data):
+    def create(cls, core_object):
         index_server_url = get_component(IStorageIndex).get_connection()
-        route = '%s/%s/%s/%s' % (index_server_url, user_id, cls.type, id)
+        route = '%s/%s/%s/%s' % (index_server_url, core_object.user_id,
+                                 cls.type,
+                                 getattr(core_object, core_object._pkey_name),
+                                 )
+        data = {column:getattr(core_object, column) for column in cls.columns}
         res = requests.put(route, to_json(data))
         return True if res.status_code == 200 else False
 
@@ -141,40 +151,6 @@ class BaseIndexMessage(BaseIndexDocument):
                ]
 
 
-@implementer(IMailIndexMessage)
-class MailIndexMessage(BaseIndexMessage):
-    """Get a user message object, and parse it to make an index"""
-
-    def __init__(self, message, thread_id, message_id, answer_to, offset):
-        self.message_id = message_id
-        self.thread_id = thread_id
-        self.answer_to = answer_to
-        self.offset = offset
-        self.security_level = message.security_level
-        self.date_insert = datetime.utcnow()
-        self._parse_message(message)
-        self._parse_parts(message.parts)
-        cts = [x.to_dict() for x in message.recipients]
-        self.contacts = cts
-        self.tags = message.tags
-
-    def _parse_message(self, message):
-        self.subject = message.subject
-        self.from_ = message.contact_from.contact_id
-        self.date = message.date
-        self.text = message.text
-        self.size = message.size
-        self.headers = message.headers
-        self.markers = ['U']
-
-    def _parse_parts(self, parts):
-        self.parts = []
-        for part in [x for x in parts if x.can_index()]:
-            self.parts.append({'id': part.id,
-                               'size': part.size,
-                               'content_type': part.content_type,
-                               'filename': part.filename,
-                               'content': part.payload})
 
 
 class TagMixin(object):
