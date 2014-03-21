@@ -19,6 +19,7 @@ requires = [
     'requests',
     'bcrypt',
     'PyYAML',
+    # 'git+https://github.com/Gandi/pyramid_kvs.git',
     # 'git+https://github.com/gdchamal/cqlengine.git',
     # 'git+https://github.com/ekini/gsmtpd.git'  # OK I shouldn't, or not ...
     ]
