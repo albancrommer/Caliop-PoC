@@ -1,5 +1,6 @@
-import simplejson as json
+from uuid import UUID
 import datetime
+import simplejson as json
 from decimal import Decimal
 
 from zope.interface import implementer
@@ -27,6 +28,8 @@ class JSONEncoder(json.JSONEncoder):
             return float(obj)
         if isinstance(obj, self._datetypes):
             return obj.isoformat()
+        if isinstance(obj, UUID):
+            return str(obj)
         return super(JSONEncoder, self).default(obj)
 
 

@@ -25,8 +25,9 @@ class DeliveryAgent(object):
     def _get_tags(self, user, mail):
         # XXX: real logic needed
         tags = ['MAIL']
-        user_tags = [x.label for x in user.tags if x.label != 'MAIL']
-        tags.extend(random.sample(user_tags, 2))
+        user_tags = [tag.label for tag in user.tags
+                     if tag.label != 'MAIL']
+        tags.extend(random.sample(user_tags, len(user_tags)))
         return tags
 
     def process_user_mail(self, user, msg, parts):

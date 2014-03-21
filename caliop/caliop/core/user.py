@@ -38,8 +38,8 @@ class Tag(BaseCore):
 class User(BaseCore):
 
     _model_class = registry.get(IUser)
-    _index_class = registry.get(IUserIndex)
     _pkey_name = 'user_id'
+    _index_class = registry.get(IUserIndex)
 
     @classmethod
     def create(cls, **kwargs):
@@ -53,8 +53,6 @@ class User(BaseCore):
         default_tags = Configuration('global').get('system.default_tags')
         for tag in default_tags:
             Tag.create(user_id=user.user_id, **tag)
-        # Create index
-        cls._index_class.create(user)
         return user
 
     @classmethod

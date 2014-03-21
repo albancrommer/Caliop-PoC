@@ -16,6 +16,7 @@ class Thread(BaseCore):
 
     _model_class = registry.get(IThread)
     _index_class = registry.get(IIndexedThread)
+    _pkey_name = 'thread_id'
 
     @classmethod
     def get(cls, user, thread_id):
@@ -57,28 +58,24 @@ class Thread(BaseCore):
             log.debug('Update index for thread %s' % lookup.thread_id)
         else:
             # Create new thread
+
             new_id = message.user.new_thread_id()
-            thread = cls.create(user_id=message.user.user_id,
-                                thread_id=new_id,
-                                date_insert=datetime.utcnow(),
-                                security_level=message.security_level,
-                                subject=message.subject)
-            log.debug('Created thread %s' % thread.thread_id)
-            contacts = [x.to_dict() for x in message.recipients]
-            index_data = {
-                'thread_id': thread.thread_id,
-                'date_insert': thread.date_insert,
-                'date_update': datetime.utcnow(),
-                'security_level': message.security_level,
-                'subject': message.subject,
-                'slug': message.text[:200],
-                'contacts': contacts,
-            }
+            contacts = [contact.to_dict() for contact in message.recipients]
+            kwargs = {'user_id': message.user.user_id,
+                      'thread_id': new_id,
+                      'date_insert': datetime.utcnow(),
+                      'security_level': message.security_level,
+                      'subject': message.subject,
+                      '_indexed_extra': {
+                            'date_update': datetime.utcnow(),
+                            'slug': message.text[:200],
+                            'contacts': contacts,
+                            }
+                      }
             if message.tags:
-                index_data.update({'tags': message.tags})
-            cls._index_class.create(message.user.user_id, thread.thread_id,
-                                    index_data)
-            log.debug('Create index for thread %s' % thread.thread_id)
+                kwargs['_indexed_extra']['tags'] = message.tags
+            thread = cls.create(**kwargs)
+            log.debug('Created thread %s' % thread.thread_id)
 
         return thread
 

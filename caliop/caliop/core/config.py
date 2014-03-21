@@ -24,8 +24,8 @@ def includeme(config):
     registry.register(cassandra.Thread)
 
     from caliop.storage.index import elasticsearch
+    registry.register(elasticsearch.StorageIndex)
+    registry.register(elasticsearch.UserIndex)
     registry.register(elasticsearch.IndexedContact)
     registry.register(elasticsearch.IndexedMessage)
     registry.register(elasticsearch.IndexedThread)
-    registry.register(elasticsearch.MailIndexMessage)
-    registry.register(elasticsearch.UserIndex)

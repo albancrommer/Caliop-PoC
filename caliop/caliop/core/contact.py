@@ -18,6 +18,15 @@ class ContactLookup(BaseCore):
     _model_class = registry.get(IContactLookup)
 
     @classmethod
+    def create(cls, contact, **kwargs):
+        # Create infos lookup
+        for key, value in contact.infos.iteritems():
+            if 'tel' in key or 'mail' in key:
+                super(ContactLookup, cls).create(user_id=contact.user_id,
+                                                 value=value,
+                                                 contact_id=contact.contact_id)
+
+    @classmethod
     def get(cls, user, value):
         # XXX : use NotFound
         try:
@@ -30,19 +39,14 @@ class ContactLookup(BaseCore):
 class Contact(BaseCore):
 
     _model_class = registry.get(IContact)
+    _lookup_classes = {('user_id', 'value'): ContactLookup}
     _index_class = registry.get(IIndexedContact)
+    _pkey_name = 'contact_id'
 
     @classmethod
     def create(cls, user, infos):
         c = super(Contact, cls).create(user_id=user.user_id, infos=infos,
                                        date_insert=datetime.utcnow())
-        # Create infos lookup
-        for k, v in infos.iteritems():
-            if 'tel' in k or 'mail' in k:
-                ContactLookup.create(user_id=user.user_id, value=v,
-                                     contact_id=c.contact_id)
-        # Index contact
-        cls._index_class.create(user.user_id, c.id, infos)
         return c
 
     @classmethod

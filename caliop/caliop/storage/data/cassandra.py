@@ -23,6 +23,12 @@ class BaseModel(Model):
     __abstract__ = True
     __keyspace__ = Configuration('global').get('cassandra.keyspace')
 
+    @classmethod
+    def create(cls, **kwargs):
+        kwargs = {key: val for key, val in kwargs.items()
+                  if key in cls._columns}
+        return super(BaseModel, cls).create(**kwargs)
+
 
 @implementer(IRawMail)
 class RawMail(BaseModel):
@@ -94,11 +100,12 @@ class Message(BaseModel):
     thread_id = columns.Integer()                   # counter.thread_id
     date_insert = columns.DateTime()
     security_level = columns.Integer()
-    subject = columns.Text()
+    subject = columns.Text()  # Subject of email, the message for short
     external_message_id = columns.Text()
     external_parent_id = columns.Text()
     parts = columns.List(columns.UUID)
     tags = columns.List(columns.Text)
+    flags = columns.List(columns.Text)  # Seen, Recent, Deleted, ... IMAP?
 
 
 @implementer(IMessagePart)
