@@ -13,6 +13,7 @@ system_packages:
   - python-pycurl
   - curl
   - libffi-dev
+  - redis-server
 python_packages:
   - pip
   - virtualenv
