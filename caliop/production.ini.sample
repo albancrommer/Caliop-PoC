@@ -11,17 +11,30 @@ pyramid.debug_authorization = false
 pyramid.debug_notfound = false
 pyramid.debug_routematch = false
 pyramid.default_locale_name = en
+
 pyramid.includes =
+    pyramid_kvs
     cornice
     caliop
+    caliop.core.config
     caliop.views.app
     caliop.views.api
 
+
+
+kvs.session = {"kvs": "redis",
+               "key_name": "session_id",
+               "session_type": "cookie",
+                "ttl": 300,
+                "key_prefix": "session::"}
 ###
 # Angular app settings.
 ###
 
 caliop.ng.path = ../../caliop.ng/bin
+
+caliop.config =
+    global:%(here)s/caliop.yaml
 
 ###
 # wsgi server configuration
@@ -38,7 +51,7 @@ port = 6543
 ###
 
 [loggers]
-keys = root, caliop
+keys = root, caliop, waitress
 
 [handlers]
 keys = console
@@ -54,6 +67,13 @@ handlers = console
 level = WARN
 handlers =
 qualname = caliop
+propagate = 0
+
+[logger_waitress]
+level = DEBUG
+handlers = console
+qualname = waitress
+propagate = 0
 
 [handler_console]
 class = StreamHandler

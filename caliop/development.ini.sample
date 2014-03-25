@@ -56,7 +56,7 @@ port = 6543
 ###
 
 [loggers]
-keys = root, caliop
+keys = root, caliop, waitress
 
 [handlers]
 keys = console
@@ -70,8 +70,15 @@ handlers = console
 
 [logger_caliop]
 level = DEBUG
-handlers =
+handlers = console
 qualname = caliop
+propagate = 0
+
+[logger_waitress]
+level = DEBUG
+handlers = console
+qualname = waitress
+propagate = 0
 
 [handler_console]
 class = StreamHandler
