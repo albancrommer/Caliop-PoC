@@ -1,0 +1,4 @@
+private_network_mask: 255.255.255.0
+private_network_gateway: 10.42.42.1
+cluster_name: Test Cluster
+seed_hosts: 10.42.42.11
