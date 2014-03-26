@@ -7,15 +7,52 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 import uuid
 
-from cqlengine import columns
+from cqlengine import connection, columns
+from cqlengine.management import sync_table
 from cqlengine.models import Model
 from zope.interface import implementer
 
-from caliop.helpers.config import Configuration
+from caliop.config import Configuration
 
-from .interfaces import (IUser, ICounter, ITag, IContact,
+from .interfaces import (IStorage, IUser, ICounter, ITag, IContact,
                          IContactLookup, IThread, IMessage, IMessagePart,
                          IMessageLookup, IRawMail)
+
+
+@implementer(IStorage)
+class Storage(object):
+    """ Data storage """
+
+    @classmethod
+    def initialize_db(cls, settings):
+        """
+        Create the schema
+        """
+        cls.connect(settings)
+        sync_table(User)
+        sync_table(Tag)
+        sync_table(Message)
+        sync_table(MessagePart)
+        sync_table(MessageLookup)
+        sync_table(Counter)
+        sync_table(Contact)
+        sync_table(ContactLookup)
+        sync_table(Thread)
+        sync_table(RawMail)
+
+    @classmethod
+    def connect(cls, settings):
+        """ Bind the connection to the cassandra. """
+        conf = Configuration('global')
+        connection.setup(conf.get('cassandra.hosts', ['127.0.0.1:9160']))
+
+    @classmethod
+    def disconnect(cls):
+        """ Should disconnect but not implemented yet """
+
+    @classmethod
+    def get_connection(cls):
+        """ do nothing """
 
 
 class BaseModel(Model):

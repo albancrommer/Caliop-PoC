@@ -42,18 +42,22 @@ def main(args=sys.argv):
     kwargs = vars(kwargs)
 
     config_uri = kwargs.pop('conffile')
-    setup_logging(config_uri)
+    func = kwargs.pop('func')
 
+    setup_logging(config_uri)
     settings = get_appsettings(config_uri, u'main')
     # do not declare routes and others useless includes
     del settings['pyramid.includes']
 
+    kwargs['settings'] = settings
+
     config = Configurator(settings=settings)
+
     include_caliop(config)
-    include_caliop_core(config)
+    if func != setup_storage:  # Don't try to configure if it's not setup up
+        include_caliop_core(config)
     config.end()
 
-    func = kwargs.pop('func')
     func(**kwargs)
 
 
