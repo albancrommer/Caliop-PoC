@@ -150,7 +150,10 @@ class Message(BaseCore):
                                   'content_type': part.content_type,
                                   'filename': part.filename,
                                   'content': part.payload})
-
+        if message.contact_from:
+            contact_from = message.contact_from.contact_id
+        else:
+            contact_from = None
         msg = cls.create(user_id=message.user.user_id,
                          message_id=message_id,
                          thread_id=thread.thread_id,
@@ -165,7 +168,7 @@ class Message(BaseCore):
                          lookup=lookup,
                          # Indexed fields
                          _indexed_extra={
-                             'from_': message.contact_from.contact_id,
+                             'from_': contact_from,
                              'headers': message.headers,
                              'text': message.text,
                              'answer_to': answer_to,
