@@ -8,12 +8,21 @@ based on zope.interfaces
 
 from __future__ import absolute_import, print_function, unicode_literals
 
+import importlib
+
 from zope.interface import interface, declarations, implementedBy
 from zope.interface.adapter import AdapterRegistry
 
 from .interfaces import ICaliop
 
 _iface_registry = AdapterRegistry()
+
+
+def configure(config):
+    for iface in ['data', 'index']:
+        for key, val in config.get('interfaces.storage.%s' % iface).items():
+            mod, impl = val.rsplit('.', 1)
+            register(getattr(importlib.import_module(mod), impl))
 
 
 def register(registred_type, *adapted_ifaces, **kwargs):

@@ -14,7 +14,7 @@ from os import listdir
 from mailbox import mbox, Maildir
 
 
-def import_email(email, import_path, format):
+def import_email(email, import_path, format, **kwargs):
 
     from caliop.helpers.log import log
     from caliop.core.user import User

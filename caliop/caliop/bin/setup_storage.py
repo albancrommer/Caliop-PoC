@@ -4,22 +4,13 @@ This script create cassandra models in a local cassandra instance.
 
 This should be abstracted in a backend to get many backend supported.
 """
-from cqlengine.management import sync_table
 
 
-def setup_storage():
-    from caliop.storage.data.cassandra import (User, Message, Counter, Tag,
-                                               Contact, ContactLookup,
-                                               MessagePart, MessageLookup,
-                                               Thread, RawMail)
+def setup_storage(settings):
+    from caliop.config import Configuration
+    from caliop.storage import registry
+    from caliop.storage.data.interfaces import IStorage
 
-    sync_table(User)
-    sync_table(Tag)
-    sync_table(Message)
-    sync_table(MessagePart)
-    sync_table(MessageLookup)
-    sync_table(Counter)
-    sync_table(Contact)
-    sync_table(ContactLookup)
-    sync_table(Thread)
-    sync_table(RawMail)
+    registry.configure(Configuration('global'))
+    registry.get_component(IStorage).initialize_db(settings)
+
